@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Workingparents</string>
+    <string name="loginpw"><u>아이디/비밀번호 찾기</u></string>
+
 </resources>

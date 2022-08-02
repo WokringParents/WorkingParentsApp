@@ -28,7 +28,7 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center"
           android:text="워킹 패런츠"
-          android:textColor="#FF9769"
+          android:textColor="@color/main"
           android:textSize="40dp"
           android:textStyle="bold" />
 
@@ -36,21 +36,23 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="50dp"
+          android:backgroundTint="@color/main"
           android:hint="아이디를 입력하세요"
           android:textSize="15dp" />
 
       <EditText
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginTop="20dp"
+          android:layout_marginTop="10dp"
           android:hint="비밀번호를 입력하세요"
-          android:inputType="numberPassword"
+          android:backgroundTint="@color/main"
+          android:inputType="textPassword"
           android:textSize="15dp" />
 
       <Button
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginTop="20dp"
+          android:layout_marginTop="10dp"
           android:backgroundTint="#FF9769"
           android:text="로그인" />
 
@@ -70,7 +72,7 @@
          <RadioButton
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:backgroundTint="#FF9769"
+             android:buttonTint="@color/main"
              android:text="로그인 상태 유지"
              android:textSize="13dp" />
 
@@ -79,18 +81,14 @@
              android:layout_height="0dp"
              android:layout_weight="1" />
 
-         <EditText
+         <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:layout_marginleft="0dp"
-             android:text="아이디/비밀번호 찾기"
-             android:textSize="13dp"
-             android:layout_weight="start"
-
+             android:text="@string/loginpw"
+             android:textSize="14dp"
              />
 
       </LinearLayout>
-
 
    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
