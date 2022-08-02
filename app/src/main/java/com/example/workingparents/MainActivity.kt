@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val retrofit = Builder().baseUrl("http:/192.168.219.125:54284/")
+        val retrofit = Builder().baseUrl("http://workingparents-env-1.eba-ysfya3ek.ap-northeast-2.elasticbeanstalk.com/")
             .addConverterFactory(GsonConverterFactory.create()).build();
         val service = retrofit.create(RetrofitService::class.java);
 
