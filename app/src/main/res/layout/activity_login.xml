@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
 
 
    <LinearLayout
@@ -82,10 +82,8 @@
          <EditText
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:layout_marginleft="0dp"
              android:text="아이디/비밀번호 찾기"
              android:textSize="13dp"
-             android:layout_weight="start"
 
              />
 
