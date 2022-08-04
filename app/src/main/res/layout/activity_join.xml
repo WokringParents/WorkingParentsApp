@@ -142,7 +142,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_email" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_joinCode"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -152,28 +152,39 @@
         app:layout_constraintStart_toEndOf="@+id/edit_email"
         app:layout_constraintTop_toTopOf="@+id/edit_email" />
 
-    <RadioButton
-        android:id="@+id/dadBtn"
+    <RadioGroup
+        android:id="@+id/radio_group_join"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="42dp"
-        android:text="남성"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="@+id/textView5">
 
-    <RadioButton
-        android:id="@+id/momBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:text="여성"
-        app:layout_constraintBottom_toBottomOf="@+id/dadBtn"
-        app:layout_constraintStart_toEndOf="@+id/dadBtn"
-        app:layout_constraintTop_toTopOf="@+id/dadBtn" />
+        <RadioButton
+            android:id="@+id/dadBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="42dp"
+            android:text="남성"
+            app:layout_constraintBottom_toBottomOf="@+id/textView5"
+            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+        <RadioButton
+            android:id="@+id/momBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:text="여성"
+            app:layout_constraintBottom_toBottomOf="@+id/dadBtn"
+            app:layout_constraintStart_toEndOf="@+id/dadBtn"
+            app:layout_constraintTop_toTopOf="@+id/dadBtn" />
+
+    </RadioGroup>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btn_joinFinish"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="57dp"
@@ -202,6 +213,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/emailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,7 +18,7 @@ interface RetrofitService {
         @Field("email") email:String,
         @Field("sex") sex:String,
         @Field("token") token:String
-    ): Call<User>
+    ): Call<Int>
 
     @GET("user/{id}")
     fun getUserbyEmail(@Path("email") email: String ) : Call<User>
