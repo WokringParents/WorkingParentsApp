@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "project_number": "954512451263",
+    "project_id": "fcmpushnotification-395c3",
+    "storage_bucket": "fcmpushnotification-395c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954512451263:android:8f03049d57ae82b9b2080a",
+        "android_client_info": {
+          "package_name": "com.example.fcmpushnotification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954512451263-9hijrn53jp471budbcul3a1shcs05u0d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFzD7xih_QMMdtAoucYB0SyfqsRP41scY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954512451263-9hijrn53jp471budbcul3a1shcs05u0d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954512451263:android:398c92f3d9aec74bb2080a",
+        "android_client_info": {
+          "package_name": "com.example.fcmpushnotification2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954512451263-9hijrn53jp471budbcul3a1shcs05u0d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFzD7xih_QMMdtAoucYB0SyfqsRP41scY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954512451263-9hijrn53jp471budbcul3a1shcs05u0d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954512451263:android:d35aa9d262a039e1b2080a",
+        "android_client_info": {
+          "package_name": "com.example.workingparents"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954512451263-9hijrn53jp471budbcul3a1shcs05u0d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFzD7xih_QMMdtAoucYB0SyfqsRP41scY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954512451263-9hijrn53jp471budbcul3a1shcs05u0d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

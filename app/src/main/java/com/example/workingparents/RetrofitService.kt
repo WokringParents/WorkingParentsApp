@@ -1,18 +1,38 @@
 package com.example.workingparents
 
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface RetrofitService {
 
 
-    //GET 예제
+    //--------------------------User---------------------------//
     @GET("user/{id}")
     fun getUser(@Path("id") id: String): Call<User>
 
-   // @GET("posts/{page}")
+    @FormUrlEncoded
+    @POST("user/{id}")
+    fun postUser(
+        @Path("id") id: String,
+        @Field("pw") pw: String,
+        @Field("email") email:String,
+        @Field("sex") sex:String,
+        @Field("token") token:String
+    ): Call<User>
+
+    @GET("user/{id}")
+    fun getUserbyEmail(@Path("email") email: String ) : Call<User>
+
+
+
+
+
+
+
+
+
+
+    // @GET("posts/{page}")
    // fun getUserPage(@Path("page") page: String): Call<User>
 
 
