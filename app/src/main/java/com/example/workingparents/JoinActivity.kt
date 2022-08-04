@@ -54,15 +54,16 @@ class JoinActivity : AppCompatActivity() {
 
         edit_joinPW.addTextChangedListener(object : TextWatcher {
             //비밀번호에 리스너를 달아서 비밀번호 형식에 맞는지 검사 부분
+            //형식은 그냥 영문,숫자 포함 4자리이상 10자리 이하로 지정하였습니다.
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                if (s.toString().length <= 10) {
-                    val p = Pattern.compile("^(?=.*[A-Za-z])(?=.*[0-9]).$")
+                if (s.toString().length >=4) {
+                    val p = Pattern.compile("^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z[0-9]]{4,10}$")
                     val m = p.matcher(s.toString())
                     if (!m.matches()) {
                         checkIDPW.setTextColor(-0x5510b7b6)
-                        checkIDPW.setText("영문자,숫자,특수문자 조합")
+                        checkIDPW.setText("영문,숫자 포함 10자이내")
                         validatePW = false
                     } else {
                         checkIDPW.setTextColor(-0x919192)
@@ -72,7 +73,7 @@ class JoinActivity : AppCompatActivity() {
                 } else  //6글자 미만
                 {
                     checkIDPW.setTextColor(-0x5510b7b6)
-                    checkIDPW.setText("영문,숫자 포함 10자 이내내")
+                    checkIDPW.setText("영문,숫자 포함 4자리 이상")
                    validatePW = false
                 }
             }
@@ -115,9 +116,7 @@ class JoinActivity : AppCompatActivity() {
                 // 통신 실패 (인터넷 끊킴, 예외 발생 등 시스템적인 이유)
 
                 Log.d(TAG, "테이블에 존재하지 않는 ID라 등록가능" + t.message.toString())
-
                 if (t.message == "End of input at line 1 column 1 path $") {
-
                     Toast.makeText(this@JoinActivity, "사용가능한 아이디입니다", Toast.LENGTH_SHORT).show()
                     edit_joinID.setEnabled(false) //아이디값 고정
                     validateID = true //검증 완료
