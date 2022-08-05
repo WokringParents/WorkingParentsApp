@@ -59,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         }
-
+/*
     private fun updateToken(id: String, token: String) {
 
         RetrofitBuilder.api.putUserToken(id,token).enqueue(object:Callback<Int>{
@@ -81,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
             }
         })
     }
-
+*/
     private fun loginApplication(id: String, pw: String) {
 
         RetrofitBuilder.api.getUser(id).enqueue(object : Callback<User> {
@@ -98,7 +98,7 @@ class LoginActivity : AppCompatActivity() {
                         //만약 DB속 토큰과 지금 앱의 토큰이 다르다면? update해준다.
                         if( this@LoginActivity::token.isInitialized && !result?.token.equals(token)){
                             Log.d(TAG, "token 업데이트할거임");
-                            updateToken(id,token)
+                          //  updateToken(id,token)
 
                         }else{
                             Log.d(TAG, "token 같아서 업데이트 안해도됨")
