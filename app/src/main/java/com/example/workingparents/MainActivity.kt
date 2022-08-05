@@ -3,8 +3,10 @@ package com.example.workingparents
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.JsonObject
+import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -59,23 +61,64 @@ class MainActivity : AppCompatActivity() {
 */
 
 
-        val token: String = "c7UAgs7nSYKeqr_6zFeDpq:APA91bGJmhvQzbtW396sZu2l9vWxKxROIe8A5BXpUArDGF7ps5TQqyqs6H5xt5opSX0o6WqLdNlOjO2QVi3IBSGZ9AhBG9dsVxAcZ9EY5sRI80LJX7h55-ONY9ISmBg_6wpqaAtlhMh-"
-        val obj= FCMRetrofitBuilder.takeJsonObject(token,"15:31 포그라운드","푸시알람테스트")
+    //    val token: String = "c7UAgs7nSYKeqr_6zFeDpq:APA91bGJmhvQzbtW396sZu2l9vWxKxROIe8A5BXpUArDGF7ps5TQqyqs6H5xt5opSX0o6WqLdNlOjO2QVi3IBSGZ9AhBG9dsVxAcZ9EY5sRI80LJX7h55-ONY9ISmBg_6wpqaAtlhMh-"
+     //
 
-        FCMRetrofitBuilder.api.pushAlram(obj.toString()).enqueue(object: Callback<ResponseBody>{
 
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-               if(response.isSuccessful){
-                   Log.d(TAG, "onResponse 성공: " + response?.body().toString());
-               }else{
-                   Log.d(TAG, "onResponse 실패: ");
-               }
-            }
+        //상대방 핸드폰에 푸시알람보내는 것임!!!!
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(TAG, "onFailure 에러: " + t.message.toString());
-            }
+        pushBtn.setOnClickListener(View.OnClickListener {
+
+            RetrofitBuilder.api.getUser("qurtks2224").enqueue(object:Callback<User>{
+
+                override fun onResponse(call: Call<User>, response: Response<User>) {
+
+                    var result: User? = response.body()
+
+                    if(response.isSuccessful){
+                        Log.d(TAG, "onResponse 성공: $result");
+                        if (result != null) {
+                            requestPushAlram(result.token)
+                        }
+
+                    }else{
+                        Log.d(TAG, "onResponse 실패: ");
+                    }
+
+                }
+
+                override fun onFailure(call: Call<User>, t: Throwable) {
+                    Log.d(TAG, "onFailure 에러: " + t.message.toString());
+                }
+            })
+
+
         })
 
     }
+
+
+fun requestPushAlram(token: String){
+
+    val obj= FCMRetrofitBuilder.takeJsonObject(token,"08-05 16:51 포그라운드","경주 핸드폰 푸시알람테스트")
+
+   FCMRetrofitBuilder.api.pushAlram(obj.toString()).enqueue(object: Callback<ResponseBody>{
+
+       override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+          if(response.isSuccessful){
+              Log.d(TAG, "onResponse 성공: " + response?.body().toString());
+          }else{
+              Log.d(TAG, "onResponse 실패: ");
+          }
+       }
+       override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+           Log.d(TAG, "onFailure 에러: " + t.message.toString());
+       }
+   })
+
+}
+
+
+
+
 }
