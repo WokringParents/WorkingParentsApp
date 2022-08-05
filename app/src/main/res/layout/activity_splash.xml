@@ -14,7 +14,7 @@
         android:orientation="vertical"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="49dp"
-        android:padding="50dp">
+        android:padding="30dp">
 
 
         <TextView
@@ -29,20 +29,21 @@
 
         <TextView
             android:id="@+id/text_logo2"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="워킹 패런츠"
+            android:text="워킹패런츠"
             android:textColor="@color/white"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+            android:textSize="27dp"
+            android:fontFamily="@font/titlegothic5"
+            />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_marginTop="10dp"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_gravity="center"
             android:src="@drawable/wps" />
 
@@ -50,7 +51,7 @@
             android:id="@+id/loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="250dp"
             android:text="Loading"
             android:textColor="@color/white"
             android:textSize="15dp"/>

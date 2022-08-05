@@ -4,22 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="@color/white">
 
 
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:orientation="vertical"
-       android:padding="50dp"
-       tools:layout_editor_absoluteX="0dp"
-       tools:layout_editor_absoluteY="49dp">
+       android:padding="15dp"
+       tools:layout_editor_absoluteX="-56dp"
+       tools:layout_editor_absoluteY="0dp">
 
       <ImageView
           android:id="@+id/imageView"
-          android:layout_width="150dp"
-          android:layout_height="150dp"
+          android:layout_width="70dp"
+          android:layout_height="70dp"
           android:layout_gravity="center"
+          android:layout_marginTop="20dp"
           android:src="@drawable/wps" />
 
       <TextView
@@ -27,18 +29,19 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center"
-          android:text="워킹 패런츠"
+          android:fontFamily="@font/titlegothic5"
+          android:text="워킹패런츠"
           android:textColor="@color/main"
-          android:textSize="40dp"
-          android:textStyle="bold" />
+          android:textSize="25dp" />
 
       <EditText
           android:id="@+id/edit_id"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="50dp"
-          android:backgroundTint="@color/main"
+          android:backgroundTint="@color/light_grey"
           android:hint="아이디를 입력하세요"
+          android:paddingBottom="15dp"
           android:textSize="15dp" />
 
       <EditText
@@ -46,32 +49,38 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="10dp"
+          android:backgroundTint="@color/light_grey"
           android:hint="비밀번호를 입력하세요"
-          android:backgroundTint="@color/main"
           android:inputType="textPassword"
+          android:paddingBottom="15dp"
           android:textSize="15dp" />
 
       <Button
           android:id="@+id/btn_login"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
+          android:layout_height="40dp"
           android:layout_marginTop="10dp"
+          android:background="@drawable/border"
           android:backgroundTint="#FF9769"
-          android:text="로그인" />
+          android:text="로그인"
+          android:textColor="@color/white" />
 
       <Button
           android:id="@+id/btn_join"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:backgroundTint="#FFFFFF"
+          android:layout_height="40dp"
+          android:layout_marginTop="10dp"
+          android:background="@drawable/whiteborder"
           android:text="회원가입"
           android:textColor="@color/black" />
 
 
       <LinearLayout
           android:layout_width="match_parent"
-          android:layout_height="70dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
           android:orientation="horizontal">
+
 
          <RadioButton
              android:id="@+id/remain_login"
@@ -91,10 +100,68 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="@string/loginpw"
-             android:textSize="14dp"
-             />
+             android:textSize="14dp" />
 
       </LinearLayout>
+
+      <TextView
+          android:id="@+id/ezlogintext"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginTop="50dp"
+          android:text="간편 로그인"
+          android:textColor="@color/dark_grey"
+          android:textSize="14dp" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="20dp"
+          android:orientation="horizontal">
+
+
+         <ImageButton
+             android:id="@+id/ezlogin"
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:layout_weight="1"
+             android:background="@drawable/round"
+             android:backgroundTint="@color/white"
+             android:scaleType="centerInside"
+             android:src="@drawable/googlepng" />
+
+         <ImageButton
+             android:id="@+id/ezlogin2"
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:layout_weight="1"
+             android:background="@drawable/round"
+             android:backgroundTint="@color/white"
+             android:scaleType="centerInside"
+             android:src="@drawable/facebook" />
+
+         <ImageButton
+             android:id="@+id/ezlogin3"
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:layout_weight="1"
+             android:background="@drawable/round"
+             android:backgroundTint="@color/white"
+             android:scaleType="centerInside"
+             android:src="@drawable/kakao" />
+
+         <ImageButton
+             android:id="@+id/ezlogin4"
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:layout_weight="1"
+             android:background="@drawable/round"
+             android:backgroundTint="@color/white"
+             android:scaleType="centerInside"
+             android:src="@drawable/naver" />
+      </LinearLayout>
+
 
    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

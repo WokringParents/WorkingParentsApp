@@ -2,6 +2,7 @@ package com.example.workingparents
 
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -33,7 +34,9 @@ class JoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join)
 
+
         //UI요소임 눈누르면 비밀번호 보이고 다시누르면 안보이고
+        /*
         showHideBtn.setOnClickListener{
         showHideBtn?.isSelected=showHideBtn?.isSelected!=true
             if(showHideBtn.isSelected){
@@ -43,6 +46,7 @@ class JoinActivity : AppCompatActivity() {
             }
         }
 
+         */
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
