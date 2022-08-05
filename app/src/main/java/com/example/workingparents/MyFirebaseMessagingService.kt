@@ -22,7 +22,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService(){
     //attach the notification created with the custom
     //show the notification
 
-    private val TAG="FBS"
+    private val TAG="FCM"
 
     override fun onNewToken(token:String){
         Log.d(TAG,"new Token: $token")

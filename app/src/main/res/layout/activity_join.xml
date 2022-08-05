@@ -10,12 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="15dp">
 
 
 
         <LinearLayout
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="0dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -52,11 +52,16 @@
         </LinearLayout>
 
 
+
+
+
+
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="70dp"
             android:text="아이디"
             android:textSize="15dp"
             android:textStyle="bold"
@@ -67,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
             >
 
             <EditText
@@ -101,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="15dp">
 
             <TextView
                 android:id="@+id/textView2"
@@ -115,8 +120,9 @@
 
             <TextView
                 android:id="@+id/checkIDPW"
-                android:layout_width="0dp"
-                android:layout_height="13dp"
+                android:layout_marginLeft="7dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 />
 
         </LinearLayout>
@@ -126,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
             >
 
             <EditText
@@ -142,18 +148,12 @@
 
                 />
 
-            <View
-                android:layout_width="10dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-
-
-
             <ImageButton
                 android:id="@+id/showHideBtn"
-                android:layout_width="45dp"
-                android:layout_height="40dp"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="-55dp"
+                android:layout_marginRight="15dp"
                 android:layout_gravity="center"
                 android:background="@drawable/eye_select"
                 android:scaleType="fitCenter"
@@ -166,7 +166,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="19dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:text="비밀번호확인"
             android:textSize="15dp"
             android:textColor="@color/black"
@@ -176,7 +176,7 @@
             android:id="@+id/edit_checkPW"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
             android:background="@drawable/border"
             android:ems="10"
             android:hint="비밀번호와 동일"
@@ -187,13 +187,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="15dp">
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:text="이메일인증"
@@ -202,8 +201,9 @@
 
             <TextView
                 android:id="@+id/emailText"
-                android:layout_width="4dp"
-                android:layout_height="13dp"/>
+                android:layout_marginLeft="7dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
@@ -212,7 +212,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="7dp">
 
 
             <EditText
@@ -225,8 +225,6 @@
                 android:textSize="13dp"
                 android:inputType="textEmailAddress"
                 android:layout_weight="8"
-
-
                 />
 
             <View

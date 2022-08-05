@@ -1,17 +1,20 @@
 package com.example.workingparents
 
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.JsonObject
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit.*
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 //MainActivity.kt
 class MainActivity : AppCompatActivity() {
+
+    private val TAG="FCM"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,5 +41,41 @@ class MainActivity : AppCompatActivity() {
                 Log.d("TAG", "onFailure 에러: " + t.message.toString());
             }
         })*/
+
+        /*JSON
+        * {"payerReg":{"crc":"aas22","payerDevManufacturer":"Samsung"}}
+        *
+        * */
+
+
+/*
+
+        val obj = JsonObject()
+        val notification = JsonObject()
+        notification.addProperty("title", "04:00 fore그라운드 오류나지마")
+        notification.addProperty("body", "제발 코딩꾸버신이여 저를 도와주소서")
+        obj.addProperty("to","c7UAgs7nSYKeqr_6zFeDpq:APA91bGJmhvQzbtW396sZu2l9vWxKxROIe8A5BXpUArDGF7ps5TQqyqs6H5xt5opSX0o6WqLdNlOjO2QVi3IBSGZ9AhBG9dsVxAcZ9EY5sRI80LJX7h55-ONY9ISmBg_6wpqaAtlhMh-")
+        obj.add("notification", notification)
+*/
+
+
+        val token: String = "c7UAgs7nSYKeqr_6zFeDpq:APA91bGJmhvQzbtW396sZu2l9vWxKxROIe8A5BXpUArDGF7ps5TQqyqs6H5xt5opSX0o6WqLdNlOjO2QVi3IBSGZ9AhBG9dsVxAcZ9EY5sRI80LJX7h55-ONY9ISmBg_6wpqaAtlhMh-"
+        val obj= FCMRetrofitBuilder.takeJsonObject(token,"15:31 포그라운드","푸시알람테스트")
+
+        FCMRetrofitBuilder.api.pushAlram(obj.toString()).enqueue(object: Callback<ResponseBody>{
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+               if(response.isSuccessful){
+                   Log.d(TAG, "onResponse 성공: " + response?.body().toString());
+               }else{
+                   Log.d(TAG, "onResponse 실패: ");
+               }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d(TAG, "onFailure 에러: " + t.message.toString());
+            }
+        })
+
     }
 }

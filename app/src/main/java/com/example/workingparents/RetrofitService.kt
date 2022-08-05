@@ -23,13 +23,9 @@ interface RetrofitService {
     @GET("user/{id}")
     fun getUserbyEmail(@Path("email") email: String ) : Call<User>
 
-
-
-
-
-
-
-
+    @FormUrlEncoded
+    @PUT("user/{id}")
+    fun putUserToken(@Path("id") id: String, @Field("token") token: String): Call<Int>
 
 
     // @GET("posts/{page}")
