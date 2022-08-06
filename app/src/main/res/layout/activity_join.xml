@@ -139,18 +139,18 @@
                 android:layout_height="wrap_content"
                 app:passwordToggleEnabled="true">
 
-            <EditText
-                android:id="@+id/edit_joinPW"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="8"
-                android:background="@drawable/border"
-                android:paddingLeft="10dp"
-                android:hint="비밀번호 (영문,숫자 포함 10자이내)"
-                android:inputType="textPassword"
-                android:textSize="13dp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+                <EditText
+                    android:id="@+id/edit_joinPW"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="8"
+                    android:background="@drawable/border"
+                    android:paddingLeft="10dp"
+                    android:hint="비밀번호 (영문,숫자 포함 10자이내)"
+                    android:inputType="textPassword"
+                    android:textSize="13dp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!--
             <ImageButton

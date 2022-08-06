@@ -138,7 +138,8 @@
              android:layout_weight="1"
              android:background="@drawable/round"
              android:backgroundTint="@color/white"
-             android:scaleType="centerInside"/>
+             android:scaleType="centerInside"
+             android:src="@drawable/facebook" />
 
          <ImageButton
              android:id="@+id/ezlogin3"
