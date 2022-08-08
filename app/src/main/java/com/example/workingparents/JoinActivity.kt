@@ -2,15 +2,11 @@ package com.example.workingparents
 
 import android.content.ContentValues
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,12 +28,14 @@ class JoinActivity : AppCompatActivity() {
     private var validateID= false  //아이디 중복검사했는지
     lateinit var token : String     //사용자가 앱깔때 들어온 토큰
     private var validateEmailFormat = false //이메일 형식통과했는지
-    private var validateEmail = true //이메일 중복검사했는지
+    private var validateEmail = false //이메일 중복검사했는지
     lateinit private var sex: String
+    private var sysNumber = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join)
+
 
 
         //UI요소임 눈누르면 비밀번호 보이고 다시누르면 안보이고
@@ -139,25 +137,19 @@ class JoinActivity : AppCompatActivity() {
             //일단은 혹시몰라서 버튼만 누르면 그냥 검사 성공했다고 표현함
             Log.d("MSG","이메일 버튼 클릭")
 
-            /*
+
+            var email = edit_email.text.toString()
             if (validateEmail) {
                 return@OnClickListener  //검증 완료
             }
-*/
-           // val email:String = edit_email.txt.toString()
 
-
-            var email = edit_email.text.toString()
-
+            if(validateEmailFormat) {
+                checkEmail(email)
+            }else{
+                Toast.makeText(this@JoinActivity, "유효한 이메일을 입력해주세요", Toast.LENGTH_SHORT).show()
+            }
             //이메일 체크하여 DB에 가입되어있지 않은 이메일인 경우 해당 메일로 인증번호 전송, 아닐경우 메세지 출력
-            Log.d("MSG",email)
-            checkEmail(email)
 
-
-            //DB에 이미 저장된 메일이 있는지 검사, 없다면? 검증완료 된 것,그리고 메일을 발송함
-            //마지막에 회원가입 버튼 클릭시에 시스템 생성 인증번호와 사용자 입력 인증번호가 같은지 체크함
-            edit_email.setEnabled(false)
-            validateEmail=true
 
 
 
@@ -179,6 +171,8 @@ class JoinActivity : AppCompatActivity() {
             var pw= edit_joinPW.text.toString()
             var checkPW= edit_checkPW.text.toString()
             var email= edit_email.getText().toString()
+            var userNumber = edit_emailCode.text.toString()
+
 
             if (id == "" || pw == "" || checkPW == "" || !this::sex.isInitialized || !this::token.isInitialized) {
                 Toast.makeText(this@JoinActivity, "모두 입력하였는지 확인해주세요", Toast.LENGTH_SHORT).show()
@@ -191,10 +185,9 @@ class JoinActivity : AppCompatActivity() {
             } else if (!(pw == checkPW)) {
                 Toast.makeText(this@JoinActivity, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
             }
-            /*
             else if (userNumber != sysNumber.toString()) {
                 Toast.makeText(this@JoinActivity, "인증번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
-            } */
+            }
             else {
                 joinApplication(id, pw, email, sex, token) //모든 조건 완료시 회원 가입 시키는 함수
             }
@@ -202,7 +195,12 @@ class JoinActivity : AppCompatActivity() {
         })
 
 
+
+
+
     }
+
+
 
     private fun joinApplication(id: String, pw: String, email: String, sex: String, token: String) {
 
@@ -237,6 +235,7 @@ class JoinActivity : AppCompatActivity() {
 
 
     private fun checkEmail(email: String) {
+        //DB에 이미 저장된 메일이 있는지 검사, 없다면? 검증완료 된 것,그리고 메일을 발송함
         Log.d("MSG","이메일 체크 진입")
         RetrofitBuilder.api.getUserbyEmail(email).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
@@ -254,22 +253,25 @@ class JoinActivity : AppCompatActivity() {
                 Log.d("MSG","레트로핏 실패")
                 emailText.setTextColor(-0x919192)
                 emailText.text = "인증번호를 전송합니다."
+
+                edit_email.setEnabled(false)
+                validateEmail=true
+
                 edit_email.isEnabled = false //이메일값 고정
-
-                validateEmail = true //검증 완료
-
-
                 val random = Random() //인증번호 발생시키는 부분
 
                 val range = Math.pow(10.0, 6.0).toInt()
                 val trim = Math.pow(10.0, 5.0).toInt()
-                var sysNumber = random.nextInt(range) + trim
+                sysNumber = random.nextInt(range) + trim
                 if (sysNumber > range) {
                     sysNumber = sysNumber - trim
                 }
                 Log.d("tag", sysNumber.toString() + "")
 
                 val thread = SendNumberByMailThread(email, sysNumber.toString())
+                emailText.setText("인증번호 전송완료") //이자리가 맞을까
+                //킹치만 핸들러도, 스레드에서 UI건드리기도 실패한 난..어쩔수없었어
+
                 thread.start()
 
             }
@@ -277,8 +279,7 @@ class JoinActivity : AppCompatActivity() {
 
         //DB에 이미 저장된 메일이 있는지 검사, 없다면? 검증완료 된 것,그리고 메일을 발송함
         //마지막에 회원가입 버튼 클릭시에 시스템 생성 인증번호와 사용자 입력 인증번호가 같은지 체크함
-        edit_email.setEnabled(false)
-        validateEmail=true
+
 
     }
 
@@ -308,20 +309,23 @@ class JoinActivity : AppCompatActivity() {
     }
 
 
+
     internal class SendNumberByMailThread(var receptEmail: String, number: String) :
         Thread() {
-        var content: String = "가나다"
+        var content: String
         override fun run() {
-            Log.d("MSG", "1번")
+
             try {
-                Log.d("MSG", "2번")
                 val mailSender = NaverMailSender()
 
                 mailSender.sendMail(
                     "[워킹페어런츠 앱] 애플리케이션 회원가입 인증번호",
                     content, receptEmail
                 )
+
+
             } catch (e: SendFailedException) {
+
                 Log.d("MSG","3"+e.printStackTrace())
             } catch (e: MessagingException) {
                 Log.d("MSG","4"+e.printStackTrace())
@@ -334,6 +338,9 @@ class JoinActivity : AppCompatActivity() {
             content =
                 "안녕하세요, 워킹페어런츠 앱입니다.<br>아래의 인증번호 6자리를 인증번호 입력창에 입력 후 회원가입을 진행해주세요.<br><br>인증번호: $number<br>"
         }
+
+
     }
+
 
 }
