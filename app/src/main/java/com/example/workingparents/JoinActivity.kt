@@ -37,20 +37,6 @@ class JoinActivity : AppCompatActivity() {
         setContentView(R.layout.activity_join)
 
 
-
-        //UI요소임 눈누르면 비밀번호 보이고 다시누르면 안보이고
-        /*
-        showHideBtn.setOnClickListener{
-        showHideBtn?.isSelected=showHideBtn?.isSelected!=true
-            if(showHideBtn.isSelected){
-                edit_joinPW.transformationMethod = HideReturnsTransformationMethod.getInstance()
-            } else{
-                edit_joinPW.transformationMethod = PasswordTransformationMethod.getInstance()
-            }
-        }
-
-         */
-
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(ContentValues.TAG, "Fetching FCM registration token failed", task.exception)
@@ -159,8 +145,8 @@ class JoinActivity : AppCompatActivity() {
 
         radio_group_join.setOnCheckedChangeListener{ group, checkedId ->
             when(checkedId){
-                R.id.momBtn -> sex =  "M"
-                R.id.dadBtn -> sex =  "D"
+                R.id.momBtn -> sex =  "F"
+                R.id.dadBtn -> sex =  "M"
             }
         }
 

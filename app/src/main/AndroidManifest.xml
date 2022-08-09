@@ -15,15 +15,17 @@
         android:theme="@style/Theme.Workingparents"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".RegisterChildActivity"
-            android:exported="false" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".JoinActivity">
+            android:name=".CoupleConnectActivity">
+        </activity>
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".JoinActivity">
         </activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".SplashActivity"></activity>

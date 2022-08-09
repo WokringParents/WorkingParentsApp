@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CoupleConnectActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/basicText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="썸원이 보낸 택배가 도착했어요! 커플 연결 후 함께 열어보세요!"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/basicText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="당신의 코드"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/codeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="&quot;         &quot;"
+            android:gravity="center_horizontal"
+            />
+
+        <Button
+            android:id="@+id/createCodeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  코드 발급 받기  "
+            android:layout_gravity="center_horizontal"/>
+
+        <Button
+            android:id="@+id/inputCodeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상대방 코드 입력"
+            android:layout_gravity="center_horizontal"/>
+
+        <EditText
+            android:id="@+id/codeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="코드 입력"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/connectBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="연결하기"
+            android:visibility="invisible"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

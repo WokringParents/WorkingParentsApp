@@ -1,6 +1,7 @@
 package com.example.workingparents
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,6 +21,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val intent: Intent = getIntent()
+        val LoginUser= intent.getParcelableExtra<User>("LoginUser")
+
+        couplePageBtn.setOnClickListener(View.OnClickListener {
+
+            val intent = Intent(this@MainActivity, CoupleConnectActivity::class.java)
+            intent.putExtra("LoginUser",LoginUser)
+            startActivity(intent)
+
+        })
 
        // val retrofit = Builder().baseUrl("http://workingparents-env-1.eba-ysfya3ek.ap-northeast-2.elasticbeanstalk.com/")
         //    .addConverterFactory(GsonConverterFactory.create()).build();
