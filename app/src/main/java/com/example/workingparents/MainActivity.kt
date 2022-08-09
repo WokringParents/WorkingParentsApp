@@ -5,9 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_join.*
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -24,44 +23,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //val intent: Intent = getIntent()
-        //val loginUser= intent.getParcelableExtra<User>("LoginUser")
-
-        RetrofitBuilder.api.getCouplebyID(UserData!!.id).enqueue(object:Callback<Couple>{
-
-            override fun onResponse(call: Call<Couple>, response: Response<Couple>) {
-
-                var result: Couple? = response.body()
-
-                if(response.isSuccessful){
-                    Log.d(TAG, "onResponse 부부정보 불러오기 성공: $result");
-                    if(UserData.sex=="M"){
-                        UserData.setCoupleInfo(result!!.couplenum,result!!.mid)
-                    } else{
-                        UserData.setCoupleInfo(result!!.couplenum,result!!.did)
-                    }
-
-                }else{
-                    Log.d(TAG, "onResponse 부부정보 불러오기 실패: ");
-                }
-
-            }
-
-            override fun onFailure(call: Call<Couple>, t: Throwable) {
-                Log.d(TAG, "onFailure 에러: " + t.message.toString());
-                if (t.message == "End of input at line 1 column 1 path $") {
-                 //부부연결이 되어있지 않은 사용자인 경우 발생하는 에러
-                    UserData.setCoupleInfo(-1,"NONE")
-                }
-            }
-
-        })
-
+        val intent: Intent = getIntent()
+        val LoginUser= intent.getParcelableExtra<User>("LoginUser")
 
         couplePageBtn.setOnClickListener(View.OnClickListener {
 
             val intent = Intent(this@MainActivity, CoupleConnectActivity::class.java)
-           // intent.putExtra("LoginUser",loginUser)
+            intent.putExtra("LoginUser",LoginUser)
             startActivity(intent)
 
         })
