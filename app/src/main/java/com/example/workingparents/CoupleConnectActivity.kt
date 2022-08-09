@@ -22,8 +22,8 @@ class CoupleConnectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_couple_connect)
 
-        val intent: Intent = getIntent()
-        val loginUser= intent.getParcelableExtra<User>("LoginUser")
+   //     val intent: Intent = getIntent()
+   //     val loginUser= intent.getParcelableExtra<User>("LoginUser")
 
 
         createCodeBtn.setOnClickListener(View.OnClickListener {
@@ -31,8 +31,8 @@ class CoupleConnectActivity : AppCompatActivity() {
             newCode = randomCode()
             codeText.setText(newCode)
             createCodeBtn.setClickable(false)
-            if (!newCode.isNullOrEmpty() && loginUser != null) {
-                regiCoupleCode(newCode,loginUser.id)
+            if (!newCode.isNullOrEmpty() && !UserData.id.isNullOrEmpty()) {
+                regiCoupleCode(newCode,UserData.id)
             }
 
         })
@@ -57,13 +57,13 @@ class CoupleConnectActivity : AppCompatActivity() {
                         if(response.isSuccessful){
                             // 정상적으로 통신이 성공된 경우
                             var spouseID: String? = response.body()
-                            Log.d(TAG, "onResponse: 배우자아이디 불러오기 성공: "+spouseID.toString())
-                            connectCouple(spouseID!!, loginUser!!.id, loginUser.sex)
+                            Log.d(TAG, "onResponse: 부부연결을 위한 배우자아이디 불러오기 성공: "+spouseID.toString())
+                            connectCouple(spouseID!!, UserData!!.id, UserData.sex)
 
 
                         }else{
                             // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-                            Log.d(TAG, "onResponse: 배우자아이디 불러오기 실패")
+                            Log.d(TAG, "onResponse: 부부연결을 위한 배우자아이디 불러오기 실패")
                         }
 
                     }
