@@ -13,5 +13,4 @@ data class CoupleCode(
 
     @SerializedName("cid")
     val cid: String
-
     )

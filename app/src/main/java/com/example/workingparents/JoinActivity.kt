@@ -262,11 +262,6 @@ class JoinActivity : AppCompatActivity() {
 
             }
         })
-
-        //DB에 이미 저장된 메일이 있는지 검사, 없다면? 검증완료 된 것,그리고 메일을 발송함
-        //마지막에 회원가입 버튼 클릭시에 시스템 생성 인증번호와 사용자 입력 인증번호가 같은지 체크함
-
-
     }
 
 
@@ -305,7 +300,7 @@ class JoinActivity : AppCompatActivity() {
                 val mailSender = NaverMailSender()
 
                 mailSender.sendMail(
-                    "[워킹페어런츠 앱] 애플리케이션 회원가입 인증번호",
+                    "[워킹패런츠 앱] 애플리케이션 회원가입 인증번호",
                     content, receptEmail
                 )
 
@@ -322,7 +317,7 @@ class JoinActivity : AppCompatActivity() {
 
         init {
             content =
-                "안녕하세요, 워킹페어런츠 앱입니다.<br>아래의 인증번호 6자리를 인증번호 입력창에 입력 후 회원가입을 진행해주세요.<br><br>인증번호: $number<br>"
+                "안녕하세요, 워킹패런츠 앱입니다.<br>아래의 인증번호 6자리를 인증번호 입력창에 입력 후 회원가입을 진행해주세요.<br><br>인증번호: $number<br>"
         }
 
 

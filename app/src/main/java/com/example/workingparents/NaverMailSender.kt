@@ -18,7 +18,7 @@ class NaverMailSender : Authenticator() {
         try {
             msg.sentDate = Date()
             var from = InternetAddress()
-            from = InternetAddress("WorkingparentsApp<podojom@naver.com>")
+            from = InternetAddress("WorkingParentsApp<podojom@naver.com>")
             msg.setFrom(from)
             val to = InternetAddress(recipients)
             msg.setRecipient(Message.RecipientType.TO, to)

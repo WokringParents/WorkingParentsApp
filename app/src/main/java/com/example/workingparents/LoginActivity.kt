@@ -95,6 +95,7 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this@LoginActivity, "아이디 또는 비밀번호가 잘못 입력되었습니다", Toast.LENGTH_SHORT).show()
                     }
                     else {
+
                         //만약 DB속 토큰과 지금 앱의 토큰이 다르다면? update해준다.
                         if( this@LoginActivity::token.isInitialized && !result?.token.equals(token)){
                             Log.d(TAG, "token 업데이트할거임");
@@ -103,6 +104,7 @@ class LoginActivity : AppCompatActivity() {
                         }else{
                             Log.d(TAG, "token 같아서 업데이트 안해도됨")
                         }
+                        UserData.setUserInfo(result!!.id,result!!.sex)
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         intent.putExtra("LoginUser",result)
                         startActivity(intent)
