@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterChildActivity"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitStart"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/backarrow" />
+
+
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="회원가입"
+                android:textSize="17dp"
+                android:textColor="@color/main"/>
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="이름"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="7dp"
+            >
+
+            <EditText
+                android:id="@+id/edit_childname"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:hint="이름 입력"
+                android:textSize="13dp"
+                android:paddingLeft="10dp"
+                android:layout_weight="8"
+                />
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+
+            <Button
+                android:id="@+id/btn_CheckID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="중복확인"
+                android:background="@drawable/orangeborder"
+                android:textColor="@color/main"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="생년월일"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/checkIDPW"
+                android:layout_marginLeft="7dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="7dp"
+            >
+
+            <EditText
+                    android:id="@+id/edit_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="8"
+                    android:background="@drawable/border"
+                    android:paddingLeft="10dp"
+                    android:hint="생년월일"
+                    android:textSize="13dp"
+                    />
+
+            <!--
+            <ImageButton
+                android:id="@+id/showHideBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center"
+                android:background="@drawable/eye_select"
+                android:scaleType="fitCenter"
+                android:layout_weight="1"
+                />
+            -->
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginTop="15dp"
+            android:text="지역"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            />
+
+        <EditText
+            android:id="@+id/edit_joinCity"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/border"
+            android:hint="지역"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp"
+            android:textSize="13dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="동/읍/면"
+                android:textSize="16dp"
+                />
+
+            <TextView
+                android:id="@+id/emailText"
+                android:layout_marginLeft="7dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="7dp">
+
+
+            <EditText
+                android:id="@+id/edit_joinDetail"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:paddingLeft="10dp"
+                android:hint="동/읍/면"
+                android:textSize="13dp"
+                android:layout_weight="8"
+                />
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_joinCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="인증코드 받기"
+                android:background="@drawable/orangeborder"
+                android:textColor="@color/main"
+                android:layout_weight="1"
+
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="성별"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:textSize="16dp"
+                />
+
+
+
+            <RadioGroup
+                android:id="@+id/child_group_join"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+
+                >
+
+                <RadioButton
+                    android:id="@+id/boyBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="남성"
+                    android:buttonTint="@color/main"
+                    android:layout_weight="1"
+                    />
+
+                <RadioButton
+                    android:id="@+id/girlBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="여성"
+                    android:buttonTint="@color/main"
+                    android:layout_weight="1"
+                    />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_joinFinish"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/border"
+            android:backgroundTint="#FF9769"
+            android:text="가입하기"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
