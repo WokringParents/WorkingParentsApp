@@ -18,6 +18,7 @@ import retrofit2.Response
 //MainActivity.kt
 class MainActivity : AppCompatActivity() {
 
+    //깃허브 테스트용
     private val TAG="FCM"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
