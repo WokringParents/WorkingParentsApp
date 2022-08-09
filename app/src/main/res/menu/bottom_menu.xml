@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/first_tab"
+        app:showAsAction="always"
+        android:enabled="true"
+        android:icon="@drawable/bottom_main"
+        android:title="Main" />
+    <item
+        android:id="@+id/second_tab"
+        app:showAsAction="always"
+        android:enabled="true"
+        android:icon="@drawable/bottom_board"
+        android:title="Board"/>
+
+    <item
+        android:id="@+id/third_tab"
+        app:showAsAction="always"
+        android:enabled="true"
+        android:icon="@drawable/bottom_information"
+        android:title="Information">
+    </item>
+
+    <item
+        android:id="@+id/fourth_tab"
+        app:showAsAction="always"
+        android:enabled="true"
+        android:icon="@drawable/bottom_mypage"
+        android:title="Mypage">
+    </item>
+
+</menu>
