@@ -95,5 +95,20 @@
                 />
         </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+        <ImageButton
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@drawable/posting"
+            android:scaleType="fitCenter"
+            android:background="@drawable/round"
+            android:layout_gravity="end"
+            />
+
+
     </LinearLayout>
 </FrameLayout>
