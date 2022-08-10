@@ -4,7 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BoardFragment"
+    android:id="@+id/container"
     android:background="@color/white"
+
+
     >
 
 
@@ -101,10 +104,12 @@
         android:layout_weight="1"/>
 
         <ImageButton
+            android:id="@+id/writeposting_btn"
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:src="@drawable/posting"
             android:scaleType="fitCenter"
+            android:layout_marginBottom="50dp"
             android:background="@drawable/round"
             android:layout_gravity="end"
             />

@@ -56,6 +56,19 @@ interface RetrofitService {
     fun getCouplebyID(@Path("id")id: String):Call<Couple>
     //커플을 등록하면 user에 couplenum에 자동으로 올려주는것도 괜찮을거 같다. 나중에 조인연산을 줄일 수 있을 거같음
 
+
+    //--------------------------Posting---------------------------//
+
+    /*
+    @FormUrlEncoded
+    @POST("posting/{pid}")
+    fun postPosting(
+        @Field("mid") mid: String,
+        @Field("did") did: String
+    ): Call<Int>
+
+     */
+
 // @GET("posts/{page}")
     // fun getUserPage(@Path("page") page: String): Call<User>
 
