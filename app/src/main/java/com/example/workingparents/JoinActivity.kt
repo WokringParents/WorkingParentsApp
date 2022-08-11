@@ -190,31 +190,31 @@ class JoinActivity : AppCompatActivity() {
 
     private fun joinApplication(id: String, pw: String, email: String, sex: String, token: String) {
 
-    RetrofitBuilder.api.postUser(id, pw, email, sex, token).enqueue(object: Callback<Int>{
+        RetrofitBuilder.api.postUser(id, pw, email, sex, token).enqueue(object : Callback<Int> {
 
-        override fun onResponse(call: Call<Int>, response: Response<Int>) {
-            if(response.isSuccessful){
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                if (response.isSuccessful) {
 
-                var result: Int? = response.body()
-                // 정상적으로 통신이 성공된 경우
-                Log.d(TAG, "onResponse: 회원등록성공"+result?.toString())
-                Toast.makeText(this@JoinActivity, "회원가입 완료", Toast.LENGTH_SHORT).show()
+                    var result: Int? = response.body()
+                    // 정상적으로 통신이 성공된 경우
+                    Log.d(TAG, "onResponse: 회원등록성공" + result?.toString())
+                    Toast.makeText(this@JoinActivity, "회원가입 완료", Toast.LENGTH_SHORT).show()
 
-                val intent = Intent(this@JoinActivity, MainActivity::class.java)
+                    val intent = Intent(this@JoinActivity, MainActivity::class.java)
                     startActivity(intent)
-            }else{
-                // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-                Toast.makeText(this@JoinActivity, "회원가입 실패", Toast.LENGTH_SHORT).show()
+                } else {
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                    Toast.makeText(this@JoinActivity, "회원가입 실패", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
 
-        override fun onFailure(call: Call<Int>, t: Throwable) {
-            Log.d(TAG, "onFailure 회원가입 실패 에러: " + t.message.toString())
-            Toast.makeText(this@JoinActivity, "회원가입 실패, 네트워크를 확인하세요", Toast.LENGTH_SHORT).show()
+            override fun onFailure(call: Call<Int>, t: Throwable) {
+                Log.d(TAG, "onFailure 회원가입 실패 에러: " + t.message.toString())
+                Toast.makeText(this@JoinActivity, "회원가입 실패, 네트워크를 확인하세요", Toast.LENGTH_SHORT).show()
 
-        }
+            }
 
-    })
+        })
 
 
     }

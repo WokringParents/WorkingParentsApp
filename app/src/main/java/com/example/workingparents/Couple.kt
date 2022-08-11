@@ -10,6 +10,12 @@ data class Couple(
     val mid: String,
 
     @SerializedName("did")
-    val did: String
+    val did: String,
+
+    @SerializedName("city")
+    val city: String,
+
+    @SerializedName("village")
+    val village: String
 
 )

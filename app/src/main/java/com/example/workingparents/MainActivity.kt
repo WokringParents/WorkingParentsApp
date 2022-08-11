@@ -5,7 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,54 +19,60 @@ import retrofit2.Response
 
 //MainActivity.kt
 class MainActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMainBinding
 
-    private val TAG="FCM"
+    private val TAG = "FCM"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val intent: Intent = getIntent()
-        val LoginUser= intent.getParcelableExtra<User>("LoginUser")
+        val LoginUser = intent.getParcelableExtra<User>("LoginUser")
+        checkcouple()
 
         couplePageBtn.setOnClickListener(View.OnClickListener {
 
             val intent = Intent(this@MainActivity, CoupleConnectActivity::class.java)
-            intent.putExtra("LoginUser",LoginUser)
+            intent.putExtra("LoginUser", LoginUser)
             startActivity(intent)
-
         })
 
-        var bnv_main = findViewById(R.id.bottom_menu)as BottomNavigationView
-
-// OnNavigationItemSelectedListener를 통해 탭 아이템 선택 시 이벤트를 처리
-// navi_menu.xml에서 설정했던 각 아이템들의 id를 통해 알맞은 프래그먼트로 변경하게 한다.
-                bnv_main.run{setOnNavigationItemSelectedListener{
-                    when(it.itemId) {
-                        R.id.first_tab-> {
-//다른 프래그먼트 화면으로 이동하는 기능
-                            val MainFragment = MainFragment()
-                            supportFragmentManager.beginTransaction().replace(R.id.container, MainFragment).commit()
-                        }
-                        R.id.second_tab-> {
-                            val boardFragment = BoardFragment()
-                            supportFragmentManager.beginTransaction().replace(R.id.container, boardFragment).commit()
-                        }
-                        R.id.third_tab-> {
-                            val InfoFragment = InfoFragment()
-                            supportFragmentManager.beginTransaction().replace(R.id.container, InfoFragment).commit()
-                        }
-
-                        R.id.fourth_tab-> {
-                            val MypageFragment = MypageFragment()
-                            supportFragmentManager.beginTransaction().replace(R.id.container, MypageFragment).commit()
-                        }
+        var bnv_main = findViewById(R.id.bottom_menu) as BottomNavigationView
+        // OnNavigationItemSelectedListener를 통해 탭 아이템 선택 시 이벤트를 처리
+        // navi_menu.xml에서 설정했던 각 아이템들의 id를 통해 알맞은 프래그먼트로 변경하게 한다.
+        bnv_main.run {
+            setOnNavigationItemSelectedListener {
+                when (it.itemId) {
+                    R.id.first_tab -> {
+                        //다른 프래그먼트 화면으로 이동하는 기능
+                        val MainFragment = MainFragment()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.container, MainFragment).commit()
                     }
-                    true
-                }
-                    selectedItemId= R.id.first_tab
-                }
+                    R.id.second_tab -> {
+                        val boardFragment = BoardFragment()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.container, boardFragment).commit()
+                    }
+                    R.id.third_tab -> {
+                        val InfoFragment = InfoFragment()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.container, InfoFragment).commit()
+                    }
 
-       // val retrofit = Builder().baseUrl("http://workingparents-env-1.eba-ysfya3ek.ap-northeast-2.elasticbeanstalk.com/")
+                    R.id.fourth_tab -> {
+                        val MypageFragment = MypageFragment()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.container, MypageFragment).commit()
+                    }
+                }
+                true
+            }
+            selectedItemId = R.id.first_tab
+
+        }
+
+        // val retrofit = Builder().baseUrl("http://workingparents-env-1.eba-ysfya3ek.ap-northeast-2.elasticbeanstalk.com/")
         //    .addConverterFactory(GsonConverterFactory.create()).build();
         //val service = retrofit.create(RetrofitService::class.java);
 
@@ -104,27 +112,27 @@ class MainActivity : AppCompatActivity() {
 */
 
 
-    //    val token: String = "c7UAgs7nSYKeqr_6zFeDpq:APA91bGJmhvQzbtW396sZu2l9vWxKxROIe8A5BXpUArDGF7ps5TQqyqs6H5xt5opSX0o6WqLdNlOjO2QVi3IBSGZ9AhBG9dsVxAcZ9EY5sRI80LJX7h55-ONY9ISmBg_6wpqaAtlhMh-"
-     //
+        //    val token: String = "c7UAgs7nSYKeqr_6zFeDpq:APA91bGJmhvQzbtW396sZu2l9vWxKxROIe8A5BXpUArDGF7ps5TQqyqs6H5xt5opSX0o6WqLdNlOjO2QVi3IBSGZ9AhBG9dsVxAcZ9EY5sRI80LJX7h55-ONY9ISmBg_6wpqaAtlhMh-"
+        //
 
 
         //상대방 핸드폰에 푸시알람보내는 것임!!!!
 
         pushBtn.setOnClickListener(View.OnClickListener {
 
-            RetrofitBuilder.api.getUser("qurtks2224").enqueue(object:Callback<User>{
+            RetrofitBuilder.api.getUser("qurtks2224").enqueue(object : Callback<User> {
 
                 override fun onResponse(call: Call<User>, response: Response<User>) {
 
                     var result: User? = response.body()
 
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         Log.d(TAG, "onResponse 성공: $result");
                         if (result != null) {
                             requestPushAlram(result.token)
                         }
 
-                    }else{
+                    } else {
                         Log.d(TAG, "onResponse 실패: ");
                     }
 
@@ -141,30 +149,58 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    fun requestPushAlram(token: String) {
 
+        val obj = FCMRetrofitBuilder.takeJsonObject(token, "08-05 16:51 포그라운드", "경주 핸드폰 푸시알람테스트")
 
-fun requestPushAlram(token: String){
+        FCMRetrofitBuilder.api.pushAlram(obj.toString()).enqueue(object : Callback<ResponseBody> {
 
-    val obj= FCMRetrofitBuilder.takeJsonObject(token,"08-05 16:51 포그라운드","경주 핸드폰 푸시알람테스트")
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d(TAG, "onResponse 성공: " + response?.body().toString());
+                } else {
+                    Log.d(TAG, "onResponse 실패: ");
+                }
+            }
 
-   FCMRetrofitBuilder.api.pushAlram(obj.toString()).enqueue(object: Callback<ResponseBody>{
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d(TAG, "onFailure 에러: " + t.message.toString());
+            }
+        })
+    }
 
-       override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-          if(response.isSuccessful){
-              Log.d(TAG, "onResponse 성공: " + response?.body().toString());
-          }else{
-              Log.d(TAG, "onResponse 실패: ");
-          }
-       }
-       override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-           Log.d(TAG, "onFailure 에러: " + t.message.toString());
-       }
-   })
+    fun checkcouple() {
+        RetrofitBuilder.api.getCouplebyID(UserData.id).enqueue(object : Callback<Couple> {
+            override fun onResponse(call: Call<Couple>, response: Response<Couple>) {
+                if (response.isSuccessful) {
+                    var result: Couple? = response.body()
+                    // 정상적으로 통신이 성공된 경우
+                    Log.d(TAG, "onResponse: 커플 성공" + result?.toString())
+                    if(UserData.sex=="M")
+                    {
+                        UserData.setCoupleInfo(result!!.couplenum,result.did)
+                    }
+                    else
+                    {
+                        UserData.setCoupleInfo(result!!.couplenum,result.mid)
+                    }
 
+                    UserData.setCoupleAddress(result!!.city,result.village)
+                } else {
+                    Log.d(TAG, "onResponse 후 실패 에러: ")
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                }
+            }
+            override fun onFailure(call: Call<Couple>, t: Throwable) {
+                if(t.message == "End of input at line 1 column 1 path $")
+                    Toast.makeText(this@MainActivity, "커플 등록 진행해주세요", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "onFailure 연결 실패 에러: " + t.message.toString())
 
+            }
 
-}
+        })
 
+    }
 
 
 

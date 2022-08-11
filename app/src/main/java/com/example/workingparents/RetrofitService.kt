@@ -59,15 +59,19 @@ interface RetrofitService {
 
     //--------------------------Posting---------------------------//
 
-    /*
+
     @FormUrlEncoded
     @POST("posting/{pid}")
     fun postPosting(
-        @Field("mid") mid: String,
-        @Field("did") did: String
+
+        @Path("pid") pid: String,
+        @Field("village") village: String,
+        @Field("goback") goback: String,
+        @Field("content") content: String
+
     ): Call<Int>
 
-     */
+
 
 // @GET("posts/{page}")
     // fun getUserPage(@Path("page") page: String): Call<User>
