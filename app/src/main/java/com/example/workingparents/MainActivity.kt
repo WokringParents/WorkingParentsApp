@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<User>, t: Throwable) {
-                    Log.d(TAG, "onFailure 에러: " + t.message.toString());
+                    Log.d(TAG, "onFailure 에러 " + t.message.toString());
                 }
             })
 
