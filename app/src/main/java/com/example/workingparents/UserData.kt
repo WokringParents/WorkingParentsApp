@@ -30,4 +30,6 @@ object UserData {
     fun connectedCouple():Boolean{
         return !(spouseID=="NONE" && couplenum==-1)
     }
+
+
 }

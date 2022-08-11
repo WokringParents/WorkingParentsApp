@@ -304,7 +304,6 @@ class JoinActivity : AppCompatActivity() {
                     content, receptEmail
                 )
 
-
             } catch (e: SendFailedException) {
 
                 Log.d("MSG","3"+e.printStackTrace())
