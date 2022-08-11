@@ -194,7 +194,7 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call<Couple>, t: Throwable) {
                 if(t.message == "End of input at line 1 column 1 path $")
                     Toast.makeText(this@MainActivity, "커플 등록 진행해주세요", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "onFailure 연결 실패 에러: " + t.message.toString())
+                Log.d(TAG, "onFailure 연결 실패 에러 테스트: " + t.message.toString())
 
             }
 
