@@ -3,7 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_child_caring.xml" value="0.1" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable-v24/line_divider2.xml" value="0.1205" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/array_spinner_item.xml" value="0.139" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_mail.xml" value="0.17753623188405798" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_mail2.xml" value="0.17753623188405798" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_board.xml" value="0.1" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_child_caring.xml" value="0.2737940026075619" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_mypage.xml" value="0.17753623188405798" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/sharing_list.xml" value="0.2875751503006012" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_join.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_login.xml" value="0.12487335359675786" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_main.xml" value="0.12487335359675786" />

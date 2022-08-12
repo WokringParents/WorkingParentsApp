@@ -29,13 +29,13 @@ class MainActivity : AppCompatActivity() {
         val intent: Intent = getIntent()
         val LoginUser = intent.getParcelableExtra<User>("LoginUser")
         checkcouple()
-
+/*
         couplePageBtn.setOnClickListener(View.OnClickListener {
 
             val intent = Intent(this@MainActivity, CoupleConnectActivity::class.java)
             intent.putExtra("LoginUser", LoginUser)
             startActivity(intent)
-        })
+        })*/
 
         var bnv_main = findViewById(R.id.bottom_menu) as BottomNavigationView
         // OnNavigationItemSelectedListener를 통해 탭 아이템 선택 시 이벤트를 처리
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 when (it.itemId) {
                     R.id.first_tab -> {
                         //다른 프래그먼트 화면으로 이동하는 기능
-                        val MainFragment = MainFragment()
+                        val MainFragment = ChildCaringFragment()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.container, MainFragment).commit()
                     }
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
 
 
         //상대방 핸드폰에 푸시알람보내는 것임!!!!
-
+/*
         pushBtn.setOnClickListener(View.OnClickListener {
 
             RetrofitBuilder.api.getUser("qurtks2224").enqueue(object : Callback<User> {
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
             })
 
 
-        })
+        })*/
 
     }
 
