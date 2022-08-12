@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -58,17 +59,13 @@ class BoardFragment : Fragment(){
         recyclerView.setHasFixedSize(true) //리사이클러뷰 성능 개선?
         recyclerView.adapter=PostingAdapter(sampleList) //adapter 선언
 
-        val bind=FragmentBoardBinding.inflate(layoutInflater)
-        val boardfragment = BoardFragment()
+        val writePostingBtn = view.findViewById<ImageButton>(R.id.writeposting_btn)
 
-//        bind.writepostingBtn.setOnClickListener{
-//            Log.d(TAG,"클릭됨")
-//            activity?.let{
-//                val intent = Intent(context, WritePostingActivity::class.java)
-//                startActivity(intent)
-//            }
-//        }
-//        return  bind.root
+        writePostingBtn.setOnClickListener{
+            Log.d(TAG,"클릭됨")
+            val intent = Intent(mContext,WritePostingActivity::class.java)
+            mContext.startActivity(intent)
+        }
         return view
     }
 
