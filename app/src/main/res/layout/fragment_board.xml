@@ -6,17 +6,21 @@
     tools:context=".BoardFragment"
     android:id="@+id/container"
     android:background="@color/white"
-
-
     >
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="20dp"
-        >
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,11 +30,11 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="28dp"
                 android:text="게시판"
-                android:textSize="18dp"
+                android:gravity="center"
                 android:textColor="@color/main"
-                />
+                android:textSize="18dp" />
 
             <View
                 android:layout_width="10dp"
@@ -43,9 +47,8 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/round"
                 android:backgroundTint="@color/white"
-                android:src="@drawable/chat"
                 android:scaleType="fitCenter"
-                >
+                android:src="@drawable/chat">
 
             </ImageButton>
 
@@ -54,11 +57,9 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:background="@drawable/round"
-                android:src="@drawable/alarm"
                 android:backgroundTint="@color/white"
                 android:scaleType="centerInside"
-                >
-            </ImageButton>
+                android:src="@drawable/alarm"></ImageButton>
         </LinearLayout>
 
         <Button
@@ -66,54 +67,52 @@
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_marginTop="20dp"
-            android:text="우리 동네 주민에게 부탁해요"
-            android:textAlignment="viewStart"
-            android:paddingStart="10dp"
             android:background="@drawable/whiteborder"
             android:backgroundTint="#f2f2f2"
-            android:textColor="@color/dark_grey"
-            />
+            android:paddingStart="10dp"
+            android:text="우리 동네 주민에게 부탁해요"
+            android:textAlignment="viewStart"
+            android:textColor="@color/dark_grey" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="20dp"
-            >
+            android:orientation="horizontal">
 
             <Spinner
                 android:id="@+id/spinner_priority"
-                android:layout_centerHorizontal="true"
                 android:layout_width="93dp"
                 android:layout_height="36dp"
-                android:background="@drawable/whiteborder2"/>
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/whiteborder2" />
 
             <Spinner
                 android:id="@+id/spinner_town"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="10dp"
                 android:layout_width="93dp"
                 android:layout_height="36dp"
-                android:background="@drawable/whiteborder2"
-                />
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/whiteborder2" />
         </LinearLayout>
 
-    <LinearLayout
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_posting"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-        <ImageButton
-            android:id="@+id/writeposting_btn"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:src="@drawable/posting"
-            android:scaleType="fitCenter"
-            android:layout_marginBottom="50dp"
-            android:background="@drawable/round"
-            android:layout_gravity="end"
-            />
-
+        android:layout_height="match_parent"/>
 
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/writeposting_btn"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/round"
+        android:scaleType="fitCenter"
+        android:src="@drawable/posting" />
 </FrameLayout>
