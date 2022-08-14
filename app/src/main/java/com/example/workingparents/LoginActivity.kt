@@ -105,6 +105,7 @@ class LoginActivity : AppCompatActivity() {
                             Log.d(TAG, "token 같아서 업데이트 안해도됨")
                         }
                         UserData.setUserInfo(result!!.id,result!!.sex)
+                        UserData.setUserInfo(result!!.id,result!!.sex)
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         intent.putExtra("LoginUser",result)
                         startActivity(intent)

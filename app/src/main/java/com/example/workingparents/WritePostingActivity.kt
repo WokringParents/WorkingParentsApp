@@ -56,19 +56,20 @@ class WritePostingActivity : AppCompatActivity() {
 
     }
 
-    private fun insertPostingToBoard() {
+    private fun insertPostingToBoard() { //posting insert 함수
 
         var pid=UserData.id
         var content=inputContent.text.toString()
         var village=UserData.village
+        checkGoback=false
 
         when(radio_group_goback.checkedRadioButtonId){
             R.id.goBtn->{
-                goback = "go"
-                checkGoback=true
+                goback = "등원"
+                checkGoback=true //등하원 체크했나 확인
             }
             R.id.backBtn-> {
-                goback = "back"
+                goback = "하원"
                 checkGoback=true
             }
         }
@@ -77,7 +78,7 @@ class WritePostingActivity : AppCompatActivity() {
         Log.d(TAG,content)
         Log.d(TAG,village)
 
-        if(checkGoback)
+        if(checkGoback) //등하원 체크했나 확인
         {
             RetrofitBuilder.api.postPosting(pid,village,goback,content).enqueue(object : Callback<Int> {
                 override fun onResponse(call: Call<Int>, response: Response<Int>) {

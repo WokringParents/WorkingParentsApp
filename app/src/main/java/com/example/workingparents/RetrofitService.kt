@@ -71,6 +71,9 @@ interface RetrofitService {
 
     ): Call<Int>
 
+    @GET("/posting/all")
+    fun getPosting():Call<List<Posting>>
+
 
 
 

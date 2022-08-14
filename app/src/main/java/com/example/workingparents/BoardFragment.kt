@@ -6,19 +6,22 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workingparents.databinding.FragmentBoardBinding
-import kotlinx.android.synthetic.main.fragment_board.*
+import kotlinx.coroutines.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 private val TAG="Board"
 private lateinit var mContext:Activity
+private var postings = ArrayList<Posting>()
+private var adapter: PostingAdapter? = null
 
 
 class BoardFragment : Fragment(){
@@ -37,27 +40,43 @@ class BoardFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View {
 
-        val sampleList = arrayListOf(
-            Posting("코딩꾸버","5분전","만촌동","등원","실험용",0,0),
-            Posting("코딩꾸버","5분전","만촌동","등원","실험용",0,0),
-            Posting("코딩꾸버","5분전","만촌동","등원","안녕하세요! 이번에 만촌동에 새로 이사오게 된 유치원생맘 입니다. ㅎㅎ 다름이 아니라 제가 퇴근이 늦어져서 오후반에 애를 맡기는 것보다 집에 조부모님께서 봐주시는 게 나을 것 같은데 거동이 불편하셔서 집까지 하원을 해주실 학부모님을 찾고 있습니다! 개인 메시지 주시면 더 자세한 설명드릴게요~",0,0),
-            Posting("코딩꾸버","5분전","만촌동","등원","실험용",0,0),
-            Posting("코딩꾸버","5분전","만촌동","등원","실험용",0,0),
-            Posting("코딩꾸버","5분전","만촌동","등원","실험용",0,0),
-            Posting("코딩꾸버","5분전","만촌동","등원","실험용",0,0),
-            Posting("코딩꾸버","5분전","만촌동","등원","실험용",0,0),
-        )
-
         var view =inflater.inflate(R.layout.fragment_board, container, false)
         var recyclerView = view.findViewById<RecyclerView>(R.id.rv_posting)
 
-        //divider
-        recyclerView.addItemDecoration(MyDecoration(10, Color.parseColor("#f2f2f2")))
-        recyclerView.layoutManager= LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
-        //리사이클러뷰 선언
-        recyclerView.visibility=View.VISIBLE
-        recyclerView.setHasFixedSize(true) //리사이클러뷰 성능 개선?
-        recyclerView.adapter=PostingAdapter(sampleList) //adapter 선언
+        postings.clear()
+        RetrofitBuilder.api.getPosting().enqueue(object : Callback<List<Posting>> {
+            override fun onResponse(call: Call<List<Posting>>, response: Response<List<Posting>>) {
+                if (response.isSuccessful) {
+                    var result= response.body()
+                    if (result != null) { //recyclerview에 넣을 arraylist에 result 값을 넣는 for문
+                        for (posting in result) {
+                            postings.add(posting)
+                        }
+                    }
+
+
+                    //divider
+                    recyclerView.addItemDecoration(MyDecoration(10, Color.parseColor("#f2f2f2")))
+                    recyclerView.layoutManager= LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+                    //리사이클러뷰 선언
+                    recyclerView.visibility=View.VISIBLE
+                    recyclerView.setHasFixedSize(true) //리사이클러뷰 성능 개선?
+                    adapter= PostingAdapter(postings)
+                    recyclerView.adapter= adapter//adapter 선언
+
+                    Log.d(TAG, "onResponse: 게시글 불러오기 성공" + result)
+
+                } else {
+                    Log.d(TAG, "onResponse 후 실패 에러: ")
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                }
+            }
+            override fun onFailure(call: Call<List<Posting>>, t: Throwable) {
+                Log.d(TAG, "onFailure 연결 실패 에러 테스트: " + t.message.toString())
+            }
+
+        })
+
 
         val writePostingBtn = view.findViewById<ImageButton>(R.id.writeposting_btn)
 
@@ -73,4 +92,10 @@ class BoardFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun onResume() {
+        super.onResume()
+        adapter?.notifyDataSetChanged()
+    }
+
 }
+

@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Workingparents"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".PostingActivity"
+            android:exported="false" />
+        <activity
             android:name=".TryPostingActivity"
             android:exported="false" />
         <activity

@@ -39,7 +39,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="50dp"
-          android:backgroundTint="@color/light_grey"
+          android:backgroundTint="@color/light_gray"
           android:hint="아이디를 입력하세요"
           android:paddingBottom="15dp"
           android:textSize="15dp" />
@@ -49,7 +49,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="10dp"
-          android:backgroundTint="@color/light_grey"
+          android:backgroundTint="@color/light_gray"
           android:hint="비밀번호를 입력하세요"
           android:inputType="textPassword"
           android:paddingBottom="15dp"
@@ -111,7 +111,7 @@
           android:layout_gravity="center"
           android:layout_marginTop="50dp"
           android:text="간편 로그인"
-          android:textColor="@color/dark_grey"
+          android:textColor="@color/dark_gray"
           android:textSize="14dp" />
 
       <LinearLayout
