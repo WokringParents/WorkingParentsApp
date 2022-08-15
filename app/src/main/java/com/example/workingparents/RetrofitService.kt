@@ -108,6 +108,23 @@ interface RetrofitService {
 
 
 
+    //--------------------------calendar---------------------------//
+
+    @GET("calendar/{couplenum}")
+    fun getCalendar(@Path("couplenum") couplenum: Int): Call<List<Calendar>>
+
+
+    @FormUrlEncoded
+    @POST("calendar/{couplenum}")
+    fun postCalender(
+        @Path("couplenum") couplenum: Int,
+        @Field("cdate") cdate:String,
+        @Field("ctitle") ctitle:String,
+        @Field("ccontent") ccontent:String,
+        @Field("csex") csex: String?
+    ): Call<Int>
+
+
 // @GET("posts/{page}")
     // fun getUserPage(@Path("page") page: String): Call<User>
 

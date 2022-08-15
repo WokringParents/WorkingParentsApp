@@ -10,4 +10,7 @@
     <color name="light_gray">#FFDCDCDC</color>
     <color name="dark_gray">#FF848484</color>
     <color name="main">#FF9769</color>
+    <color name="fmalepink">#FFB8CB</color>
+    <color name="maleblue">#9bcdff</color>
+
 </resources>
