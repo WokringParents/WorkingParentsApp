@@ -20,6 +20,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Calendar.MONDAY
+//import java.util.Calendar.getInstance
 import kotlin.properties.Delegates
 
 class ChildCaringFragment : Fragment() {
@@ -100,16 +102,16 @@ class ChildCaringFragment : Fragment() {
         sharingListAdapter= SharingListAdapter(mContext)
         recyclerView.adapter=sharingListAdapter
 
-     /*   datas.apply{
-            add(SharingList(content="인서목욕시키기2", mdo=0, fdo=0))
-            add(SharingList(content="인서목욕시키기3", mdo=1, fdo=0))
-            add(SharingList(content="인서목욕시키기4", mdo=0, fdo=1))
-            add(SharingList(content="인서목욕시키기5", mdo=1, fdo=1))
-        }
-    */
+        /*   datas.apply{
+               add(SharingList(content="인서목욕시키기2", mdo=0, fdo=0))
+               add(SharingList(content="인서목욕시키기3", mdo=1, fdo=0))
+               add(SharingList(content="인서목욕시키기4", mdo=0, fdo=1))
+               add(SharingList(content="인서목욕시키기5", mdo=1, fdo=1))
+           }
+       */
         Log.d(TAG,"initRecyclerView 함수속 toDoList초기화됨?"+ toDoList.size)
 
-       // sharingListAdapter.datas=toDoList
+        // sharingListAdapter.datas=toDoList
 
 
     }
@@ -149,7 +151,7 @@ class ChildCaringFragment : Fragment() {
         // 해당 주차의 첫째 날짜
         startDt = dateformat.format(cal.time)
         startDt+="00:00:00"
-         // 해당 주차의 마지막 날짜 지정
+        // 해당 주차의 마지막 날짜 지정
         cal.add(Calendar.DAY_OF_MONTH, 6)
 
         // 해당 주차의 마지막 날짜
@@ -164,7 +166,7 @@ class ChildCaringFragment : Fragment() {
 
     fun setDateUI(view: View){
 
-         //날짜 dd
+        //날짜 dd
         val dayNumTV :Array<TextView> = arrayOf(
             view.findViewById<TextView>(R.id.monDateTV),
             view.findViewById<TextView>(R.id.tueDateTV),
@@ -173,7 +175,7 @@ class ChildCaringFragment : Fragment() {
             view.findViewById<TextView>(R.id.friDateTV),
             view.findViewById<TextView>(R.id.satDateTV),
             view.findViewById<TextView>(R.id.sunDateTV)
-         )
+        )
 
         //월,화,수,,한글
         val dayHangulTV :Array<TextView> = arrayOf(
@@ -195,10 +197,10 @@ class ChildCaringFragment : Fragment() {
             view.findViewById<ImageButton>(R.id.friBtn),
             view.findViewById<ImageButton>(R.id.satBtn),
             view.findViewById<ImageButton>(R.id.sunBtn)
-           )
+        )
 
-         view.findViewById<TextView>(R.id.yearTextView).text=year
-         view.findViewById<TextView>(R.id.monthTextView).text=month
+        view.findViewById<TextView>(R.id.yearTextView).text=year
+        view.findViewById<TextView>(R.id.monthTextView).text=month
 
         for(i: Int in 0..6){
             dayNumTV[i].text= dayArr[i]

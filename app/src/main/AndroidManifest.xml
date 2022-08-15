@@ -15,25 +15,20 @@
         android:theme="@style/Theme.Workingparents"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".PostingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TryPostingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".WritePostingActivity"
-            android:exported="false" />
-        <activity android:name=".CoupleConnectActivity" />
+            android:name=".CoupleConnectActivity">
+        </activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".JoinActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SplashActivity" />
+        <activity android:name=".JoinActivity">
+        </activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".SplashActivity"></activity>
 
         <service
             android:name=".MyFirebaseMessagingService"
