@@ -2,7 +2,6 @@ package com.example.workingparents
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -28,14 +27,6 @@ class ChildCaringFragment : Fragment() {
     private lateinit var sharingListAdapter: SharingListAdapter
     private var toDoList = ArrayList<SharingList>()
 
-    /*UI초기화에 필요한 현재의 연도,달,일주일날짜,요일(월:0~일:6)*/
-    lateinit var year: String
-    lateinit var month: String
-    lateinit var day: String
-    lateinit var startDt: String
-    lateinit var endDt: String
-    var todayOfWeek by Delegates.notNull<Int>()
-    var dayArr: Array<String?> = arrayOfNulls<String>(7)
 
     private var TAG ="ChildCaring"
 
@@ -57,34 +48,45 @@ class ChildCaringFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
+
         var view =inflater.inflate(R.layout.fragment_child_caring, container, false)
         var recyclerView = view.findViewById<RecyclerView>(R.id.sharingListRecyclerView)
 
-        val long_now= System.currentTimeMillis()
-        val curDate= Date(long_now)
 
-        val dateFormat = SimpleDateFormat("yyyy-M-d", Locale("ko", "KR"))
-        val str_date = dateFormat.format(curDate)
+        if(!FragmentinitFlag) {
+            val long_now = System.currentTimeMillis()
+            val curDate = Date(long_now)
+            val dateFormat = SimpleDateFormat("yyyy-M-d", Locale("ko", "KR"))
+            val str_date = dateFormat.format(curDate)
+            getCurrentWeek(str_date)
 
-
-        getCurrentWeek(str_date)
-        setDateUI(view)
-
-        if(UserData.connectedCouple()) {
-            getCurWeekSharingList(startDt!!, endDt!!)
         }
 
-        //val t_dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss E", Locale("ko", "KR"))
-
+        setDateUI(view)
+        if(UserData.connectedCouple()) { // 부부이면
+            getCurWeekSharingList(startDt!!, endDt!!)
+        }
         initRecycler(recyclerView)
 
+
+
+
         return view
-
-
-
     }
 
     companion object {
+
+        var FragmentinitFlag = false
+
+        /*UI초기화에 필요한 현재의 연도,달,일주일날짜,요일(월:0~일:6)*/
+        lateinit var year: String
+        lateinit var month: String
+        lateinit var day: String
+        lateinit var startDt: String
+        lateinit var endDt: String
+        var todayOfWeek by Delegates.notNull<Int>()
+        var dayArr: Array<String?> = arrayOfNulls<String>(7)
+
 
     }
 
@@ -93,6 +95,7 @@ class ChildCaringFragment : Fragment() {
 
         // recyclerView.addItemDecoration(DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL) )
 
+        FragmentinitFlag= true
 
         val manager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = manager // LayoutManager 등록
@@ -100,13 +103,6 @@ class ChildCaringFragment : Fragment() {
         sharingListAdapter= SharingListAdapter(mContext)
         recyclerView.adapter=sharingListAdapter
 
-     /*   datas.apply{
-            add(SharingList(content="인서목욕시키기2", mdo=0, fdo=0))
-            add(SharingList(content="인서목욕시키기3", mdo=1, fdo=0))
-            add(SharingList(content="인서목욕시키기4", mdo=0, fdo=1))
-            add(SharingList(content="인서목욕시키기5", mdo=1, fdo=1))
-        }
-    */
         Log.d(TAG,"initRecyclerView 함수속 toDoList초기화됨?"+ toDoList.size)
 
        // sharingListAdapter.datas=toDoList
@@ -213,6 +209,25 @@ class ChildCaringFragment : Fragment() {
 
         }
 
+        for(i : Int in 0..6){
+
+            dayImgBtn[i].setOnClickListener(View.OnClickListener {
+
+                Log.d(TAG, "$i 요일 클릭됨")
+                sharingListAdapter.datas.clear()
+
+                for(todo: SharingList in toDoList){
+                    if(todo.dayOfWeek==i){
+                        sharingListAdapter.datas.add(todo)
+                    }
+                }
+                sharingListAdapter.notifyDataSetChanged()
+            })
+
+        }
+
+
+
     }
 
 
@@ -230,7 +245,7 @@ class ChildCaringFragment : Fragment() {
 
                     for(todo: SharingList in toDoList){
                         if(todo.dayOfWeek==todayOfWeek){
-                            Log.d(TAG,"datas에 추가함")
+                            //Log.d(TAG,"datas에 추가함")
                             sharingListAdapter.datas.add(todo)
                         }
                     }

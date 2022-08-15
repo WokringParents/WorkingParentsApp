@@ -27,8 +27,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val intent: Intent = getIntent()
-        val LoginUser = intent.getParcelableExtra<User>("LoginUser")
+       // val LoginUser = intent.getParcelableExtra<User>("LoginUser")
         //checkcouple()
+
 /*
         couplePageBtn.setOnClickListener(View.OnClickListener {
 
@@ -37,13 +38,24 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         })*/
 
+
+
+
+
         var bnv_main = findViewById(R.id.bottom_menu) as BottomNavigationView
         // OnNavigationItemSelectedListener를 통해 탭 아이템 선택 시 이벤트를 처리
         // navi_menu.xml에서 설정했던 각 아이템들의 id를 통해 알맞은 프래그먼트로 변경하게 한다.
         bnv_main.run {
+
             setOnNavigationItemSelectedListener {
                 when (it.itemId) {
                     R.id.first_tab -> {
+                      /*  if(savedInstanceState!=null){
+                            Log.d("ChildCaring","---------------------")
+                        }else{
+                            Log.d("ChildCaring","----------**-----------")
+                        }*/
+
                         //다른 프래그먼트 화면으로 이동하는 기능
                         val MainFragment = ChildCaringFragment()
                         supportFragmentManager.beginTransaction()

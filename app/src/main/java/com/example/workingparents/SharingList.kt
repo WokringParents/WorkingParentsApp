@@ -15,10 +15,10 @@ data class SharingList(
     val content : String,
 
     @SerializedName("mdo")
-    val mdo : Int,
+    var mdo : Boolean,
 
     @SerializedName("fdo")
-    val fdo : Int,
+    var fdo : Boolean,
 
     @SerializedName("dayOfWeek")
     val dayOfWeek: Int
