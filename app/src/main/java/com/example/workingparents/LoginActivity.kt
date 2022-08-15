@@ -18,7 +18,7 @@ import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
-    private val TAG="RFS"
+    private val TAG="Login"
     lateinit var token : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +86,7 @@ class LoginActivity : AppCompatActivity() {
 
         RetrofitBuilder.api.getUser(id).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
+
                 if(response.isSuccessful){
 
                     var result: User? = response.body()
@@ -100,16 +101,15 @@ class LoginActivity : AppCompatActivity() {
                         if( this@LoginActivity::token.isInitialized && !result?.token.equals(token)){
                             Log.d(TAG, "token 업데이트할거임");
                             updateToken(id,token)
-
                         }else{
                             Log.d(TAG, "token 같아서 업데이트 안해도됨")
                         }
+
                         UserData.setUserInfo(result!!.id,result!!.sex)
                         UserData.setUserInfo(result!!.id,result!!.sex)
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        intent.putExtra("LoginUser",result)
-                        startActivity(intent)
-                    }
+
+                        checkCouple()
+                     }
 
                 }else{
                     Log.d(TAG, "onResponse 실패")
@@ -124,6 +124,44 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
+
+
+    fun checkCouple() {
+
+        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+
+        RetrofitBuilder.api.getCouplebyID(UserData.id).enqueue(object : Callback<Couple> {
+            override fun onResponse(call: Call<Couple>, response: Response<Couple>) {
+                if (response.isSuccessful) {
+                    var result: Couple? = response.body()
+                    // 정상적으로 통신이 성공된 경우
+
+                    Log.d(TAG, "onResponse: 부부정보 들고오기 성공" + result?.toString())
+
+                    if(UserData.sex=="M") {
+                        UserData.setCoupleInfo(result!!.couplenum,result.mid) //사용자가 남자일때, 배우자에는 엄마아이디
+                    } else {
+                        UserData.setCoupleInfo(result!!.couplenum,result.did)
+                    }
+
+                    UserData.setCoupleAddress(result!!.city,result.village)
+
+                    startActivity(intent)
+
+                } else {
+                    Log.d(TAG, "onResponse 부부정보 들고오기 에러: ")
+                }
+            }
+            override fun onFailure(call: Call<Couple>, t: Throwable) {
+                if(t.message == "End of input at line 1 column 1 path $") {
+                    UserData.setCoupleInfo(-1,"NONE")
+                    startActivity(intent)
+                }
+                Log.d(TAG, "onFailure 부부확인 실패 에러 테스트: " + t.message.toString())
+            }
+        })
+
+    }
 
 
     override fun onBackPressed() {

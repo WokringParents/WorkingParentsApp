@@ -2,6 +2,7 @@ package com.example.workingparents
 
 import retrofit2.Call
 import retrofit2.http.*
+import java.sql.Timestamp
 
 interface RetrofitService {
 
@@ -73,6 +74,35 @@ interface RetrofitService {
 
     @GET("/posting/all")
     fun getPosting():Call<List<Posting>>
+
+
+
+
+    //--------------------------SharingList---------------------------//
+
+     @GET("sharinglist")
+     fun getSharingList(
+         @Query("couplenum") couplenum: Int,
+         @Query("startdate") startdate: String,
+         @Query("enddate") enddate: String
+     ):Call<List<SharingList>>
+
+
+    @FormUrlEncoded
+    @POST("sharinglist")
+    fun postSharingList(
+        @Field("couplenum") couplenum: Int,
+        @Field("sdate") sdate: Timestamp,
+        @Field("content") content: String,
+    ):Call<Int>
+
+    @FormUrlEncoded
+    @PUT("sharinglist/mdo")
+    fun putMaleDo(@Field("couplenum") couplenum: Int, @Field("sdate") sdate: Timestamp): Call<Int>
+
+    @FormUrlEncoded
+    @PUT("sharinglist/fdo")
+    fun putFemaleDo(@Field("couplenum") couplenum: Int, @Field("sdate") sdate: Timestamp): Call<Int>
 
 
 

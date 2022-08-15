@@ -2,6 +2,7 @@ package com.example.workingparents
 
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class SharingListAdapter(private val context: Context) : RecyclerView.Adapter<SharingListAdapter.ViewHolder>() {
 
+    val TAG="ChildCaring"
     var datas = mutableListOf<SharingList>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.sharing_list,parent,false)
@@ -23,6 +25,9 @@ class SharingListAdapter(private val context: Context) : RecyclerView.Adapter<Sh
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(datas[position])
+
+    //    val sharingList : SharingList = datas.get([posti])
+
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -33,7 +38,9 @@ class SharingListAdapter(private val context: Context) : RecyclerView.Adapter<Sh
 
 
         fun bind(item: SharingList) {
+
             sharingContentTV.text = item.content
+            Log.d(TAG, "fdo: "+ item.fdo.toString()+ " mdo: "+ item.mdo.toString())
             if(item.fdo==1) {
                 femaleDoBtn.setImageResource(R.drawable.redcircle)
             }

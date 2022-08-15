@@ -37,8 +37,6 @@ class CoupleConnectActivity : AppCompatActivity() {
 
         })
 
-
-
         inputCodeBtn.setOnClickListener(View.OnClickListener {
 
             codeEditText.visibility=View.VISIBLE

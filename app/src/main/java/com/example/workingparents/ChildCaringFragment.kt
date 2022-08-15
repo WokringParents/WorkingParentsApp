@@ -2,6 +2,7 @@ package com.example.workingparents
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -14,6 +15,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
@@ -22,17 +26,16 @@ class ChildCaringFragment : Fragment() {
 
     private lateinit var mContext : Activity
     private lateinit var sharingListAdapter: SharingListAdapter
-    val datas = mutableListOf<SharingList>()
+    private var toDoList = ArrayList<SharingList>()
 
     /*UI초기화에 필요한 현재의 연도,달,일주일날짜,요일(월:0~일:6)*/
     lateinit var year: String
     lateinit var month: String
     lateinit var day: String
+    lateinit var startDt: String
+    lateinit var endDt: String
     var todayOfWeek by Delegates.notNull<Int>()
     var dayArr: Array<String?> = arrayOfNulls<String>(7)
-
-    /*Retrofit서비스에 필요한 Timstamp*/
-
 
     private var TAG ="ChildCaring"
 
@@ -41,6 +44,7 @@ class ChildCaringFragment : Fragment() {
         if (context is MainActivity) {
             mContext = context
         }
+
     }
 
 
@@ -62,9 +66,13 @@ class ChildCaringFragment : Fragment() {
         val dateFormat = SimpleDateFormat("yyyy-M-d", Locale("ko", "KR"))
         val str_date = dateFormat.format(curDate)
 
+
         getCurrentWeek(str_date)
         setDateUI(view)
 
+        if(UserData.connectedCouple()) {
+            getCurWeekSharingList(startDt!!, endDt!!)
+        }
 
         //val t_dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss E", Locale("ko", "KR"))
 
@@ -92,15 +100,16 @@ class ChildCaringFragment : Fragment() {
         sharingListAdapter= SharingListAdapter(mContext)
         recyclerView.adapter=sharingListAdapter
 
-        datas.apply{
+     /*   datas.apply{
             add(SharingList(content="인서목욕시키기2", mdo=0, fdo=0))
             add(SharingList(content="인서목욕시키기3", mdo=1, fdo=0))
             add(SharingList(content="인서목욕시키기4", mdo=0, fdo=1))
             add(SharingList(content="인서목욕시키기5", mdo=1, fdo=1))
-
-            sharingListAdapter.datas=datas
-            sharingListAdapter.notifyDataSetChanged()
         }
+    */
+        Log.d(TAG,"initRecyclerView 함수속 toDoList초기화됨?"+ toDoList.size)
+
+       // sharingListAdapter.datas=toDoList
 
 
     }
@@ -127,7 +136,7 @@ class ChildCaringFragment : Fragment() {
             todayOfWeek=dayOfWeek
         }
 
-        val dateformat = SimpleDateFormat("yyyy-MM-dd")
+        val dateformat = SimpleDateFormat("yyyy-MM-dd ")
         val dayformat = SimpleDateFormat("d")
 
         var dayVal = dayformat.format(cal.time).toInt()
@@ -138,13 +147,15 @@ class ChildCaringFragment : Fragment() {
         }
 
         // 해당 주차의 첫째 날짜
-        val startDt = dateformat.format(cal.time)
-
+        startDt = dateformat.format(cal.time)
+        startDt+="00:00:00"
          // 해당 주차의 마지막 날짜 지정
         cal.add(Calendar.DAY_OF_MONTH, 6)
 
         // 해당 주차의 마지막 날짜
-        val endDt = dateformat.format(cal.time)
+        endDt = dateformat.format(cal.time)
+        endDt+="23:59:59"
+
         Log.d(TAG, "특정 날짜 = [$eventDate] >> 시작 날짜 = [$startDt], 종료 날짜 = [$endDt]")
 
 
@@ -202,7 +213,52 @@ class ChildCaringFragment : Fragment() {
 
         }
 
+    }
 
+
+    private fun getCurWeekSharingList(startDt: String, endDt: String) {
+
+        RetrofitBuilder.api.getSharingList(UserData.couplenum,startDt,endDt).enqueue(object:Callback<List<SharingList>>{
+
+            override fun onResponse(call: Call<List<SharingList>>, response: Response<List<SharingList>>) {
+
+                if(response.isSuccessful){
+                    // 정상적으로 통신이 성공된 경우
+                    var result: List<SharingList>? = response.body()
+                    toDoList.clear()
+                    toDoList= result as ArrayList<SharingList>
+
+                    for(todo: SharingList in toDoList){
+                        if(todo.dayOfWeek==todayOfWeek){
+                            Log.d(TAG,"datas에 추가함")
+                            sharingListAdapter.datas.add(todo)
+                        }
+                    }
+                    sharingListAdapter.notifyDataSetChanged()
+
+                    Log.d(TAG, "onResponse: 공유리스트 불러오기 성공: "+result.size)
+
+                }else{
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                    Log.d(TAG, "onResponse: 공유리스트 불러오기 실패")
+                }
+
+
+            }
+
+            override fun onFailure(call: Call<List<SharingList>>, t: Throwable) {
+                Log.d(TAG, "onFailure 공유리스트 불러오기 실패에러: " + t.message.toString())
+            }
+
+
+        })
 
     }
+
+
+
+
+
+
+
 }

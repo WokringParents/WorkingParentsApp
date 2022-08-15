@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         val intent: Intent = getIntent()
         val LoginUser = intent.getParcelableExtra<User>("LoginUser")
-        checkcouple()
+        //checkcouple()
 /*
         couplePageBtn.setOnClickListener(View.OnClickListener {
 
@@ -168,40 +168,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-
-    fun checkcouple() {
-        RetrofitBuilder.api.getCouplebyID(UserData.id).enqueue(object : Callback<Couple> {
-            override fun onResponse(call: Call<Couple>, response: Response<Couple>) {
-                if (response.isSuccessful) {
-                    var result: Couple? = response.body()
-                    // 정상적으로 통신이 성공된 경우
-                    Log.d(TAG, "onResponse: 커플 성공" + result?.toString())
-                    if(UserData.sex=="M")
-                    {
-                        UserData.setCoupleInfo(result!!.couplenum,result.did)
-                    }
-                    else
-                    {
-                        UserData.setCoupleInfo(result!!.couplenum,result.mid)
-                    }
-
-                    UserData.setCoupleAddress(result!!.city,result.village)
-                } else {
-                    Log.d(TAG, "onResponse 후 실패 에러: ")
-                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-                }
-            }
-            override fun onFailure(call: Call<Couple>, t: Throwable) {
-                if(t.message == "End of input at line 1 column 1 path $")
-                    Toast.makeText(this@MainActivity, "커플 등록 진행해주세요", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "onFailure 연결 실패 에러 테스트: " + t.message.toString())
-
-            }
-
-        })
-
-    }
-
 
 
 }
