@@ -52,33 +52,28 @@
                 android:layout_height="wrap_content"
                 android:text="월" />
 
-            <TextView
-                android:id="@+id/weekTextView"
+            <Spinner
+                android:id="@+id/dateSelectSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1" />
+                android:entries="@array/spinner_entries"
+                android:gravity="right" />
 
-            <TextView
-                android:id="@+id/hangulTextView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="주차" />
+            <View
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="1" />
 
-            <ImageButton
-                android:id="@+id/beforeWeekBtn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:scaleType="centerCrop"
-                android:background="@color/white"
-                android:src="@drawable/leftarrow" />
 
             <ImageButton
-                android:id="@+id/nextWeekBtn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:scaleType="centerCrop"
+                android:id="@+id/calIcon"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:paddingTop="10dp"
+                android:layout_gravity="right"
                 android:background="@color/white"
-                android:src="@drawable/rightarrow" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/calendar" />
 
 
         </LinearLayout>

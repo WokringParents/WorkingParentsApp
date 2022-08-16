@@ -20,7 +20,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.Calendar.MONDAY
+import java.util.Calendar
 //import java.util.Calendar.getInstance
 import kotlin.properties.Delegates
 
@@ -49,7 +49,6 @@ class ChildCaringFragment : Fragment() {
 
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -67,6 +66,17 @@ class ChildCaringFragment : Fragment() {
 
         val dateFormat = SimpleDateFormat("yyyy-M-d", Locale("ko", "KR"))
         val str_date = dateFormat.format(curDate)
+
+        val calIconBtn = view?.findViewById<ImageButton>(R.id.calIcon)
+
+        if (calIconBtn != null) {
+            calIconBtn.setOnClickListener{
+                Log.d(TAG,"클릭됨")
+                val intent = Intent(mContext,CalendarActivity::class.java)
+                mContext.startActivity(intent)
+            }
+        }
+        return view
 
 
         getCurrentWeek(str_date)
