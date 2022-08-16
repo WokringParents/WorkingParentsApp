@@ -8,7 +8,7 @@ data class Calendar (
     @SerializedName("couplenum")
     var couplenum: Int,
     @SerializedName("cdate")
-    val cdate: Timestamp,
+    val cdate: String,
     @SerializedName("ctitle")
     val ctitle: String,
     @SerializedName("ccontent")

@@ -18,6 +18,9 @@
             android:name=".CoupleConnectActivity">
         </activity>
         <activity android:name=".LoginActivity">
+
+        </activity>
+        <activity android:name=".CalendarActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,6 +28,8 @@
             </intent-filter>
 
         </activity>
+
+
         <activity android:name=".JoinActivity">
         </activity>
         <activity android:name=".MainActivity"></activity>

@@ -31,5 +31,4 @@ object UserData {
         return !(spouseID=="NONE" && couplenum==-1)
     }
 
-
 }

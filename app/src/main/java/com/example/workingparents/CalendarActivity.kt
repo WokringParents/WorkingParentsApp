@@ -67,10 +67,8 @@ class CalendarActivity : AppCompatActivity() {
 
 
 
-        var couplenum: Int= 1
-        //임시적으로 넣어준 커플넘 변수
 
-        RetrofitBuilder.api.getCalendar(couplenum).enqueue(object: Callback<List<Calendar>> {
+        RetrofitBuilder.api.getCalendar(UserData.couplenum).enqueue(object: Callback<List<Calendar>> {
 
             override fun onResponse(call: Call<List<Calendar>>, response: Response<List<Calendar>>) {
                 if(response.isSuccessful){
@@ -90,7 +88,7 @@ class CalendarActivity : AppCompatActivity() {
                             }
 
 
-                            var splitdate = i.cdate.toString().split(" ")
+                            var splitdate = i.cdate.split(" ")
                             //result의 날짜를 Calendar 형식이 되도록 문자열을 잘라줌
 
                             Log.d("Calendar성공","splitdate:"+splitdate.get(0))
@@ -178,7 +176,7 @@ class CalendarActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<List<com.example.workingparents.Calendar>>, t: Throwable) {
-                Log.d("Retrofit", "onFailure 캘린더 실패 에러: " + t.message.toString())
+                Log.d("Retrofit", "onFailure 캘린더 실패 에러1: " + t.message.toString())
 
             }
 
@@ -200,9 +198,15 @@ class CalendarActivity : AppCompatActivity() {
                 var Calendardate= "${date.year}-0${date.month+1}-${date.day}"
                 //Get을 이용해서 List로 받아온 다음에 같으면 리싸이클러뷰 ㄱㄱ
 
-                var couplenum: Int= 1
+                //var couplenum:Int
 
-                RetrofitBuilder.api.getCalendar(couplenum).enqueue(object: Callback<List<Calendar>> {
+               // if(UserData.connectedCouple()){
+                //    couplenum= UserData.couplenum
+                //}
+
+
+
+                RetrofitBuilder.api.getCalendar(UserData.couplenum).enqueue(object: Callback<List<Calendar>> {
 
                     override fun onResponse(call: Call<List<Calendar>>, response: Response<List<Calendar>>) {
                         if(response.isSuccessful){
@@ -260,7 +264,7 @@ class CalendarActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<List<com.example.workingparents.Calendar>>, t: Throwable) {
-                        Log.d("Retrofit", "onFailure 캘린더 실패 에러: " + t.message.toString())
+                        Log.d("Retrofit", "onFailure 캘린더 실패 에러2: " + t.message.toString())
 
                     }
 
@@ -364,7 +368,7 @@ class CalendarActivity : AppCompatActivity() {
     ) : DayViewDecorator {
 
 
-        var dates= ArrayList<CalendarDay>(dates)
+        var dates= dates
         //마지막으로 클릭한 날짜를 알아보기위해 Hashset에서 어레이리스트로 변경함
 
 
@@ -455,7 +459,7 @@ class CalendarActivity : AppCompatActivity() {
             Color.rgb(155, 205, 255)
         )
 
-        var dates= ArrayList<CalendarDay>(dates)
+        var dates= dates
         //마지막으로 클릭한 날짜를 알아보기위해 Hashset에서 어레이리스트로 변경함
 
         var ClickVali:Boolean= false
@@ -476,13 +480,13 @@ class CalendarActivity : AppCompatActivity() {
                     //완료 클릭했을때 Dialog 생성및 post수행
                     Log.d("따라가보자3","3")
 
-                    var couplenum = 1
                     var dialog = CustomDialog(context)
                     dialog.myDig()
                     dialog.setOnClickedListener(object : CustomDialog.ButtonClickListener {
                         override fun onClicked(ctitle: String, ccontect: String, csex: String?) {
                             //다이어로그에서 값을 받아옴
 
+                            Log.d("따라가보자1000","1000")
 
                             var title = ctitle
                             var contect = ccontect
@@ -494,8 +498,14 @@ class CalendarActivity : AppCompatActivity() {
                             //여기서 다이어로그 내용을 받아왔지
                             //그럼 Post를 여기에서 해주자
 
-                            var cdate = "2022-08-16 21:16:54"
-                            RetrofitBuilder.api.postCalender(couplenum, ctitle, ccontect, cdate ,csex)
+                            var cdate= dates.toString().substring(13,17)+"-0"+(dates.toString().substring(18,19).toInt()+1).toString()+"-"+dates.toString().substring(20,22)+" 00:00:00"
+                            Log.d("따라가보자2000","2000")
+                            Log.d("뭐가","cdate:"+cdate)
+                            //[CalendarDay{2022-7-17}]을 잘라서 2022-8-17 00(뒤에서 빈칸으로 split을 해주므로 뒤에 빈칸이 있어야함)을 만들어야함
+                            //참고로 dates는 이번달이 8월이면 7월로 준다...
+                            //그래도 좀 효율적으로 해보려고 했는데 그냥.. 비효율적으로 하기로 했다..
+
+                            RetrofitBuilder.api.postCalender(UserData.couplenum, cdate, ctitle, ccontect ,csex)
                                 .enqueue(object : Callback<Int> {
                                     override fun onResponse(
                                         call: Call<Int>,
@@ -515,12 +525,13 @@ class CalendarActivity : AppCompatActivity() {
                                             ClickVali= true
 
 
-
-
-
-
                                         } else {
                                             // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+
+                                            Log.d(
+                                                "Calendar",
+                                                "response 실패 에러"
+                                            )
                                         }
                                     }
 

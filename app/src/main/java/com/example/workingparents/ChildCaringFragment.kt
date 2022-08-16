@@ -20,9 +20,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.Calendar.MONDAY
-//import java.util.Calendar.getInstance
+import java.util.Calendar
+import kotlin.collections.ArrayList
+//import java.util.*
 import kotlin.properties.Delegates
+
+
 
 class ChildCaringFragment : Fragment() {
 
