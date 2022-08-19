@@ -75,8 +75,25 @@ interface RetrofitService {
     @GET("/posting/all")
     fun getPosting():Call<List<Posting>>
 
+    @FormUrlEncoded
+    @PUT("posting/ccnt/{pno}")
+    fun putCommentCnt(
+        @Path("pno") pno: Int,
+        @Field("sign") sign: String?
+    ): Call<Int> //sign에 plus or minus
 
 
+    @FormUrlEncoded
+    @PUT("posting/hcnt/{pno}")
+    fun putHeartCnt(
+        @Path("pno") pno: Int,
+        @Field("sign") sign: String?
+    ): Call<Int> //sign에 plus or minus                                                                                    )
+
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "/posting/delete", hasBody = true)
+    fun deleteBoardPosting(@Field("pno") pno: Int): Call<Int>
 
     //--------------------------SharingList---------------------------//
 
@@ -124,6 +141,58 @@ interface RetrofitService {
         @Field("ctitle") ctitle:String,
         @Field("ccontent") ccontent:String,
         @Field("csex") csex: String?
+    ): Call<Int>
+
+
+    //-------------------------------Comment------------------------------//
+
+    @GET("comment/{pno}")
+    fun getComment(@Path("pno") pno: Int): Call<List<Comment>>
+
+    @FormUrlEncoded
+    @POST("comment/{pno}")
+    fun postComment(
+        @Path("pno") pno: Int,
+        @Field("cno") cno: Int,
+        @Field("cid") cid: String?,
+        @Field("cment") cment: String?
+    ): Call<Comment>
+
+    @FormUrlEncoded
+    @PUT("comment/{pno}")
+    fun putCcommentCnt(
+        @Path("pno") pno: Int,
+        @Field("cno") cno: Int,
+        @Field("sign") sign: String?
+    ): Call<Int>//sign==plus or minus
+
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "/comment/delete", hasBody = true)
+    fun deleteComment(@Field("pno") pno: Int, @Field("cno") cno: Int): Call<Int>
+
+    
+    //-------------------------------Ccomment------------------------------//
+
+    @GET("ccomment/{pno}")
+    fun getCcomment(@Path("pno") pno: Int): Call<List<Ccomment>>
+
+    @FormUrlEncoded
+    @POST("ccomment/{pno}")
+    fun postCcomment(
+        @Path("pno") pno: Int,
+        @Field("cno") cno: Int,
+        @Field("ccno") ccno: Int,
+        @Field("ccid") ccid: String?,
+        @Field("ccment") ccment: String?
+    ): Call<Ccomment>
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "/ccomment/delete", hasBody = true)
+    fun deleteCcomment(
+        @Field("pno") pno: Int,
+        @Field("cno") cno: Int,
+        @Field("ccno") ccno: Int
     ): Call<Int>
 
 

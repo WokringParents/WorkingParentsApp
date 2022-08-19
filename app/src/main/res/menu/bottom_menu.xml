@@ -9,6 +9,14 @@
         android:enabled="true"
         android:icon="@drawable/bottom_main"
         android:title="Main" />
+
+    <item
+        android:id="@+id/fifth_tab"
+        app:showAsAction="always"
+        android:enabled="true"
+        android:icon="@drawable/bottom_calendar"
+        android:title="Calendar"/>
+
     <item
         android:id="@+id/second_tab"
         app:showAsAction="always"

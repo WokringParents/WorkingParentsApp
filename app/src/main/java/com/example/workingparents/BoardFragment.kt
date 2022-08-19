@@ -13,7 +13,8 @@ import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.*
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinx.android.synthetic.main.fragment_board.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,10 +22,12 @@ import retrofit2.Response
 private val TAG="Board"
 private lateinit var mContext:Activity
 private var postings = ArrayList<Posting>()
-private var adapter: PostingAdapter? = null
+private var result = ArrayList<Posting>()
 
 
 class BoardFragment : Fragment(){
+
+    private var adapter: PostingAdapter? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -47,13 +50,15 @@ class BoardFragment : Fragment(){
         RetrofitBuilder.api.getPosting().enqueue(object : Callback<List<Posting>> {
             override fun onResponse(call: Call<List<Posting>>, response: Response<List<Posting>>) {
                 if (response.isSuccessful) {
-                    var result= response.body()
-                    if (result != null) { //recyclerview에 넣을 arraylist에 result 값을 넣는 for문
-                        for (posting in result) {
-                            postings.add(posting)
-                        }
-                    }
+                    result= response.body() as ArrayList<Posting>
+                    postings=fetchData(result)
+//                    if (result != null) { //recyclerview에 넣을 arraylist에 result 값을 넣는 for문
+//                        for (posting in result) {
+//                            postings.add(posting)
+//                        }
+//                    }
 
+//                    Log.d(TAG, "onResponse: 게시글 불러오기 성공" + result)
 
                     //divider
                     recyclerView.addItemDecoration(MyDecoration(10, Color.parseColor("#f2f2f2")))
@@ -64,7 +69,6 @@ class BoardFragment : Fragment(){
                     adapter= PostingAdapter(postings)
                     recyclerView.adapter= adapter//adapter 선언
 
-                    Log.d(TAG, "onResponse: 게시글 불러오기 성공" + result)
 
                 } else {
                     Log.d(TAG, "onResponse 후 실패 에러: ")
@@ -77,6 +81,18 @@ class BoardFragment : Fragment(){
 
         })
 
+
+        recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (!recyclerView.canScrollVertically(-1)) {
+                    Log.i(TAG, "Top of list")
+                } else if (!recyclerView.canScrollVertically(1)) {
+                    Log.i(TAG, "End of list")
+                } else {
+                    Log.i(TAG, "idle")
+                }
+            }
+        })
 
         val writePostingBtn = view.findViewById<ImageButton>(R.id.writeposting_btn)
 
@@ -92,8 +108,28 @@ class BoardFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onResume() {
-        super.onResume()
+
+    fun fetchData(result : ArrayList<Posting>):ArrayList<Posting>
+    {
+        val list=ArrayList<Posting>()
+        Log.d(TAG,"fetch확인용"+result.size)
+        for(i in result){
+                list.add(i)
+        }
+        return list
+    }
+
+    fun updateData(result : ArrayList<Posting>):ArrayList<Posting>
+    {
+        val list=ArrayList<Posting>()
+        Log.d(TAG,"update확인용"+result.size)
+        for(i in result){
+            list.add(i)
+        }
+        return list
+    }
+
+    fun refreshAdapter(){
         adapter?.notifyDataSetChanged()
     }
 

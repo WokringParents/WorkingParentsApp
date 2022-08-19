@@ -25,8 +25,8 @@ import retrofit2.Response
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.Calendar
 import kotlin.properties.Delegates
+import java.util.Calendar
 
 
 const val SOFT_KEYBOARD_HEIGHT_DP_THRESHOLD=128

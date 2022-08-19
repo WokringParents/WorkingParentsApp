@@ -18,17 +18,20 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.prolificinteractive.materialcalendarview.*
-import com.prolificinteractive.materialcalendarview.spans.DotSpan.DEFAULT_RADIUS
+//import com.prolificinteractive.materialcalendarview.*
+//import com.prolificinteractive.materialcalendarview.spans.DotSpan.DEFAULT_RADIUS
 import kotlinx.android.synthetic.main.activity_calendar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import java.util.Calendar
 import kotlin.collections.ArrayList
 
 
 class CalendarActivity : AppCompatActivity() {
+
+   /*
     companion object {
         var hashMap= HashMap<CalendarDay,String>()
     }
@@ -177,7 +180,7 @@ class CalendarActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<List<com.example.workingparents.Calendar>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Calendar>>, t: Throwable) {
                 Log.d("Retrofit", "onFailure 캘린더 실패 에러: " + t.message.toString())
 
             }
@@ -259,7 +262,7 @@ class CalendarActivity : AppCompatActivity() {
                         }
                     }
 
-                    override fun onFailure(call: Call<List<com.example.workingparents.Calendar>>, t: Throwable) {
+                    override fun onFailure(call: Call<List<Calendar>>, t: Throwable) {
                         Log.d("Retrofit", "onFailure 캘린더 실패 에러: " + t.message.toString())
 
                     }
@@ -300,19 +303,19 @@ class CalendarActivity : AppCompatActivity() {
             dialog.window!!.setLayout(
                 900,
                 WindowManager.LayoutParams.WRAP_CONTENT)
-            dialog.window!!.setBackgroundDrawableResource(com.example.workingparents.R.drawable.orangeborder)
+            dialog.window!!.setBackgroundDrawableResource(R.drawable.orangeborder)
             dialog.setCanceledOnTouchOutside(true)
             dialog.setCancelable(true)
 
             dialog.show()
 
 
-            val edit_ctitle = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ctitle)
-            val edit_ccontent = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ccontent)
-            val radio_group_dialog = dialog.findViewById<RadioGroup>(com.example.workingparents.R.id.radio_group_dialog)
+            val edit_ctitle = dialog.findViewById<EditText>(R.id.edit_ctitle)
+            val edit_ccontent = dialog.findViewById<EditText>(R.id.edit_ccontent)
+            val radio_group_dialog = dialog.findViewById<RadioGroup>(R.id.radio_group_dialog)
 
-            val btnDone = dialog.findViewById<Button>(com.example.workingparents.R.id.btnDone)
-            val btnCancel = dialog.findViewById<Button>(com.example.workingparents.R.id.btnCancel)
+            val btnDone = dialog.findViewById<Button>(R.id.btnDone)
+            val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
 
 
             btnDone.setOnClickListener {
@@ -689,4 +692,6 @@ class CalendarActivity : AppCompatActivity() {
 
     }
 
+
+    */
 }
