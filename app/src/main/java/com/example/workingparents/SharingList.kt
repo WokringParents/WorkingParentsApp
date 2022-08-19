@@ -9,10 +9,10 @@ data class SharingList(
     val couplenum: Int,
 
     @SerializedName("sdate")
-    val sdate: Timestamp,
+    var sdate: Timestamp,
 
     @SerializedName("content")
-    val content : String,
+    var content : String,
 
     @SerializedName("mdo")
     var mdo : Boolean,
@@ -21,5 +21,11 @@ data class SharingList(
     var fdo : Boolean,
 
     @SerializedName("dayOfWeek")
-    val dayOfWeek: Int
+    var dayOfWeek: Int,
+
+    @SerializedName("daily")
+    val daily: Boolean,
+
+    var inputMode: Boolean = false
+
 )

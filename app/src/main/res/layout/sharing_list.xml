@@ -37,6 +37,7 @@
           />
 
       <TextView
+          android:clickable="true"
           android:layout_weight="10"
           android:id="@+id/sharingContentTV"
           android:layout_width="wrap_content"
@@ -44,17 +45,26 @@
           android:layout_gravity="center_vertical"
           android:text="인서 목욕시키기"
           android:layout_marginLeft="7dp"
+          android:visibility="gone"
+          android:textSize="15sp"
           />
 
-      <ImageButton
-          android:layout_weight="0.5"
-          android:id="@+id/sharingListMoreBtn"
-          android:layout_width="20dp"
-          android:layout_height="30dp"
-          android:scaleType="centerCrop"
-          android:background="@color/white"
-          app:srcCompat="@drawable/more2"
-          android:layout_marginRight="20dp"
+
+      <EditText
+          android:layout_weight="10"
+          android:id="@+id/sharingContentEditTxt"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:hint="입력"
+          android:textSize="17sp"
+          android:inputType="text"
+          android:visibility="gone"
+          android:layout_marginLeft="7dp"
+          android:paddingTop="-15dp"
+          android:theme="@style/EditTheme"
+          android:backgroundTint="@color/black"
           />
+
    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

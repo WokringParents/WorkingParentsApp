@@ -12,5 +12,5 @@
     <color name="main">#FF9769</color>
     <color name="fmalepink">#FFB8CB</color>
     <color name="maleblue">#9bcdff</color>
-
+    <color name="cursorColor">#575655</color>
 </resources>

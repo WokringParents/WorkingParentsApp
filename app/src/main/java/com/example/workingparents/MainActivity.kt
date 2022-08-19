@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.ResponseBody
@@ -37,9 +38,6 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("LoginUser", LoginUser)
             startActivity(intent)
         })*/
-
-
-
 
 
         var bnv_main = findViewById(R.id.bottom_menu) as BottomNavigationView

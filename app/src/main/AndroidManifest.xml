@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".JoinActivity">
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity"  android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".SplashActivity"></activity>
 
         <service

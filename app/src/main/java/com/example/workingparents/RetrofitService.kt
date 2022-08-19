@@ -92,8 +92,10 @@ interface RetrofitService {
     @POST("sharinglist")
     fun postSharingList(
         @Field("couplenum") couplenum: Int,
-        @Field("sdate") sdate: Timestamp,
+        @Field("sdate") sdate: String,
         @Field("content") content: String,
+        @Field("daily") daily: Boolean,
+        @Field("enddate") enddate: String
     ):Call<Int>
 
     @FormUrlEncoded
