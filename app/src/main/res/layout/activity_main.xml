@@ -29,7 +29,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
-            app:itemIconTint="@color/black"
             app:labelVisibilityMode="unlabeled"
             app:menu="@menu/bottom_menu" />
     </RelativeLayout>

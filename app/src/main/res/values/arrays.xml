@@ -7,4 +7,13 @@
         <item>4주차</item>
         <item>5주차</item>
     </string-array>
+
+    <string-array name="board_spinner_item">
+        <item>범어동</item>
+        <item>만촌동</item>
+        <item>월성동</item>
+        <item>신암동</item>
+        <item>수성동</item>
+    </string-array>
+
 </resources>

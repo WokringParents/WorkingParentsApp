@@ -98,7 +98,6 @@ class MainActivity : AppCompatActivity() {
                         it.setIcon(R.drawable.bottom_mypage2)
                         menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
                         menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
-                        menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_information)
                         menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
                     }
 

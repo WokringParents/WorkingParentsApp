@@ -20,7 +20,7 @@
         android:paddingBottom="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="20dp">
+        android:paddingTop="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,7 +72,8 @@
             android:paddingStart="10dp"
             android:text="우리 동네 주민에게 부탁해요"
             android:textAlignment="viewStart"
-            android:textColor="@color/dark_gray" />
+            android:textSize="14sp"
+            android:textColor="#a4a4a4" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,19 +81,29 @@
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
-            <Spinner
+            <Button
                 android:id="@+id/spinner_priority"
                 android:layout_width="93dp"
                 android:layout_height="36dp"
                 android:layout_centerHorizontal="true"
+                android:text="최신순"
+                android:textColor="#707070"
+                android:textSize="13sp"
+                android:drawableRight="@drawable/resize_down_arrow"
+                android:paddingRight="12dp"
                 android:background="@drawable/whiteborder2" />
 
-            <Spinner
+            <Button
                 android:id="@+id/spinner_town"
                 android:layout_width="93dp"
                 android:layout_height="36dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="10dp"
+                android:text="동네설정"
+                android:textColor="#707070"
+                android:textSize="13sp"
+                android:drawableRight="@drawable/resize_down_arrow"
+                android:paddingRight="12dp"
                 android:background="@drawable/whiteborder2" />
         </LinearLayout>
 
