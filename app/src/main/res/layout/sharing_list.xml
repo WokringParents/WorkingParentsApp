@@ -3,61 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp">
+    android:paddingVertical="2dp"
+    >
 
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="horizontal"
+       android:paddingHorizontal="20dp"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintTop_toTopOf="parent">
 
-      <ImageButton
-
-          android:id="@+id/femaleDoBtn"
-          android:layout_width="30dp"
-          android:layout_height="30dp"
-          android:background="@color/white"
-          android:scaleType="centerCrop"
-          app:srcCompat="@drawable/graycircle"
-          android:layout_marginLeft="20dp"
-          />
-
-      <ImageButton
-
-          android:id="@+id/maleDoBtn"
-          android:layout_width="30dp"
-          android:layout_height="30dp"
-          android:background="@color/white"
-          android:scaleType="centerCrop"
-          app:srcCompat="@drawable/graycircle"
-          android:layout_marginLeft="2dp"
-          />
 
       <TextView
           android:clickable="true"
-          android:layout_weight="10"
+          android:layout_weight="1"
           android:id="@+id/sharingContentTV"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:text="인서 목욕시키기"
           android:layout_marginLeft="7dp"
-          android:visibility="gone"
+          android:visibility="visible"
           android:textSize="15sp"
           />
 
 
       <EditText
-          android:layout_weight="10"
+          android:layout_weight="1"
           android:id="@+id/sharingContentEditTxt"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:hint="입력"
-          android:textSize="17sp"
+          android:textSize="15sp"
           android:inputType="text"
           android:visibility="gone"
           android:layout_marginLeft="7dp"
@@ -65,6 +45,34 @@
           android:theme="@style/EditTheme"
           android:backgroundTint="@color/black"
           />
+
+
+      <ImageButton
+
+          android:id="@+id/maleDoBtn"
+          android:layout_width="35dp"
+          android:layout_height="35dp"
+          android:background="@color/white"
+          android:scaleType="centerCrop"
+          android:layout_gravity="center"
+          android:layout_marginLeft="10dp"
+          app:srcCompat="@drawable/gray_dad_incomplete"
+
+          />
+
+      <ImageButton
+          android:id="@+id/femaleDoBtn"
+          android:layout_width="35dp"
+          android:layout_height="35dp"
+          android:background="@color/white"
+          android:scaleType="centerCrop"
+          android:layout_gravity="center"
+          android:layout_marginLeft="0dp"
+
+          app:srcCompat="@drawable/gray_mom_incomplete"
+
+          />
+
 
    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

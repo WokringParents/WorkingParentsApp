@@ -8,17 +8,17 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_child_caring.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -82,6 +82,41 @@ class ChildCaringFragment : Fragment() {
 
         var dailyRecyclerView = view.findViewById<RecyclerView>(R.id.dailyListRecyclerView)
         var todayRecyclerView= view.findViewById<RecyclerView>(R.id.todayListRecyclerView)
+
+        var weekSpinner= view.findViewById<Spinner>(R.id.weekSpinner)
+
+        val spinnerAdapter: ArrayAdapter<*> = ArrayAdapter.createFromResource(mContext, R.array.spinner_entries, R.layout.spinner_item)
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        weekSpinner.adapter=spinnerAdapter;
+        weekSpinner.setSelection(2)
+        weekSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+
+                //아이템이 클릭 되면 맨 위부터 position 0번부터 순서대로 동작하게 됩니다.
+                when (position) {
+                    0 -> {
+                        Log.d(TAG, "1주차 선택됨")
+                    }
+                    1 -> {
+
+                    }
+                    //...
+                    else -> {
+
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
+
 
 
         view.setOnTouchListener(object : View.OnTouchListener {
@@ -225,8 +260,13 @@ class ChildCaringFragment : Fragment() {
 
     }
 
+    fun Int.dpToPixels(context: Context):Float = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,this.toFloat(),context.resources.displayMetrics)
 
-    fun setDateUI(view: View){
+
+
+        fun setDateUI(view: View){
+
 
          //날짜 dd
         val dayNumTV :Array<TextView> = arrayOf(
@@ -250,36 +290,54 @@ class ChildCaringFragment : Fragment() {
             view.findViewById<TextView>(R.id.sunTextView),
         )
 
-        //월화수,,이미지버튼
-        val dayImgBtn: Array<ImageButton> = arrayOf(
-            view.findViewById<ImageButton>(R.id.monBtn),
-            view.findViewById<ImageButton>(R.id.tueBtn),
-            view.findViewById<ImageButton>(R.id.wenBtn),
-            view.findViewById<ImageButton>(R.id.thuBtn),
-            view.findViewById<ImageButton>(R.id.friBtn),
-            view.findViewById<ImageButton>(R.id.satBtn),
-            view.findViewById<ImageButton>(R.id.sunBtn)
-           )
 
          view.findViewById<TextView>(R.id.yearTextView).text=year
          view.findViewById<TextView>(R.id.monthTextView).text=month
 
         for(i: Int in 0..6){
             dayNumTV[i].text= dayArr[i]
-            if(i==todayOfWeek){
-                //일단 테스트한다고 오늘이면 글자두껍고 색깔블랙으로 설정함 언제쯤 디자인 넘어올까 ㅜㅡㅜ
-                dayNumTV[i].setTypeface(dayNumTV[i].typeface, Typeface.BOLD)
-                dayNumTV[i].setTextColor(Color.BLACK)
-                dayHangulTV[i].setTypeface(dayHangulTV[i].typeface, Typeface.BOLD)
-                dayHangulTV[i].setTextColor(Color.BLACK)
-                dayImgBtn[i].setImageResource(R.drawable.fullheart)
+
+            if(i< todayOfWeek){
+                //지난 날이라면   진회색숫자 & 연회색배경
+                dayNumTV[i].setTextColor(Color.parseColor("#9e9e9e"))
+                dayNumTV[i].setBackgroundResource(R.drawable.pastdatecircle)
+                dayNumTV[i].elevation=0.dpToPixels(mContext)
+            }
+            else if(i==todayOfWeek){
+
+                //오늘 요일과 동일하다면   연베이지숫자 & 메인컬러배경
+                dayNumTV[i].setTextColor(Color.parseColor("#eeeeee"))
+                dayNumTV[i].setBackgroundResource(R.drawable.todaydatecircle)
+                dayNumTV[i].elevation=0.dpToPixels(mContext)
+
+            }else{
+
+                //다가올 날들이라면
+                dayNumTV[i].setTextColor(Color.parseColor("#000000"))
+                dayNumTV[i].setBackgroundResource(R.drawable.comingdatecircle)
+                dayNumTV[i].elevation=6.dpToPixels(mContext)
             }
 
         }
 
         for(i : Int in 0..6){
 
-            dayImgBtn[i].setOnClickListener(View.OnClickListener {
+            dayNumTV[i].setOnClickListener(View.OnClickListener {
+
+                for(j in 0..6) {
+
+                    if (j == i) {
+                        //클릭된 한글 요일 색깔 바꾸고 볼드
+                        dayHangulTV[j].setTypeface(dayNumTV[i].typeface, Typeface.BOLD)
+                        dayHangulTV[j].setTextColor(Color.parseColor("#FF9769"))  //Main컬러로
+                    } else {
+                        //나머지 색은 블랙으로 돌려주기
+                        dayHangulTV[j].setTypeface(dayNumTV[i].typeface, Typeface.NORMAL)
+                        dayHangulTV[j].setTextColor(Color.parseColor("#000000"))
+                    }
+
+                }
+
 
                 clickedDayOfWeek=i
 
@@ -308,8 +366,8 @@ class ChildCaringFragment : Fragment() {
         }
 
 
-        val fullWeekBtn= view.findViewById<Button>(R.id.fullWeekBtn)
-        val oneDayBtn=view.findViewById<Button>(R.id.oneDayBtn)
+        val fullWeekBtn= view.findViewById<ImageButton>(R.id.fullWeekBtn)
+        val oneDayBtn=view.findViewById<ImageButton>(R.id.oneDayBtn)
 
         fullWeekBtn.setOnClickListener(View.OnClickListener {
 
@@ -376,6 +434,7 @@ class ChildCaringFragment : Fragment() {
 
                     if (toDoList.size>0) {
                         for(todo: SharingList in toDoList){
+                            Log.d(TAG,todo.sdate.toString())
                             if(todo.daily && todo.dayOfWeek== todayOfWeek){
                                 dailyAdapter.datas.add(todo)
                             }

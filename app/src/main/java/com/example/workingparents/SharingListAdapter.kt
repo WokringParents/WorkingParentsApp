@@ -91,14 +91,14 @@ class SharingListAdapter(private val context: Context) :
 
             //Log.d(TAG, "fdo: "+ item.fdo.toString()+ " mdo: "+ item.mdo.toString())
             if (item.fdo) {
-                femaleDoBtn.setImageResource(R.drawable.redcircle)
+                femaleDoBtn.setImageResource(R.drawable.pink_mom_complete)
             }else{
-                femaleDoBtn.setImageResource(R.drawable.graycircle)
+                femaleDoBtn.setImageResource(R.drawable.gray_mom_incomplete)
             }
             if (item.mdo) {
-                maleDoBtn.setImageResource(R.drawable.bluecircle)
+                maleDoBtn.setImageResource(R.drawable.blue_dad_complete)
             }else{
-                maleDoBtn.setImageResource(R.drawable.graycircle)
+                maleDoBtn.setImageResource(R.drawable.gray_dad_incomplete)
             }
 
             contentTV.isClickable=true
@@ -124,8 +124,8 @@ class SharingListAdapter(private val context: Context) :
             contentTV.visibility=View.GONE
             contentET.visibility=View.VISIBLE
 
-            femaleDoBtn.setImageResource(R.drawable.graycircle)
-            maleDoBtn.setImageResource(R.drawable.graycircle)
+            femaleDoBtn.setImageResource(R.drawable.gray_mom_incomplete)
+            maleDoBtn.setImageResource(R.drawable.gray_dad_incomplete)
 
             contentET.hint="입력"
             contentET.setText("")
@@ -164,9 +164,11 @@ class SharingListAdapter(private val context: Context) :
                                     val dateDiff= i- clickedDayOfWeek
                                     Log.d(TAG,i.toString() + " " + clickedDayOfWeek.toString())
 
+                                    /*
                                     var strBuilder = StringBuilder(item.sdate.toString().substring(0,8))
                                     strBuilder.append(item.sdate.date +dateDiff)
                                     strBuilder.append(item.sdate.toString().substring(10))
+                                    */
 
                                     val nextDate = Timestamp.valueOf(item.sdate.toString())
                                     nextDate.date+=dateDiff
@@ -223,9 +225,8 @@ class SharingListAdapter(private val context: Context) :
 
 
     fun completeTodo(todo: SharingList ,sex: String){
-
         if(sex=="F") {
-            RetrofitBuilder.api.putFemaleDo(todo.couplenum, todo.sdate).enqueue(object :Callback<Int>{
+            RetrofitBuilder.api.putFemaleDo(todo.couplenum, todo.sdate.toString()).enqueue(object :Callback<Int>{
                 override fun onResponse(call: Call<Int>, response: Response<Int>) {
                     if(response.isSuccessful){
                         val result: Int? = response.body()
@@ -241,9 +242,9 @@ class SharingListAdapter(private val context: Context) :
                 }
             })
         }else if(sex=="M"){
-
-            RetrofitBuilder.api.putMaleDo(todo.couplenum, todo.sdate).enqueue(object :Callback<Int>{
+               RetrofitBuilder.api.putMaleDo(todo.couplenum, todo.sdate.toString()).enqueue(object :Callback<Int>{
                 override fun onResponse(call: Call<Int>, response: Response<Int>) {
+
                     if(response.isSuccessful){
                         val result: Int? = response.body()
                         if(result==1) {

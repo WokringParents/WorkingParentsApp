@@ -117,11 +117,11 @@ interface RetrofitService {
 
     @FormUrlEncoded
     @PUT("sharinglist/mdo")
-    fun putMaleDo(@Field("couplenum") couplenum: Int, @Field("sdate") sdate: Timestamp): Call<Int>
+    fun putMaleDo(@Field("couplenum") couplenum: Int, @Field("sdate") sdate: String): Call<Int>
 
     @FormUrlEncoded
     @PUT("sharinglist/fdo")
-    fun putFemaleDo(@Field("couplenum") couplenum: Int, @Field("sdate") sdate: Timestamp): Call<Int>
+    fun putFemaleDo(@Field("couplenum") couplenum: Int, @Field("sdate") sdate: String): Call<Int>
 
 
 
