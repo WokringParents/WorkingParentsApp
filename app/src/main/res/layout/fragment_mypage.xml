@@ -317,7 +317,7 @@
                 android:gravity="left|center"
                 android:paddingLeft="20dp"
                 android:text="알림 설정"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <Button
                 android:layout_width="match_parent"
@@ -328,7 +328,7 @@
                 android:gravity="left|center"
                 android:paddingLeft="20dp"
                 android:text="공지사항"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <Button
                 android:layout_width="match_parent"
@@ -339,7 +339,7 @@
                 android:gravity="left|center"
                 android:paddingLeft="20dp"
                 android:text="자주 묻는 질문"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <Button
                 android:layout_width="match_parent"
@@ -350,7 +350,7 @@
                 android:gravity="left|center"
                 android:paddingLeft="20dp"
                 android:text="회원 탈퇴"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <Button
                 android:layout_width="match_parent"
@@ -361,7 +361,7 @@
                 android:gravity="left|center"
                 android:paddingLeft="20dp"
                 android:text="로그아웃"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
