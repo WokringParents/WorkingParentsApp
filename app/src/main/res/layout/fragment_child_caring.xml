@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".ChildCaringFragment"
     android:id="@+id/container2"
-    android:background="@color/white">
+    android:background="@color/white"
+   >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="20dp">
+            android:paddingLeft="20dp"
+          >
 
             <TextView
                 android:id="@+id/yearTextView"
@@ -38,8 +40,11 @@
                 android:layout_height="wrap_content"
                 android:text="2020"
                 android:layout_gravity="center"
-                android:textSize="18sp"
-                android:textColor="@color/black"/>
+                android:textSize="16sp"
+                android:textColor="@color/black"
+
+
+                />
 
             <TextView
                 android:id="@+id/hangulTextView"
@@ -48,7 +53,7 @@
                 android:text="년"
                 android:layout_gravity="center"
                 android:layout_marginLeft="3dp"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -58,8 +63,9 @@
                 android:text="8"
                 android:layout_gravity="center"
                 android:layout_marginLeft="3dp"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
+                android:fontFamily="@font/originalnoto"
                 />
 
             <TextView
@@ -67,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="월"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
                 />
@@ -105,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="월"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textColor="@color/black"
                     />
 
@@ -117,13 +123,13 @@
                     android:layout_marginTop="11dp"
 
                     android:text="10"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textAlignment="center"
                     android:gravity="center"
 
                     android:background="@drawable/pastdatecircle"
                     android:textColor="@color/pastDate"
-
+                    android:fontFamily="@font/originalnoto"
 
                     />
             </LinearLayout>
@@ -140,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="화"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textColor="@color/black"
                     />
 
@@ -152,7 +158,7 @@
                     android:layout_marginTop="11dp"
                     android:text="11"
 
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textAlignment="center"
                     android:gravity="center"
 
@@ -174,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="수"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textColor="@color/black"
                     />
 
@@ -189,7 +195,7 @@
                     android:background="@drawable/todaydatecircle"
                     android:textColor="@color/todayDate"
 
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textAlignment="center"
                     android:gravity="center"
 
@@ -210,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="목"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textColor="@color/black"
                     />
 
@@ -222,7 +228,7 @@
                     android:layout_gravity="center"
                     android:text="13"
 
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textAlignment="center"
                     android:gravity="center"
                     android:elevation="7dp"
@@ -244,7 +250,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="금"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textColor="@color/black"
                     />
 
@@ -255,7 +261,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:text="14"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
 
                     android:elevation="7dp"
                     android:textColor="@color/comingDate"
@@ -278,7 +284,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="토"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textColor="@color/black"
                     />
 
@@ -291,7 +297,7 @@
                     android:text="16"
 
                     android:elevation="7dp"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textColor="@color/comingDate"
                     android:textAlignment="center"
                     android:gravity="center"
@@ -312,7 +318,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="일"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textColor="@color/black"
                     />
 
@@ -324,7 +330,7 @@
                     android:layout_gravity="center"
 
                     android:elevation="7dp"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textColor="@color/comingDate"
                     android:textAlignment="center"
                     android:gravity="center"
@@ -357,7 +363,7 @@
                 android:layout_marginLeft="6dp"
                 android:text="For Daily"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
 
             <View
@@ -373,6 +379,7 @@
                 android:padding="5dp"
                 android:src="@drawable/black_plus"
                 android:background="@drawable/circle_main_border"
+                android:layout_gravity="center"
                  />
 
         </LinearLayout>
@@ -407,7 +414,7 @@
                 android:layout_marginLeft="6dp"
                 android:text="For Today"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
 
             <View
@@ -423,6 +430,7 @@
                 android:padding="5dp"
                 android:src="@drawable/black_plus"
                 android:background="@drawable/circle_main_border"
+                android:layout_gravity="center"
                 />
         </LinearLayout>
 

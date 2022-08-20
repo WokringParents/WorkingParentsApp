@@ -24,9 +24,8 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:text="인서 목욕시키기"
-          android:layout_marginLeft="7dp"
           android:visibility="visible"
-          android:textSize="15sp"
+          android:textSize="12sp"
           />
 
 
@@ -37,10 +36,9 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:hint="입력"
-          android:textSize="15sp"
+          android:textSize="12sp"
           android:inputType="text"
           android:visibility="gone"
-          android:layout_marginLeft="7dp"
           android:paddingTop="-15dp"
           android:theme="@style/EditTheme"
           android:backgroundTint="@color/black"
