@@ -18,7 +18,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.sql.Timestamp
 
-
 class SharingListAdapter(private val context: Context) :
     RecyclerView.Adapter<SharingListAdapter.ViewHolder>() {
 

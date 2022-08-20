@@ -10,9 +10,9 @@
     <color name="light_gray">#FFDCDCDC</color>
     <color name="dark_gray">#FF848484</color>
     <color name="main">#FF9769</color>
-    <color name="orange">#F9BA93</color>
-    <color name="fmalepink">#FFB8CB</color>
-    <color name="maleblue">#9bcdff</color>
+    <color name="orange">#ffdac5</color>
+    <color name="fmalepink">#FFA8B1</color>
+    <color name="maleblue">#9EC1FF</color>
     <color name="cursorColor">#575655</color>
     <color name="pastDate">#9e9e9e</color>
     <color name="comingDate">#000000</color>
