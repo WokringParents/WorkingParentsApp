@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="spinner_entries">
-        <item >첫째주</item>
-        <item >둘째주</item>
+        <item>1주차</item>
+        <item>2주차</item>
+        <item>3주차</item>
+        <item>4주차</item>
+        <item>5주차</item>
     </string-array>
 </resources>

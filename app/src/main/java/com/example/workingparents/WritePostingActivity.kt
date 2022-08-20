@@ -84,6 +84,7 @@ class WritePostingActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<Int>, response: Response<Int>) {
                     if (response.isSuccessful) {
                         var result: Int? = response.body()
+                        Toast.makeText(applicationContext, "새로고침을 해주세요", Toast.LENGTH_SHORT).show()
                         finish() //main으로 돌아감
                         Log.d(TAG, "onResponse: 포스팅 성공")
                     } else {

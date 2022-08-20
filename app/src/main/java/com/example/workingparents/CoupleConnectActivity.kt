@@ -37,6 +37,7 @@ class CoupleConnectActivity : AppCompatActivity() {
 
         })
 
+        /*
         inputCodeBtn.setOnClickListener(View.OnClickListener {
 
             codeEditText.visibility=View.VISIBLE
@@ -72,6 +73,7 @@ class CoupleConnectActivity : AppCompatActivity() {
                 })
             }
         })
+        */
     }
 
     private fun randomCode( ): String {

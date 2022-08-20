@@ -1,0 +1,6 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:width="23dp"
+        android:height="23dp"
+        android:drawable="@drawable/notice" />
+</layer-list>
