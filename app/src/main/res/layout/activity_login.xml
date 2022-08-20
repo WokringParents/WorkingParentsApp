@@ -13,8 +13,7 @@
        android:layout_height="match_parent"
        android:orientation="vertical"
        android:padding="15dp"
-       tools:layout_editor_absoluteX="-56dp"
-       tools:layout_editor_absoluteY="0dp">
+      >
 
       <ImageView
           android:id="@+id/imageView"
@@ -32,7 +31,7 @@
           android:fontFamily="@font/titlegothic5"
           android:text="워킹패런츠"
           android:textColor="@color/main"
-          android:textSize="25dp" />
+          android:textSize="25sp" />
 
       <EditText
           android:id="@+id/edit_id"
@@ -42,7 +41,13 @@
           android:backgroundTint="@color/light_gray"
           android:hint="아이디를 입력하세요"
           android:paddingBottom="15dp"
-          android:textSize="15dp" />
+          android:textSize="14sp"
+          android:maxLines="1"
+          android:fontFamily="@font/notosans_regular"
+          android:includeFontPadding="false"
+          android:theme="@style/EditTheme"
+          android:inputType="text"
+          />
 
       <EditText
           android:id="@+id/edit_pw"
@@ -51,9 +56,14 @@
           android:layout_marginTop="10dp"
           android:backgroundTint="@color/light_gray"
           android:hint="비밀번호를 입력하세요"
+          android:maxLines="1"
           android:inputType="textPassword"
           android:paddingBottom="15dp"
-          android:textSize="15dp" />
+          android:textSize="14sp"
+          android:fontFamily="@font/notosans_regular"
+          android:includeFontPadding="false"
+          android:theme="@style/EditTheme"
+          />
 
       <Button
           android:id="@+id/btn_login"
@@ -63,7 +73,8 @@
           android:background="@drawable/border"
           android:backgroundTint="#FF9769"
           android:text="로그인"
-          android:textColor="@color/white" />
+          android:textColor="@color/white"
+          android:textSize="14sp"/>
 
       <Button
           android:id="@+id/btn_join"
@@ -72,7 +83,9 @@
           android:layout_marginTop="10dp"
           android:background="@drawable/whiteborder"
           android:text="회원가입"
-          android:textColor="@color/black" />
+          android:textColor="@color/black"
+          android:textSize="14sp"
+          android:fontFamily="@font/notosans_regular"/>
 
 
       <LinearLayout
@@ -87,8 +100,10 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:buttonTint="@color/main"
+             android:fontFamily="@font/notosans_regular"
              android:text="로그인 상태 유지"
-             android:textSize="13dp" />
+             android:textSize="13sp"
+             android:layout_marginLeft="-4dp"/>
 
          <View
              android:layout_width="0dp"
@@ -100,7 +115,8 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="@string/loginpw"
-             android:textSize="14dp" />
+             android:textSize="13sp"
+             android:fontFamily="@font/notosans_regular"/>
 
       </LinearLayout>
 
@@ -111,8 +127,9 @@
           android:layout_gravity="center"
           android:layout_marginTop="50dp"
           android:text="간편 로그인"
+          android:fontFamily="@font/notosans_regular"
           android:textColor="@color/dark_gray"
-          android:textSize="14dp" />
+          android:textSize="13sp" />
 
       <LinearLayout
           android:layout_width="match_parent"

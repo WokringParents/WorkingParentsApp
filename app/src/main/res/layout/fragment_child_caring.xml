@@ -65,7 +65,7 @@
                 android:layout_marginLeft="3dp"
                 android:textSize="16sp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/originalnoto"
+                android:fontFamily="@font/notosans_medium"
                 />
 
             <TextView
@@ -84,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
+                android:layout_gravity="center"
                 />
 
 
@@ -129,7 +130,7 @@
 
                     android:background="@drawable/pastdatecircle"
                     android:textColor="@color/pastDate"
-                    android:fontFamily="@font/originalnoto"
+                    android:fontFamily="@font/notosans_medium"
 
                     />
             </LinearLayout>
@@ -386,15 +387,24 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dailyListRecyclerView"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
         </androidx.recyclerview.widget.RecyclerView>
 
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dbdbdb"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            />
+
         <LinearLayout
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -436,7 +446,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/todayListRecyclerView"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 

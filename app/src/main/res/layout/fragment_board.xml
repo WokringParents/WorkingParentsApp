@@ -73,7 +73,8 @@
             android:text="우리 동네 주민에게 부탁해요"
             android:textAlignment="viewStart"
             android:textSize="14sp"
-            android:textColor="#a4a4a4" />
+            android:textColor="#a4a4a4"
+            android:fontFamily="@font/notosans_regular"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,7 +92,8 @@
                 android:textSize="13sp"
                 android:drawableRight="@drawable/resize_down_arrow"
                 android:paddingRight="12dp"
-                android:background="@drawable/whiteborder2" />
+                android:background="@drawable/whiteborder2"
+                android:fontFamily="@font/notosans_regular"/>
 
             <Button
                 android:id="@+id/spinner_town"
@@ -104,7 +106,8 @@
                 android:textSize="13sp"
                 android:drawableRight="@drawable/resize_down_arrow"
                 android:paddingRight="12dp"
-                android:background="@drawable/whiteborder2" />
+                android:background="@drawable/whiteborder2"
+                android:fontFamily="@font/notosans_regular"/>
         </LinearLayout>
 
     </LinearLayout>

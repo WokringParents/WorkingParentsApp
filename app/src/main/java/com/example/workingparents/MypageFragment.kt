@@ -53,16 +53,19 @@ class MypageFragment : Fragment() {
         user_sex.setText("워킹맘")
         user_id.setText("workingparents1234")
         connect_tv.setText("부부연결")
-        spouse_state.setText("연결 중")
+        spouse_state.setText("연결중")
         spouse_name.setText("남석우")
         child_tv.setText("아이연결")
-        child_state.setText("연결 중")
+        child_state.setText("연결중")
         child_name.setText("남아영")
 
         couplePageBtn.setOnClickListener{
             val intent = Intent(mContext,CoupleConnectActivity::class.java)
             mContext.startActivity(intent)
         }
+
+
+
 
 
 

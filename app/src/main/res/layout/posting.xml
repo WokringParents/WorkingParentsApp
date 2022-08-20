@@ -30,9 +30,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="4dp"
-                android:layout_marginLeft="8dp"
-
+                android:layout_marginLeft="6dp"
+                android:layout_gravity="center"
                 >
 
                 <TextView
@@ -52,6 +51,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="10dp"
                     android:text="5분"
+                    android:fontFamily="@font/notosans_regular"
                     android:textSize="12dp"
                     android:textColor="@color/black"
                     />
@@ -91,6 +91,7 @@
                 android:gravity="center"
                 android:textAlignment="center"
                 android:background="@drawable/orangeborder2"
+                android:fontFamily="@font/notosans_regular"
                 />
 
             <TextView
@@ -104,6 +105,7 @@
                 android:textAlignment="center"
                 android:gravity="center"
                 android:background="@drawable/orangeborder2"
+                android:fontFamily="@font/notosans_regular"
                 />
 
         </LinearLayout>
@@ -112,10 +114,12 @@
             android:id="@+id/pcontent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="18dp"
             android:text="혹시 월요일 하원 부탁드려도 괜찮으신 분 계실까요?"
             android:textColor="@color/black"
             android:textSize="13dp"
+            android:fontFamily="@font/notosans_regular"
+            android:includeFontPadding="false"
             />
 
         <View

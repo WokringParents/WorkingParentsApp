@@ -22,37 +22,27 @@
 
             <ImageButton
                 android:id="@+id/imageButton3"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:scaleType="fitStart"
-                android:layout_weight="1"
                 android:padding="0dp"
                 android:backgroundTint="@color/white"
                 android:src="@drawable/backarrow" />
 
 
-
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="28dp"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="회원가입"
-                android:textSize="17dp"
-                android:textColor="@color/main"/>
-
-            <View
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="1" />
+                android:textAlignment="center"
+                android:textColor="@color/main"
+                android:textSize="19sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
-
-
-
-
-
 
 
         <TextView
@@ -61,43 +51,46 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:text="아이디"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:textColor="@color/black"
+            android:fontFamily="@font/notosans_regular"
             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="9dp"
             >
 
             <EditText
                 android:id="@+id/edit_joinID"
-                android:layout_width="250dp"
+                android:layout_width="190dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/border"
                 android:ems="10"
                 android:hint="아이디 입력"
-                android:textSize="13dp"
-                android:paddingLeft="10dp"
+                android:textSize="14sp"
+                android:paddingLeft="20dp"
+                android:inputType="text"
                 android:layout_weight="8"
+                android:fontFamily="@font/notosans_regular"
+                android:includeFontPadding="false"
+                android:theme="@style/EditTheme"
+                android:maxLines="1"
+
                 />
-
-            <View
-                android:layout_width="10dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
 
             <Button
                 android:id="@+id/btn_CheckID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="중복확인"
+                android:textSize="14sp"
                 android:background="@drawable/orangeborder"
                 android:textColor="@color/main"
                 android:layout_weight="1"
+                android:layout_marginLeft="10dp"
                 />
 
         </LinearLayout>
@@ -106,15 +99,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="20dp">
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="비밀번호"
-                android:textSize="16dp"
+                android:textSize="15sp"
                 android:textColor="@color/black"
+                android:fontFamily="@font/notosans_regular"
                 />
 
             <TextView
@@ -122,6 +116,7 @@
                 android:layout_marginLeft="7dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="13sp"
                 />
 
         </LinearLayout>
@@ -131,68 +126,67 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="9dp"
             >
 
-            <com.google.android.material.textfield.TextInputLayout
+            <EditText
+                android:id="@+id/edit_joinPW"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:passwordToggleEnabled="true">
+                android:layout_height="50dp"
+                android:background="@drawable/border"
+                android:paddingLeft="20dp"
+                android:hint="비밀번호 (영문,숫자 포함 10자이내)"
+                android:inputType="textPassword"
+                android:textSize="14sp"
+                android:fontFamily="@font/notosans_regular"
+                android:includeFontPadding="false"
+                android:theme="@style/EditTheme"
+                android:maxLines="1"/>
 
-                <EditText
-                    android:id="@+id/edit_joinPW"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="8"
-                    android:background="@drawable/border"
-                    android:paddingLeft="10dp"
-                    android:hint="비밀번호 (영문,숫자 포함 10자이내)"
-                    android:inputType="textPassword"
-                    android:textSize="13dp"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
 
-            <!--
             <ImageButton
                 android:id="@+id/showHideBtn"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="20dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="-43.5dp"
                 android:layout_gravity="center"
                 android:background="@drawable/eye_select"
                 android:scaleType="fitCenter"
-                android:layout_weight="1"
                 />
-            -->
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
-            android:layout_height="19dp"
-            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="비밀번호확인"
-            android:textSize="16dp"
+            android:textSize="15sp"
             android:textColor="@color/black"
+            android:fontFamily="@font/notosans_regular"
             />
 
         <EditText
             android:id="@+id/edit_checkPW"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="9dp"
             android:background="@drawable/border"
-            android:paddingLeft="10dp"
+            android:paddingLeft="20dp"
             android:hint="비밀번호와 동일"
-            android:textSize="13dp"
-            android:inputType="textPassword" />
+            android:textSize="14sp"
+            android:inputType="textPassword"
+            android:fontFamily="@font/notosans_regular"
+            android:includeFontPadding="false"
+            android:theme="@style/EditTheme"
+            android:maxLines="1"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="20dp">
 
             <TextView
                 android:id="@+id/textView4"
@@ -200,14 +194,16 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:text="이메일인증"
-                android:textSize="16dp"
+                android:textSize="15sp"
+                android:fontFamily="@font/notosans_regular"
                 />
 
             <TextView
                 android:id="@+id/emailText"
                 android:layout_marginLeft="7dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textSize="13sp"/>
 
         </LinearLayout>
 
@@ -216,67 +212,71 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="7dp">
+            android:layout_marginTop="9dp">
 
 
             <EditText
                 android:id="@+id/edit_email"
-                android:layout_width="250dp"
+                android:layout_width="190dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/border"
-                android:paddingLeft="10dp"
+                android:ems="10"
                 android:hint="이메일 입력"
-                android:textSize="13dp"
-                android:inputType="textEmailAddress"
+                android:textSize="14sp"
+                android:paddingLeft="20dp"
                 android:layout_weight="8"
+                android:fontFamily="@font/notosans_regular"
+                android:includeFontPadding="false"
+                android:theme="@style/EditTheme"
+                android:maxLines="1"
+                android:inputType="textEmailAddress"
                 />
-
-            <View
-                android:layout_width="10dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/btn_joinCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="인증코드 받기"
+                android:textSize="14sp"
                 android:background="@drawable/orangeborder"
                 android:textColor="@color/main"
                 android:layout_weight="1"
-
+                android:layout_marginLeft="10dp"
                 />
-
         </LinearLayout>
 
         <EditText
             android:id="@+id/edit_emailCode"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/border"
-            android:paddingLeft="10dp"
+            android:paddingLeft="20dp"
             android:hint="인증코드 입력"
             android:inputType="number"
-            android:textSize="13dp"
+            android:textSize="14sp"
+            android:fontFamily="@font/notosans_regular"
+            android:includeFontPadding="false"
+            android:theme="@style/EditTheme"
+            android:maxLines="1"
             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_gravity="center"
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="성별"
                 android:textColor="@color/black"
-                android:layout_weight="1"
-                android:textSize="16dp"
+                android:layout_weight="0.6"
+                android:textSize="15sp"
+                android:fontFamily="@font/notosans_regular"
                 />
 
 
@@ -297,6 +297,9 @@
                     android:text="남성"
                     android:buttonTint="@color/main"
                     android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/notosans_regular"
+                    android:textColor="#767676"
                     />
 
                 <RadioButton
@@ -306,6 +309,9 @@
                     android:text="여성"
                     android:buttonTint="@color/main"
                     android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/notosans_regular"
+                    android:textColor="#767676"
                     />
 
             </RadioGroup>
@@ -314,11 +320,12 @@
         <Button
             android:id="@+id/btn_joinFinish"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="70dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="60dp"
             android:background="@drawable/border"
             android:backgroundTint="#FF9769"
             android:text="가입하기"
+            android:textSize="16sp"
             android:textColor="@color/white" />
 
     </LinearLayout>

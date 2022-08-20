@@ -67,6 +67,7 @@
                     android:layout_marginRight="10dp"
                     android:text="5분"
                     android:textColor="@color/black"
+                    android:fontFamily="@font/notosans_regular"
                     android:textSize="10dp" />
             </LinearLayout>
 
@@ -92,6 +93,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="혹시 월요일 하원 부탁드려도 괜찮으신 분 계실까요?"
+            android:fontFamily="@font/notosans_regular"
+            android:includeFontPadding="false"
             android:textColor="@color/black"
             android:textSize="13dp" />
 

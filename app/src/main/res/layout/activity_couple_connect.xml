@@ -36,26 +36,44 @@
             android:textColor="@color/main"
             android:gravity="center_horizontal"/>
 
-        <TextView
-            android:id="@+id/basicText2"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
-            android:textColor="@color/black"
-            android:text="이지현님의 코드"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:gravity="center_horizontal"/>
+            android:orientation="horizontal"
+            android:layout_marginTop="70dp">
+
+            <TextView
+                android:id="@+id/basicText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="이지현"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textAlignment="viewEnd"/>
+
+
+            <TextView
+                android:id="@+id/basicText3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="님의 코드"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:textAlignment="viewStart"/>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/codeText"
+            android:id="@+id/spouseCodeText"
             android:layout_marginTop="20dp"
             android:textSize="20dp"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="&quot;         &quot;"
             android:gravity="center_horizontal"
             />
 
