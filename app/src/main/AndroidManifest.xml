@@ -14,10 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Workingparents"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".CoupleConnectActivity">
-        </activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".InputCodeActivity" android:exported="false" />
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".CoupleConnectActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,10 +24,11 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".JoinActivity">
-        </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".SplashActivity"></activity>
+        <activity android:name=".JoinActivity"></activity>
+        <activity android:name=".MainActivity" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".SplashActivity" />
+        <activity android:name=".WritePostingActivity" />
+        <activity android:name=".PostingActivity" />
 
         <service
             android:name=".MyFirebaseMessagingService"

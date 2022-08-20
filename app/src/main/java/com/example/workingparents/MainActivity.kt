@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
 
         var bnv_main = findViewById(R.id.bottom_menu) as BottomNavigationView
+        var menu= bnv_main.menu
         // OnNavigationItemSelectedListener를 통해 탭 아이템 선택 시 이벤트를 처리
         // navi_menu.xml에서 설정했던 각 아이템들의 id를 통해 알맞은 프래그먼트로 변경하게 한다.
         bnv_main.run {
@@ -48,33 +49,61 @@ class MainActivity : AppCompatActivity() {
             setOnNavigationItemSelectedListener {
                 when (it.itemId) {
                     R.id.first_tab -> {
-                      /*  if(savedInstanceState!=null){
-                            Log.d("ChildCaring","---------------------")
-                        }else{
-                            Log.d("ChildCaring","----------**-----------")
-                        }*/
-
                         //다른 프래그먼트 화면으로 이동하는 기능
                         val MainFragment = ChildCaringFragment()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.container, MainFragment).commit()
+
+                        //아이콘 변경
+                        it.setIcon(R.drawable.bottom_main2)
+                        menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
+                        menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
+                        menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
+                        menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
                     }
                     R.id.second_tab -> {
                         val boardFragment = BoardFragment()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.container, boardFragment).commit()
+
+
+                        it.setIcon(R.drawable.bottom_board2)
+                        menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
+                        menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
+                        menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
+                        menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
+
+
+
                     }
                     R.id.third_tab -> {
                         val InfoFragment = InfoFragment()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.container, InfoFragment).commit()
+
+
+                        it.setIcon(R.drawable.bottom_information2)
+                        menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
+                        menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
+                        menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
+                        menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
                     }
 
                     R.id.fourth_tab -> {
                         val MypageFragment = MypageFragment()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.container, MypageFragment).commit()
+
+
+                        it.setIcon(R.drawable.bottom_mypage2)
+                        menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
+                        menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
+                        menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_information)
+                        menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
                     }
+
+
+
                 }
                 true
             }

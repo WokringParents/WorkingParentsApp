@@ -1,121 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ChildCaringFragment"
-    android:background="@color/white">
+    android:id="@+id/container2"
+    android:background="@color/white"
+   >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+     >
+
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="홈"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:textSize="18sp"
+            android:textColor="@color/main"
+            />
 
         <LinearLayout
+            android:layout_marginTop="22dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="20dp">
+            android:paddingLeft="20dp"
+          >
 
             <TextView
                 android:id="@+id/yearTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2020"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+
+
+                />
 
             <TextView
                 android:id="@+id/hangulTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="년" />
+                android:text="년"
+                android:layout_gravity="center"
+                android:layout_marginLeft="3dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/monthTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="8"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:layout_marginLeft="3dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/originalnoto"
+                />
 
             <TextView
                 android:id="@+id/hangulTextView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="월" />
+                android:text="월"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                />
 
-            <TextView
-                android:id="@+id/weekTextView"
+            <Spinner
+                android:id="@+id/weekSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1" />
-
-            <TextView
-                android:id="@+id/hangulTextView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="주차" />
-
-            <ImageButton
-                android:id="@+id/beforeWeekBtn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:scaleType="centerCrop"
-                android:background="@color/white"
-                android:src="@drawable/leftarrow" />
-
-            <ImageButton
-                android:id="@+id/nextWeekBtn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:scaleType="centerCrop"
-                android:background="@color/white"
-                android:src="@drawable/rightarrow" />
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                />
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:paddingTop="10dp"
+            android:layout_marginTop="26dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="10dp">
+            android:paddingHorizontal="20dp">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                >
 
                 <TextView
                     android:id="@+id/monTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="월" />
-
-                <ImageButton
-                    android:id="@+id/monBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@color/white"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/empty"
-                   />
+                    android:text="월"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    />
 
                 <TextView
                     android:id="@+id/monDateTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:text="10" />
+                    android:layout_marginTop="11dp"
+
+                    android:text="10"
+                    android:textSize="13sp"
+                    android:textAlignment="center"
+                    android:gravity="center"
+
+                    android:background="@drawable/pastdatecircle"
+                    android:textColor="@color/pastDate"
+                    android:fontFamily="@font/originalnoto"
+
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -129,23 +145,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="화" />
-
-                <ImageButton
-                    android:id="@+id/tueBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@color/white"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/empty" />
+                    android:text="화"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    />
 
                 <TextView
                     android:id="@+id/tueDateTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:text="11" />
+                    android:layout_marginTop="11dp"
+                    android:text="11"
+
+                    android:textSize="13sp"
+                    android:textAlignment="center"
+                    android:gravity="center"
+
+                    android:textColor="@color/pastDate"
+                    android:background="@drawable/pastdatecircle"
+                     />
             </LinearLayout>
 
 
@@ -160,23 +179,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="수" />
-
-                <ImageButton
-                    android:id="@+id/wenBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@color/white"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/empty" />
+                    android:text="수"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    />
 
                 <TextView
                     android:id="@+id/wenDateTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:text="12" />
+                    android:layout_marginTop="11dp"
+                    android:text="12"
+
+                    android:background="@drawable/todaydatecircle"
+                    android:textColor="@color/todayDate"
+
+                    android:textSize="13sp"
+                    android:textAlignment="center"
+                    android:gravity="center"
+
+
+                    />
             </LinearLayout>
 
 
@@ -191,23 +215,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="목" />
-
-                <ImageButton
-                    android:id="@+id/thuBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@color/white"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/empty" />
+                    android:text="목"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    />
 
                 <TextView
                     android:id="@+id/thuDateTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:text="13" />
+                    android:text="13"
+
+                    android:textSize="13sp"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:elevation="7dp"
+                    android:background="@drawable/comingdatecircle"
+                    android:textColor="@color/comingDate"
+
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -221,23 +249,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="금" />
-
-                <ImageButton
-                    android:id="@+id/friBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@color/white"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/empty" />
+                    android:text="금"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    />
 
                 <TextView
                     android:id="@+id/friDateTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:text="14" />
+                    android:text="14"
+                    android:textSize="13sp"
+
+                    android:elevation="7dp"
+                    android:textColor="@color/comingDate"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:background="@drawable/comingdatecircle"
+
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -251,23 +283,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="토" />
-
-                <ImageButton
-                    android:id="@+id/satBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@color/white"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/empty" />
+                    android:text="토"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    />
 
                 <TextView
                     android:id="@+id/satDateTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:text="16" />
+                    android:text="16"
+
+                    android:elevation="7dp"
+                    android:textSize="13sp"
+                    android:textColor="@color/comingDate"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:background="@drawable/comingdatecircle"
+
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -281,34 +317,131 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="일" />
-
-                <ImageButton
-                    android:id="@+id/sunBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@color/white"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/empty" />
+                    android:text="일"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    />
 
                 <TextView
                     android:id="@+id/sunDateTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
+
+                    android:elevation="7dp"
+                    android:textSize="13sp"
+                    android:textColor="@color/comingDate"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:background="@drawable/comingdatecircle"
+
+
                     android:text="17" />
             </LinearLayout>
+        </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_marginTop="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            >
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/fordaily"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="6dp"
+                android:text="For Daily"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/fullWeekBtn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitCenter"
+                android:padding="5dp"
+                android:src="@drawable/black_plus"
+                android:background="@drawable/circle_main_border"
+                android:layout_gravity="center"
+                 />
 
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/sharingListRecyclerView"
+            android:id="@+id/dailyListRecyclerView"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" >
 
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+        <LinearLayout
+            android:layout_marginTop="17dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            >
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/fortoday"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="6dp"
+                android:text="For Today"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/oneDayBtn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitCenter"
+                android:padding="5dp"
+                android:src="@drawable/black_plus"
+                android:background="@drawable/circle_main_border"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/todayListRecyclerView"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
