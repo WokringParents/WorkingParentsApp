@@ -24,6 +24,12 @@
 
         </activity>
         <activity android:name=".CalendarActivity">
+
+
+        </activity>
+        <activity android:name=".JoinActivity"></activity>
+        <activity android:name=".MainActivity" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,9 +37,6 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".JoinActivity"></activity>
-        <activity android:name=".MainActivity" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".SplashActivity" />
         <activity android:name=".WritePostingActivity" />
         <activity android:name=".PostingActivity" />
 
