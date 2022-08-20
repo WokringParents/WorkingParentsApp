@@ -48,25 +48,26 @@
       <ImageButton
 
           android:id="@+id/maleDoBtn"
-          android:layout_width="35dp"
-          android:layout_height="35dp"
+          android:layout_width="30dp"
+          android:layout_height="30dp"
           android:background="@color/white"
-          android:scaleType="centerCrop"
+          android:scaleType="centerInside"
           android:layout_gravity="center"
           android:layout_marginLeft="10dp"
+          android:layout_marginRight="4.5dp"
+          android:padding="1.2dp"
           app:srcCompat="@drawable/gray_dad_incomplete"
 
           />
 
       <ImageButton
           android:id="@+id/femaleDoBtn"
-          android:layout_width="35dp"
-          android:layout_height="35dp"
+          android:layout_width="30dp"
+          android:layout_height="30dp"
           android:background="@color/white"
-          android:scaleType="centerCrop"
+          android:scaleType="centerInside"
           android:layout_gravity="center"
           android:layout_marginLeft="0dp"
-
           app:srcCompat="@drawable/gray_mom_incomplete"
 
           />
