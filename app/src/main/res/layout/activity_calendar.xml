@@ -5,47 +5,47 @@
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/calendar"
-        android:layout_width="374dp"
-        android:layout_height="432dp"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
         android:layout_centerVertical="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/orangeborder"
         app:layout_constraintBottom_toTopOf="@+id/recyclerCalendar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:mcv_selectionColor="@color/black"
-        app:mcv_showOtherDates="all"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/orangeborder"
-        android:text="일정 추가"
-        app:layout_constraintBottom_toBottomOf="@+id/calendar"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:layout_constraintVertical_bias="0.49"
+        app:mcv_selectionColor="@color/orange"
+        app:mcv_showOtherDates="all" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerCalendar"
         android:layout_width="match_parent"
-        android:layout_height="188dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="300dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/calendar_female" />
+
+
+    <ImageButton
+        android:id="@+id/button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="30dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendar"
-        tools:listitem="@layout/calendar_female" />
+        app:srcCompat="@drawable/add" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

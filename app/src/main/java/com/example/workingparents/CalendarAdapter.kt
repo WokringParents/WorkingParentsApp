@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.calendar_female.view.*
 
-class CalendarAdapter(private val items: ArrayList<CalendarData>) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
+class CalendarAdapter(private val items: ArrayList<CalendarRecyclerData>) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = items.size
 
@@ -45,7 +45,7 @@ class CalendarAdapter(private val items: ArrayList<CalendarData>) : RecyclerView
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         //각 항목의 뷰를 재활용하기 위해 보관하는 클래스
         private var view: View = v
-        fun bind(listener: View.OnClickListener, item: CalendarData) {
+        fun bind(listener: View.OnClickListener, item: CalendarRecyclerData) {
             view.calendartitle.text = item.title
             view.calendarcontent.text = item.content
             //뷰에 있는 아이템이랑 데이터클래스에 있는 변수랑 바인딩해줌

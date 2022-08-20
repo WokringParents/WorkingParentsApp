@@ -111,7 +111,7 @@ interface RetrofitService {
     //--------------------------calendar---------------------------//
 
     @GET("calendar/{couplenum}")
-    fun getCalendar(@Path("couplenum") couplenum: Int): Call<List<Calendar>>
+    fun getCalendar(@Path("couplenum") couplenum: Int): Call<List<CalendarData>>
 
 
     @FormUrlEncoded

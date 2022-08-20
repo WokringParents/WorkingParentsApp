@@ -1,5 +1,6 @@
 package com.example.workingparents
 
+
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Canvas
@@ -16,6 +17,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.prolificinteractive.materialcalendarview.*
 import com.prolificinteractive.materialcalendarview.spans.DotSpan.DEFAULT_RADIUS
@@ -24,8 +26,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-import java.util.Calendar
-
 
 class CalendarActivity : AppCompatActivity() {
     companion object {
@@ -36,18 +36,36 @@ class CalendarActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.example.workingparents.R.layout.activity_calendar)
+        setContentView(R.layout.activity_calendar)
 
         var contextMain: Context = this@CalendarActivity
 
         lateinit var calendar: MaterialCalendarView
-        calendar = findViewById(com.example.workingparents.R.id.calendar)
+        calendar = findViewById(R.id.calendar)
+
+        val sundayDecorator = SundayDecorator()
+        val saturdayDecorator = SaturdayDecorator()
+
+        val todayDecorator = TodayDecorator()
+
+        var startTimeCalendar = CalendarData.getInstance()
+        var endTimeCalendar = CalendarData.getInstance()
+
+        val currentYear = startTimeCalendar.get(CalendarData.YEAR)
+        val currentMonth = startTimeCalendar.get(CalendarData.MONTH)
+        val currentDate = startTimeCalendar.get(CalendarData.DATE)
+
+        val stCalendarDay = CalendarDay.from(currentYear, currentMonth, currentDate)
+        val enCalendarDay = CalendarDay.from(endTimeCalendar.get(CalendarData.YEAR), endTimeCalendar.get(CalendarData.MONTH), endTimeCalendar.get(CalendarData.DATE))
+
+        val minMaxDecorator = MinMaxDecorator(stCalendarDay, enCalendarDay)
+
+        calendar.addDecorators(minMaxDecorator, sundayDecorator, saturdayDecorator, todayDecorator)
+       // calendar.setDateTextAppearance(R.style.CustomDateTextAppearance)
+       // calendar.setWeekDayTextAppearance(R.style.CustomWeekDayAppearance)
+       // calendar.setHeaderTextAppearance(R.style.CustomHeaderTextAppearance)
 
 
-        calendar.setSelectedDate(CalendarDay.today())
-
-        calendar.state().edit()
-            .setFirstDayOfWeek(Calendar.SUNDAY)
 
         val CoupleColor  =  intArrayOf(
             Color.rgb(255, 184, 203),
@@ -62,18 +80,19 @@ class CalendarActivity : AppCompatActivity() {
             Color.rgb(155, 205, 255)
         )
 
-        val list = ArrayList<CalendarData>()
+
+        val list = ArrayList<CalendarRecyclerData>()
 //Get할 때 CalendarData형식으로 넣어주는 리스트
 
 
 
 
-        RetrofitBuilder.api.getCalendar(UserData.couplenum).enqueue(object: Callback<List<Calendar>> {
+        RetrofitBuilder.api.getCalendar(UserData.couplenum).enqueue(object: Callback<List<CalendarData>> {
 
-            override fun onResponse(call: Call<List<Calendar>>, response: Response<List<Calendar>>) {
+            override fun onResponse(call: Call<List<CalendarData>>, response: Response<List<CalendarData>>) {
                 if(response.isSuccessful){
 
-                    var result: List<Calendar>? = response.body()
+                    var result: List<CalendarData>? = response.body()
                     // 정상적으로 통신이 성공된 경우
                     Log.d("Retrofit", "onResponse: 캘린더성공"+result?.toString())
 
@@ -175,7 +194,7 @@ class CalendarActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<List<com.example.workingparents.Calendar>>, t: Throwable) {
+            override fun onFailure(call: Call<List<com.example.workingparents.CalendarData>>, t: Throwable) {
                 Log.d("Retrofit", "onFailure 캘린더 실패 에러1: " + t.message.toString())
 
             }
@@ -208,12 +227,12 @@ class CalendarActivity : AppCompatActivity() {
                 calendar.addDecorator(EventDecorator2(Collections.singleton(date), button, contextMain,calendar))
 
 
-                RetrofitBuilder.api.getCalendar(UserData.couplenum).enqueue(object: Callback<List<Calendar>> {
+                RetrofitBuilder.api.getCalendar(UserData.couplenum).enqueue(object: Callback<List<CalendarData>> {
 
-                    override fun onResponse(call: Call<List<Calendar>>, response: Response<List<Calendar>>) {
+                    override fun onResponse(call: Call<List<CalendarData>>, response: Response<List<CalendarData>>) {
                         if(response.isSuccessful){
 
-                            var result: List<Calendar>? = response.body()
+                            var result: List<CalendarData>? = response.body()
                             // 정상적으로 통신이 성공된 경우
                             Log.d("따라가보자1","1")
                             Log.d("Retrofit", "onResponse: 캘린더성공"+result?.toString())
@@ -237,7 +256,7 @@ class CalendarActivity : AppCompatActivity() {
 
                                         if(sex=="F") {
                                             list.add(
-                                                CalendarData(
+                                                CalendarRecyclerData(
                                                     title,
                                                     content,
                                                     CalendarMode.female
@@ -245,7 +264,7 @@ class CalendarActivity : AppCompatActivity() {
                                             )
                                         }else{
                                             list.add(
-                                                CalendarData(
+                                                CalendarRecyclerData(
                                                     title,
                                                     content,
                                                     CalendarMode.male
@@ -265,7 +284,7 @@ class CalendarActivity : AppCompatActivity() {
                         }
                     }
 
-                    override fun onFailure(call: Call<List<com.example.workingparents.Calendar>>, t: Throwable) {
+                    override fun onFailure(call: Call<List<com.example.workingparents.CalendarData>>, t: Throwable) {
                         Log.d("Retrofit", "onFailure 캘린더 실패 에러2: " + t.message.toString())
 
                     }
@@ -353,7 +372,7 @@ class CalendarActivity : AppCompatActivity() {
 
     class EventDecorator(
         dates: Collection<CalendarDay>,
-        val button: Button,
+        val button: ImageButton,
         val context: Context,
         val color: IntArray
     ) : DayViewDecorator {
@@ -430,7 +449,7 @@ class CalendarActivity : AppCompatActivity() {
 
     class EventDecorator2(
         dates: Collection<CalendarDay>,
-        val button: Button,
+        val button: ImageButton,
         val context: Context,
         val calendar: MaterialCalendarView?
     ) : DayViewDecorator {
@@ -448,6 +467,11 @@ class CalendarActivity : AppCompatActivity() {
 
         val MaleColor  =  intArrayOf(
             Color.rgb(155, 205, 255)
+        )
+
+        val OrangeColor  =  intArrayOf(
+            Color.rgb(249, 186, 147)
+
         )
 
         var dates= dates
@@ -606,6 +630,22 @@ class CalendarActivity : AppCompatActivity() {
                                                         CalendarFromDate.get(2).toInt()
                                                     )] = "C"
                                                     Log.d("점세개머선일이고","근데 커플이야7")
+
+
+                                                    calendar!!.addDecorator(
+                                                        EventDecorator(
+                                                            Collections.singleton(CalendarDay.from(
+                                                                firstdate.toInt(),
+                                                                (CalendarFromDate.get(1).toInt()),
+                                                                CalendarFromDate.get(2).toInt()
+                                                            )),
+                                                            button,
+                                                            context,
+                                                            OrangeColor
+                                                        )
+                                                    )
+
+
                                                     calendar!!.addDecorator(
                                                         EventDecorator(
                                                             Collections.singleton(CalendarDay.from(
@@ -618,6 +658,8 @@ class CalendarActivity : AppCompatActivity() {
                                                             CoupleColor
                                                         )
                                                     )
+                                                    calendar!!.invalidateDecorators()
+
                                                     Log.d("점세개머선일이고","근데 커플이야 점도 찍었어8")
 
                                                     // view.addSpan(CustmMultipleDotSpan(8.0f, CoupleColor))
@@ -633,6 +675,7 @@ class CalendarActivity : AppCompatActivity() {
                                                         (CalendarFromDate.get(1).toInt()),
                                                         CalendarFromDate.get(2).toInt()
                                                     )] = "F"
+
                                                     Log.d("점세개머선일이고","아직 날짜가 없어 근데여자야")
                                                     calendar!!.addDecorator(
                                                         EventDecorator(
@@ -708,7 +751,6 @@ class CalendarActivity : AppCompatActivity() {
 
         }
 
-
         class CustmMultipleDotSpan : LineBackgroundSpan {
             private val radius: Float
             private var color = IntArray(0)
@@ -761,4 +803,42 @@ class CalendarActivity : AppCompatActivity() {
 
     }
 
+}
+
+class MinMaxDecorator(min:CalendarDay, max:CalendarDay):DayViewDecorator {
+    val maxDay = max
+    val minDay = min
+    override fun shouldDecorate(day: CalendarDay?): Boolean {
+        return (day?.month == maxDay.month && day.day > maxDay.day)
+                || (day?.month == minDay.month && day.day < minDay.day)
+    }
+    override fun decorate(view: DayViewFacade?) {
+        view?.addSpan(object:ForegroundColorSpan(Color.parseColor("#FF000000")){})
+        view?.setDaysDisabled(false)
+    }
+}
+
+class SaturdayDecorator:DayViewDecorator {
+    private val calendar = CalendarData.getInstance()
+    override fun shouldDecorate(day: CalendarDay?): Boolean {
+        day?.copyTo(calendar)
+        val weekDay = calendar.get(CalendarData.DAY_OF_WEEK)
+        return weekDay == CalendarData.SATURDAY
+    }
+    override fun decorate(view: DayViewFacade?) {
+        view?.addSpan(object:ForegroundColorSpan(Color.BLUE){})
+    }
+}
+
+
+class SundayDecorator:DayViewDecorator {
+    private val calendar = CalendarData.getInstance()
+    override fun shouldDecorate(day: CalendarDay?): Boolean {
+        day?.copyTo(calendar)
+        val weekDay = calendar.get(CalendarData.DAY_OF_WEEK)
+        return weekDay == CalendarData.SUNDAY
+    }
+    override fun decorate(view: DayViewFacade?) {
+        view?.addSpan(object:ForegroundColorSpan(Color.RED){})
+    }
 }
