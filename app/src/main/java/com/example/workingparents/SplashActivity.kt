@@ -18,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
         val currentProgress = 100
 
         ObjectAnimator.ofInt(progressBar, "progress", currentProgress)
-            .setDuration(1500)
+            .setDuration(2500)
             .start()
 
         Handler(Looper.getMainLooper()).postDelayed({
@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
 
             finish()
-        },1500)
+        },2500)
 
     }
 }
