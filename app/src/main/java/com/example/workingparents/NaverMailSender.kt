@@ -42,7 +42,7 @@ class NaverMailSender : Authenticator() {
 
         init {
             val id = "podojom"
-            val pw = "yeon21912091"
+            val pw = "podojom21912091"
             account = PasswordAuthentication(id, pw)
         }
     }

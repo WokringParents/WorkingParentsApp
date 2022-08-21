@@ -49,6 +49,7 @@ class WritePostingActivity : AppCompatActivity() {
                 insertPostingToBoard()
                 Log.d(TAG,"포스팅완료")
 
+
             } else {
                 Toast.makeText(applicationContext, "내용을 작성해주세요.", Toast.LENGTH_SHORT).show()
             }
@@ -62,7 +63,6 @@ class WritePostingActivity : AppCompatActivity() {
         var content=inputContent.text.toString()
         var village=UserData.village
         checkGoback=false
-
         when(radio_group_goback.checkedRadioButtonId){
             R.id.goBtn->{
                 goback = "등원"
@@ -85,7 +85,10 @@ class WritePostingActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         var result: Int? = response.body()
                         Toast.makeText(applicationContext, "새로고침을 해주세요", Toast.LENGTH_SHORT).show()
-                        finish() //main으로 돌아감
+
+                        val intent = Intent(this@WritePostingActivity, AlarmLoadingActivity::class.java)
+                        startActivity(intent)
+                        //finish() //main으로 돌아감
                         Log.d(TAG, "onResponse: 포스팅 성공")
                     } else {
                         Log.d(TAG, "onResponse: 포스팅 실패")

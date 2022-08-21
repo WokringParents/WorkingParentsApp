@@ -74,7 +74,7 @@ calendar.addDecorators( sundayDecorator, saturdayDecorator, todayDecorator)
 val CoupleColor  =  intArrayOf(
   //  Color.rgb(255, 184, 203),
   //  Color.rgb(155, 205, 255)
-    Color.rgb(255, 168, 177) ,
+    Color.rgb(255, 168, 177),
     Color.rgb(158, 193, 255)
 )
 
@@ -263,10 +263,9 @@ calendar.setOnDateChangedListener(object : OnDateSelectedListener {
             7 -> recyclerDay.setText("0"+date.day.toString()+".일")
             8 -> recyclerDay.setText("0"+date.day.toString()+".월")
             9 -> recyclerDay.setText("0"+date.day.toString()+".화")
-            10 -> recyclerDay.setText("0"+date.day.toString()+".수")
 
+            10 -> recyclerDay.setText(date.day.toString()+".수")
             11->  recyclerDay.setText(date.day.toString()+".목")
-
             12->  recyclerDay.setText(date.day.toString()+".금")
             13->  recyclerDay.setText(date.day.toString()+".토")
             14->  recyclerDay.setText(date.day.toString()+".일")
@@ -450,7 +449,7 @@ override fun shouldDecorate(day: CalendarDay?): Boolean {
 
 override fun decorate(view: DayViewFacade?) {
     view?.addSpan(StyleSpan(Typeface.BOLD))
-    view?.addSpan(RelativeSizeSpan(1.2f))
+    view?.addSpan(RelativeSizeSpan(1.3f))
     view?.addSpan(ForegroundColorSpan(Color.parseColor("#FF9769")))
 }
 }
@@ -539,23 +538,28 @@ val context: Context,
 val calendar: MaterialCalendarView?
 ) : DayViewDecorator {
 
-val CoupleColor  =  intArrayOf(
-    Color.rgb(255, 184, 203),
-    Color.rgb(155, 205, 255)
-)
+    val CoupleColor  =  intArrayOf(
+        //  Color.rgb(255, 184, 203),
+        //  Color.rgb(155, 205, 255)
+        Color.rgb(255, 168, 177),
+        Color.rgb(158, 193, 255)
+    )
 
-val FamaleColor  =  intArrayOf(
-    Color.rgb(255, 184, 203)
-)
+    val FamaleColor  =  intArrayOf(
+        // Color.rgb(255, 184, 203)
+        Color.rgb(255, 168, 177)
+    )
 
-val MaleColor  =  intArrayOf(
-    Color.rgb(155, 205, 255)
-)
+    val MaleColor  =  intArrayOf(
+        //Color.rgb(155, 205, 255)
+        Color.rgb(158, 193, 255)
+    )
 
-val OrangeColor  =  intArrayOf(
-    Color.rgb(255, 218, 197)
 
-)
+    val OrangeColor  =  intArrayOf(
+        Color.rgb(255, 218, 197)
+
+    )
 
 var dates= dates
 //마지막으로 클릭한 날짜를 알아보기위해 Hashset에서 어레이리스트로 변경함
@@ -921,7 +925,7 @@ val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
 return weekDay == Calendar.SATURDAY
 }
 override fun decorate(view: DayViewFacade?) {
-view?.addSpan(object:ForegroundColorSpan(Color.BLUE){})
+view?.addSpan(object:ForegroundColorSpan(Color.rgb(2,82,205)){})
 }
 }
 
@@ -934,6 +938,6 @@ val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
 return weekDay == Calendar.SUNDAY
 }
 override fun decorate(view: DayViewFacade?) {
-view?.addSpan(object:ForegroundColorSpan(Color.RED){})
+view?.addSpan(object:ForegroundColorSpan(Color.rgb(221,46,95)){})
 }
 }
