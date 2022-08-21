@@ -33,7 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
             >
 
 
@@ -54,8 +56,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="6dp"
+                    android:text="09.금"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="bottom"
+
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="5dp"
                     android:text="Schedule"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -70,27 +84,55 @@
                     android:id="@+id/button"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:scaleType="fitCenter"
-                    android:padding="5dp"
-                    android:src="@drawable/black_plus"
-                    android:background="@drawable/circle_main_border"
-                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:padding="1dp"
+                    android:src="@drawable/squarebtn"
+                    android:layout_gravity="bottom"
+                    android:backgroundTint="@color/white"
                     />
 
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="5dp"
                 android:id="@+id/recyclerCalendar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/calendar_female" />
+                tools:listitem="@layout/schedule_female" />
 
 
         </LinearLayout>
 
     </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".CalendarActivity">
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="598dp"
+            android:layout_above="@+id/bottom_menu"
+            android:layout_marginBottom="4dp">
+
+        </FrameLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/bottom_menu" />
+    </RelativeLayout>
+
 
 
 

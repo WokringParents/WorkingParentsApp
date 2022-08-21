@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.calendar_female.view.*
+import kotlinx.android.synthetic.main.schedule_female.view.*
 
 class CalendarAdapter(private val items: ArrayList<CalendarRecyclerData>) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
 
@@ -27,11 +27,11 @@ class CalendarAdapter(private val items: ArrayList<CalendarRecyclerData>) : Recy
 
         if (viewType == CalendarMode.female) {
             val inflatedView =
-                LayoutInflater.from(parent.context).inflate(R.layout.calendar_female, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.schedule_female, parent, false)
             return CalendarAdapter.ViewHolder(inflatedView)
         } else {
             val inflatedView =
-                LayoutInflater.from(parent.context).inflate(R.layout.calendar_male, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.schedule_male, parent, false)
             return CalendarAdapter.ViewHolder(inflatedView)
         }
     }
