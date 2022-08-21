@@ -84,11 +84,13 @@ class WritePostingActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<Int>, response: Response<Int>) {
                     if (response.isSuccessful) {
                         var result: Int? = response.body()
-                        Toast.makeText(applicationContext, "새로고침을 해주세요", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(applicationContext, "새로고침을 해주세요", Toast.LENGTH_SHORT).show()
 
                         val intent = Intent(this@WritePostingActivity, AlarmLoadingActivity::class.java)
+                        intent.putExtra("content",content)
                         startActivity(intent)
-                        //finish() //main으로 돌아감
+                        overridePendingTransition(R.anim.none, R.anim.none)
+                        finish() //main으로 돌아감
                         Log.d(TAG, "onResponse: 포스팅 성공")
                     } else {
                         Log.d(TAG, "onResponse: 포스팅 실패")
