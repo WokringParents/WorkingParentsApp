@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.schedule_female.view.*
+import kotlinx.android.synthetic.main.schedule_male.view.*
 
 class CalendarAdapter(private val items: ArrayList<CalendarRecyclerData>) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
 

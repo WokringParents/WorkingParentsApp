@@ -19,6 +19,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import com.prolificinteractive.materialcalendarview.*
 import com.prolificinteractive.materialcalendarview.spans.DotSpan.DEFAULT_RADIUS
 import kotlinx.android.synthetic.main.activity_calendar.*
@@ -27,6 +28,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.Calendar
 import java.util.*
+
 
 class CalendarActivity : AppCompatActivity() {
     companion object {
@@ -46,30 +48,28 @@ class CalendarActivity : AppCompatActivity() {
         lateinit var calendar: MaterialCalendarView
         calendar = findViewById(R.id.calendar)
 
-/*
+
 val sundayDecorator = SundayDecorator()
 val saturdayDecorator = SaturdayDecorator()
 
 val todayDecorator = TodayDecorator()
 
 
-var startTimeCalendar = CalendarData.getInstance()
-var endTimeCalendar = CalendarData.getInstance()
+var startTimeCalendar = Calendar.getInstance()
+var endTimeCalendar = Calendar.getInstance()
 
-val currentYear = startTimeCalendar.get(CalendarData.YEAR)
-val currentMonth = startTimeCalendar.get(CalendarData.MONTH)
-val currentDate = startTimeCalendar.get(CalendarData.DATE)
+val currentYear = startTimeCalendar.get(Calendar.YEAR)
+val currentMonth = startTimeCalendar.get(Calendar.MONTH)
+val currentDate = startTimeCalendar.get(Calendar.DATE)
 
 val stCalendarDay = CalendarDay.from(currentYear, currentMonth, currentDate)
-val enCalendarDay = CalendarDay.from(endTimeCalendar.get(CalendarData.YEAR), endTimeCalendar.get(CalendarData.MONTH), endTimeCalendar.get(CalendarData.DATE))
+val enCalendarDay = CalendarDay.from(endTimeCalendar.get(Calendar.YEAR), endTimeCalendar.get(Calendar.MONTH), endTimeCalendar.get(Calendar.DATE))
 
-val minMaxDecorator = MinMaxDecorator(stCalendarDay, enCalendarDay)
-
-calendar.addDecorators(minMaxDecorator, sundayDecorator, saturdayDecorator, todayDecorator)
+calendar.addDecorators( sundayDecorator, saturdayDecorator, todayDecorator)
 // calendar.setDateTextAppearance(R.style.CustomDateTextAppearance)
 // calendar.setWeekDayTextAppearance(R.style.CustomWeekDayAppearance)
 // calendar.setHeaderTextAppearance(R.style.CustomHeaderTextAppearance)
-*/
+
 
 val CoupleColor  =  intArrayOf(
   //  Color.rgb(255, 184, 203),
@@ -211,6 +211,7 @@ RetrofitBuilder.api.getCalendar(couplenum).enqueue(object: Callback<List<Calenda
 calendar.setOnDateChangedListener(object : OnDateSelectedListener {
     //사용자가 날짜를 눌렀을 때
 
+
     override fun onDateSelected(
         widget: MaterialCalendarView,
         date: CalendarDay,
@@ -218,6 +219,80 @@ calendar.setOnDateChangedListener(object : OnDateSelectedListener {
     ) {
         list.clear()
         Log.d("예아", date.toString())
+
+
+        var dayString:String?= null
+        val weekDay = date.toString().get(Calendar.DAY_OF_WEEK)
+
+        /*
+        when(weekDay){
+            Calendar.SUNDAY -> dayString= "일"
+            Calendar.MONDAY -> dayString= "월"
+            Calendar.TUESDAY -> dayString= "화"
+            Calendar.WEDNESDAY -> dayString= "수"
+            Calendar.THURSDAY -> dayString= "목"
+            Calendar.FRIDAY -> dayString= "금"
+            Calendar.SATURDAY -> dayString= "토"
+
+        }
+*/
+        /*
+
+        when(date.day.toString()){
+            "0" -> dayString= "일"
+            "1" -> dayString= "월"
+            "2" -> dayString= "화"
+            "3" -> dayString= "수"
+            "4" -> dayString= "믁"
+            "5" -> dayString= "금"
+            "6" -> dayString= "토"
+
+        }
+*/
+        Log.d("뭐가문제야",date.day.toString())
+        Log.d("뭐가문제야2",date.toString())
+        Log.d("뭐가문제야3",weekDay.toString())
+
+        when(date.day){
+            1 -> recyclerDay.setText("0"+date.day.toString()+".월")
+            2 -> recyclerDay.setText("0"+date.day.toString()+".화")
+            3 -> recyclerDay.setText("0"+date.day.toString()+".수")
+            4 -> recyclerDay.setText("0"+date.day.toString()+".목")
+            5 -> recyclerDay.setText("0"+date.day.toString()+".금")
+            6 -> recyclerDay.setText("0"+date.day.toString()+".토")
+            7 -> recyclerDay.setText("0"+date.day.toString()+".일")
+            8 -> recyclerDay.setText("0"+date.day.toString()+".월")
+            9 -> recyclerDay.setText("0"+date.day.toString()+".화")
+            10 -> recyclerDay.setText("0"+date.day.toString()+".수")
+
+            11->  recyclerDay.setText(date.day.toString()+".목")
+
+            12->  recyclerDay.setText(date.day.toString()+".금")
+            13->  recyclerDay.setText(date.day.toString()+".토")
+            14->  recyclerDay.setText(date.day.toString()+".일")
+            15->  recyclerDay.setText(date.day.toString()+".월")
+            16->  recyclerDay.setText(date.day.toString()+".화")
+            17->  recyclerDay.setText(date.day.toString()+".수")
+            18->  recyclerDay.setText(date.day.toString()+".목")
+            19->  recyclerDay.setText(date.day.toString()+".금")
+            20->  recyclerDay.setText(date.day.toString()+".토")
+            21->  recyclerDay.setText(date.day.toString()+".일")
+            22->  recyclerDay.setText(date.day.toString()+".월")
+            23->  recyclerDay.setText(date.day.toString()+".화")
+            24->  recyclerDay.setText(date.day.toString()+".수")
+            25->  recyclerDay.setText(date.day.toString()+".목")
+            26->  recyclerDay.setText(date.day.toString()+".금")
+            27->  recyclerDay.setText(date.day.toString()+".토")
+            28->  recyclerDay.setText(date.day.toString()+".일")
+            29->  recyclerDay.setText(date.day.toString()+".월")
+            30->  recyclerDay.setText(date.day.toString()+".화")
+            31->  recyclerDay.setText(date.day.toString()+".수")
+
+
+
+        }
+
+
         var Calendardate= "${date.year}-0${date.month+1}-${date.day}"
         //Get을 이용해서 List로 받아온 다음에 같으면 리싸이클러뷰 ㄱㄱ
 
@@ -226,6 +301,7 @@ calendar.setOnDateChangedListener(object : OnDateSelectedListener {
         // if(UserData.connectedCouple()){
         //    couplenum= UserData.couplenum
         //}
+
 
         calendar.addDecorator(EventDecorator2(Collections.singleton(date), button, contextMain,calendar))
 
@@ -247,7 +323,7 @@ calendar.setOnDateChangedListener(object : OnDateSelectedListener {
                             var title= i.ctitle
                             var content= i.ccontent
                             var sex = i.csex
-                            var splitdate = i.cdate.toString().split(" ")
+                            var splitdate = i.cdate.split(" ")
                             Log.d("Calendar성공","Calendardate:"+Calendardate)
                             Log.d("Calendar성공","splitdate:"+splitdate.get(0))
                             //splitdate가 레트로핏으로 받아온거
@@ -265,6 +341,8 @@ calendar.setOnDateChangedListener(object : OnDateSelectedListener {
                                             CalendarMode.female
                                         )
                                     )
+                                Log.d("왜지","여자리사이클러뷰")
+
                                 }else{
                                     list.add(
                                         CalendarRecyclerData(
@@ -273,10 +351,14 @@ calendar.setOnDateChangedListener(object : OnDateSelectedListener {
                                             CalendarMode.male
                                         )
                                     )
+
+                                    Log.d("왜지","남자리사이클러뷰")
                                 }
                             }
 
                         }
+
+
                         val adapter = CalendarAdapter(list)
                         recyclerCalendar.adapter = adapter
 
@@ -830,13 +912,13 @@ view?.setDaysDisabled(false)
 }
 }
 
-/*
+
 class SaturdayDecorator:DayViewDecorator {
-private val calendar = CalendarData.getInstance()
+private val calendar = Calendar.getInstance()
 override fun shouldDecorate(day: CalendarDay?): Boolean {
 day?.copyTo(calendar)
-val weekDay = calendar.get(CalendarData.DAY_OF_WEEK)
-return weekDay == CalendarData.SATURDAY
+val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
+return weekDay == Calendar.SATURDAY
 }
 override fun decorate(view: DayViewFacade?) {
 view?.addSpan(object:ForegroundColorSpan(Color.BLUE){})
@@ -845,14 +927,13 @@ view?.addSpan(object:ForegroundColorSpan(Color.BLUE){})
 
 
 class SundayDecorator:DayViewDecorator {
-private val calendar = CalendarData.getInstance()
+private val calendar = Calendar.getInstance()
 override fun shouldDecorate(day: CalendarDay?): Boolean {
 day?.copyTo(calendar)
-val weekDay = calendar.get(CalendarData.DAY_OF_WEEK)
-return weekDay == CalendarData.SUNDAY
+val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
+return weekDay == Calendar.SUNDAY
 }
 override fun decorate(view: DayViewFacade?) {
 view?.addSpan(object:ForegroundColorSpan(Color.RED){})
 }
 }
-*/
