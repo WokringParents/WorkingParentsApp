@@ -13,29 +13,54 @@ import android.text.style.LineBackgroundSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.Log
+import android.view.ContextMenu
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import com.prolificinteractive.materialcalendarview.*
 import com.prolificinteractive.materialcalendarview.spans.DotSpan.DEFAULT_RADIUS
 import kotlinx.android.synthetic.main.activity_calendar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.Calendar
 import java.util.*
+import kotlin.collections.set
 
+/*
+캘린더액티비티 전체 로직
+처음 시작 시 오늘,토요일,일요일에 색깔 칠해주고 initCalendar()를 통해 DB에 있던 내용들을 끌어와서 점을 찍어줌
+사용자가 날짜 클릭 시  clickGetRecycler(Calendardate,list)을 통해 해당 날짜의 리사이클러뷰 호출
+일정추가 버튼 클릭 시 다이얼로그 호출, 다이얼로그에서 완료 클릭 시 postCalendar(ccontent, cdate, ctitle,date,list)
+을 통해 값을 DB에 제목,내용을 추가해주고 점을 찍어줌
+
+해야할 일
+1. 일정 추가 시 어댑터를 통한 갱신
+2. 점 삭제하기<- 가장 두렵다
+3. 일정 수정 및 삭제
+ */
 
 class CalendarActivity : AppCompatActivity() {
     companion object {
         var hashMap= HashMap<CalendarDay,String>()
         var couplenum:Int =1
-        val sex:String = "M"
+        val sex:String = "F"
+        lateinit var adapter:CalendarAdapter
     }
+
+    val CoupleColor = intArrayOf(
+        Color.rgb(255, 168, 177),
+        Color.rgb(158, 193, 255)
+    )
+
+    val FamaleColor = intArrayOf(
+        Color.rgb(255, 168, 177)
+    )
+
+    val MaleColor = intArrayOf(
+        Color.rgb(158, 193, 255)
+    )
 
     val TAG: String = "로그"
 
@@ -44,267 +69,322 @@ class CalendarActivity : AppCompatActivity() {
         setContentView(R.layout.activity_calendar)
 
         var contextMain: Context = this@CalendarActivity
+        var calendar: MaterialCalendarView = findViewById(R.id.calendar)
 
-        lateinit var calendar: MaterialCalendarView
-        calendar = findViewById(R.id.calendar)
+        val sundayDecorator = SundayDecorator()
+        val saturdayDecorator = SaturdayDecorator()
+        val todayDecorator = TodayDecorator()
 
+        calendar.addDecorators(saturdayDecorator,sundayDecorator, todayDecorator)
+        //캘린더에 토요일, 일요일, 오늘을 각각 원하는 색깔로 칠해줌
 
-val sundayDecorator = SundayDecorator()
-val saturdayDecorator = SaturdayDecorator()
+        menu.setOnClickListener {
+            this.registerForContextMenu(it)
+            openContextMenu(it)
+            unregisterForContextMenu(it)
+        }
+        //짧게 클릭했을 때 수정,삭제 나옴
 
-val todayDecorator = TodayDecorator()
+        val list = ArrayList<CalendarRecyclerData>()
+        //Get할 때 CalendarData형식으로 넣어주는 리스트
 
+        initCalendar()
+        //처음에 캘린더에 들어갈 때 캘린더에 점을 찍어주는 역할
 
-var startTimeCalendar = Calendar.getInstance()
-var endTimeCalendar = Calendar.getInstance()
+        calendar.setOnDateChangedListener(object : OnDateSelectedListener {
+            //사용자가 날짜를 눌렀을 때
 
-val currentYear = startTimeCalendar.get(Calendar.YEAR)
-val currentMonth = startTimeCalendar.get(Calendar.MONTH)
-val currentDate = startTimeCalendar.get(Calendar.DATE)
+            override fun onDateSelected(
+                widget: MaterialCalendarView,
+                date: CalendarDay,
+                selected: Boolean
+            ) {
 
-val stCalendarDay = CalendarDay.from(currentYear, currentMonth, currentDate)
-val enCalendarDay = CalendarDay.from(endTimeCalendar.get(Calendar.YEAR), endTimeCalendar.get(Calendar.MONTH), endTimeCalendar.get(Calendar.DATE))
+                val dayOfWeek: String? = doDayOfWeek(date)
+                //사용자가 선택한 날짜의 요일을 담은 변수
 
-calendar.addDecorators( sundayDecorator, saturdayDecorator, todayDecorator)
-// calendar.setDateTextAppearance(R.style.CustomDateTextAppearance)
-// calendar.setWeekDayTextAppearance(R.style.CustomWeekDayAppearance)
-// calendar.setHeaderTextAppearance(R.style.CustomHeaderTextAppearance)
-
-
-val CoupleColor  =  intArrayOf(
-  //  Color.rgb(255, 184, 203),
-  //  Color.rgb(155, 205, 255)
-    Color.rgb(255, 168, 177),
-    Color.rgb(158, 193, 255)
-)
-
-val FamaleColor  =  intArrayOf(
-   // Color.rgb(255, 184, 203)
-    Color.rgb(255, 168, 177)
-)
-
-val MaleColor  =  intArrayOf(
-    //Color.rgb(155, 205, 255)
-    Color.rgb(158, 193, 255)
-)
-
-
-val list = ArrayList<CalendarRecyclerData>()
-//Get할 때 CalendarData형식으로 넣어주는 리스트
-
-
-
-
-RetrofitBuilder.api.getCalendar(couplenum).enqueue(object: Callback<List<CalendarData>> {
-
-    override fun onResponse(call: Call<List<CalendarData>>, response: Response<List<CalendarData>>) {
-        if(response.isSuccessful){
-
-            var result: List<CalendarData>? = response.body()
-            // 정상적으로 통신이 성공된 경우
-            Log.d("Retrofit", "onResponse: 캘린더성공"+result?.toString())
-
-            if (result != null) {
-
-                for(i in result){
-                    //Get으로 가져온 result
-
-
-                    var splitdate = i.cdate.split(" ")
-                    //result의 날짜를 Calendar 형식이 되도록 문자열을 잘라줌
-
-                    Log.d("Calendar성공","splitdate:"+splitdate.get(0))
-
-                    var CalendarFromDate: List<String> = splitdate.get(0).toString().split("-")
-                    //자른 문자열을 다시 잘라줌
-
-                    if(hashMap.containsKey(CalendarDay.from(CalendarFromDate.get(0).toInt(),(CalendarFromDate.get(1).toInt()-1), CalendarFromDate.get(2).toInt()))) {
-                        //기존에 이미 같은 키값(날짜)이 있다면
-                        Log.d("HashMap","여기들어가긴함?")
-                        if(hashMap.get(CalendarDay.from(CalendarFromDate.get(0).toInt(),(CalendarFromDate.get(1).toInt()-1), CalendarFromDate.get(2).toInt())) == i.csex){
-                            //근데 같은 성별이라면
-                            hashMap[CalendarDay.from(
-                                CalendarFromDate.get(0).toInt(),
-                                (CalendarFromDate.get(1).toInt() - 1),
-                                CalendarFromDate.get(2).toInt()
-                            )] = i.csex
-                            Log.d("HashMap","여기들어가긴함?2")
-                        }else{
-                            //아니라면
-                            hashMap[CalendarDay.from(
-                                CalendarFromDate.get(0).toInt(),
-                                (CalendarFromDate.get(1).toInt() - 1),
-                                CalendarFromDate.get(2).toInt()
-                            )] = "C"
-                            Log.d("HashMap","여기들어가긴함?3")
-
-                        }
-                    }else {
-
-                        hashMap[CalendarDay.from(
-                            CalendarFromDate.get(0).toInt(),
-                            (CalendarFromDate.get(1).toInt() - 1),
-                            CalendarFromDate.get(2).toInt()
-                        )] = i.csex
-                        Log.d("HashMap", "여기들어가긴함?4    ")
-
-                        Log.d(
-                            "Calendar날짜",
-                            "이게맞나" + CalendarFromDate.get(0)
-                                .toInt() + (CalendarFromDate.get(1)
-                                .toInt() - 1) + CalendarFromDate.get(2).toInt()
-                        )
-                            .toString()
-                    }
+                if(date.day <10){
+                    recyclerDay.setText("0${date.day}.$dayOfWeek")
+                    //date.day는 6.목 이런식으로 보여줘서 10일 이전과 이후를 if문으로 나눔
+                }else{
+                    recyclerDay.setText("${date.day}.$dayOfWeek")
                 }
+
+                var Calendardate:String
+                //리사이클러뷰에서 내가 클릭한 날짜와 같은 날짜를 찾아오기 위한 변수
+
+                    Calendardate = "${date.year}-${date.month + 1}-${date.day}"
+                    //특이한 점이 month+1을 해줘야함 그냥 month는 해당 달보다 1씩 작음
+
+
+                //var couplenum:Int
+
+                // if(UserData.connectedCouple()){
+                //    couplenum= UserData.couplenum
+                //}
+
+                clickGetRecycler(Calendardate,list)
+                //클릭한 날짜의 일정을 리사이클러뷰로 보여줌
+
+                button.setOnClickListener(object : View.OnClickListener {
+
+                    override fun onClick(p0: View?) {
+                        //일정추가 버튼을 클릭했을 때
+
+                        var dialog = CustomDialog(contextMain)
+                        //다이얼로그 부르기
+                        dialog.myDig()
+                        dialog.setOnClickedListener(object : CustomDialog.ButtonClickListener {
+                            override fun onClicked(ctitle: String, ccontent: String) {
+                                //완료버튼 클릭 후 정보를 받아오는 리스너
+
+                                var cdate:String?=null
+                                //DB에 날짜를 저장하기 위한 변수
+                                    cdate ="${Calendardate} 00:00:00"
+                                    //앞서 내가 클릭한 날짜의 리사이클러뷰를 가져오기 위해 Calendardate를 만들었다. 여기에 00:00:00를 추가해서 내가 DB에 넣어야할 날짜변수를 만듦
+
+                                postCalendar(ccontent, cdate, ctitle,
+                                    date,list)
+
+                            }
+
+                        })
+
+                    }
+
+                })
 
             }
 
-            for(map in hashMap){
-                Log.d("HashMap","key:"+map.key+"values:"+map.value)
-                if(map.value=="F"){
-                    calendar.addDecorator(
-                        EventDecorator(
-                            Collections.singleton(map.key),
-                            button,
-                            contextMain,
-                            FamaleColor
-                        )
-                    )
-                }else if(map.value=="M"){
-                    calendar.addDecorator(
-                        EventDecorator(
-                            Collections.singleton(map.key),
-                            button,
-                            contextMain,
-                            MaleColor
-                        )
-                    )
+        })
 
-                }else if(map.value=="C"){
-                    calendar.addDecorator(
-                        EventDecorator(
-                            Collections.singleton(map.key),
-                            button,
-                            contextMain,
-                            CoupleColor
-                        )
-                    )
-                }}
-        }else{
-            // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-            Log.d("Retrofit", "onResponse: 캘린더실패")
-        }
-    }
-
-    override fun onFailure(call: Call<List<com.example.workingparents.CalendarData>>, t: Throwable) {
-        Log.d("Retrofit", "onFailure 캘린더 실패 에러1: " + t.message.toString())
 
     }
 
-
-})
-
-
-
-
-calendar.setOnDateChangedListener(object : OnDateSelectedListener {
-    //사용자가 날짜를 눌렀을 때
+    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.calendar_recycler_menu, menu)
+        super.onCreateContextMenu(menu, v, menuInfo)
+    }
 
 
-    override fun onDateSelected(
-        widget: MaterialCalendarView,
+    private fun postCalendar(
+        ccontent: String,
+        cdate: String,
+        ctitle: String,
         date: CalendarDay,
-        selected: Boolean
+        list: ArrayList<CalendarRecyclerData>
     ) {
+        //cdate는 내가 DB에 넣을 날짜이고 date는 사용자가 누른 날짜임 즉 같은날짜지만 형식이 아예 다른 날짜로써 cdate자르기 싫어서 가져옴
+        RetrofitBuilder.api.postCalender(couplenum, cdate, ctitle, ccontent, sex)
+            .enqueue(object : Callback<Int> {
+                override fun onResponse(
+                    call: Call<Int>,
+                    response: Response<Int>
+                ) {
+                    if (response.isSuccessful) {
+
+                        var result: Int? = response.body()
+                        // 정상적으로 통신이 성공된 경우
+
+                        //리사이클러뷰 아이템 추가해서 갱신
+                        if(sex=="F") {
+                            adapter.addItem(CalendarRecyclerData(ctitle, ccontent,CalendarMode.female))
+                        }else{
+                            adapter.addItem(CalendarRecyclerData(ctitle, ccontent,CalendarMode.male))
+                        }
+
+                        //month를 print하면 현재 달로부터 1씩 작게 나와서 DB에 값을 추가할땐 month+1을 해줬음
+                        //잘 모르지만 이제부터는 그냥 month를 쓰면 됨
+
+                        if (hashMap.containsKey(
+                                CalendarDay.from(
+                                    date.year,
+                                    date.month,
+                                    date.day
+                                )
+                            )
+                        ) {
+                            Log.d("점세개머선일이고", "기존에 같은날짜가 있다면1")
+                            //기존에 이미 같은 키 값(날짜)이 있다면
+                            Log.d("HashMap", "여기들어가긴함?5")
+                            if (hashMap.get(
+                                    CalendarDay.from(
+                                        date.year,
+                                        date.month,
+                                        date.day
+                                    )
+                                ) == sex
+                            ) {
+                                //근데 같은 성별이라면
+                                Log.d("점세개머선일이고", "근데 같은성별이야2")
+                                if (sex == "F") {
+
+                                    hashMap[CalendarDay.from(
+                                        date.year,
+                                        date.month,
+                                        date.day
+                                    )] = "F"
+
+                                    Log.d("점세개머선일이고", "근데 여자야3")
+                                    calendar!!.addDecorator(
+                                        EventDecorator2(
+                                            Collections.singleton(
+                                                CalendarDay.from(
+                                                    date.year,
+                                                    date.month,
+                                                    date.day
+                                                )
+                                            ),
+                                            this@CalendarActivity,
+                                            FamaleColor
+                                        )
+                                    )
+
+                                    Log.d("점세개머선일이고", "근데 여자야 점도 찍었어4")
+                                    //view.addSpan(CustmMultipleDotSpan(8.0f, FamaleColor))
+                                } else if (sex == "M") {
+                                    hashMap[CalendarDay.from(
+                                        date.year,
+                                        date.month,
+                                        date.day
+                                    )] = "M"
+                                    Log.d("점세개머선일이고", "근데 남자야5")
+                                    calendar!!.addDecorator(
+                                        EventDecorator2(
+                                            Collections.singleton(
+                                                CalendarDay.from(
+                                                    date.year,
+                                                    date.month,
+                                                    date.day
+                                                )
+                                            ),
+                                            this@CalendarActivity,
+                                            MaleColor
+                                        )
+                                    )
+                                    Log.d("점세개머선일이고", "근데 남자야 점도찍었어6")
+                                    //  view.addSpan(CustmMultipleDotSpan(8.0f, MaleColor))
+                                }
+                                Log.d("HashMap", "여기들어가긴함?6")
+                            } else {
+                                //아니라면
+                                // view.addSpan(CustmMultipleDotSpan(8.0f, CoupleColor))
+
+                                hashMap[CalendarDay.from(
+                                    date.year,
+                                    date.month,
+                                    date.day
+                                )] = "C"
+                                Log.d("점세개머선일이고", "근데 커플이야7")
+
+                                calendar!!.addDecorator(
+                                    EventDecorator2(
+                                        Collections.singleton(
+                                            CalendarDay.from(
+                                                date.year,
+                                                date.month,
+                                                date.day
+                                            )
+                                        ),
+                                        this@CalendarActivity,
+                                        CoupleColor
+                                    )
+                                )
+
+                                calendar!!.invalidateDecorators()
+
+                                Log.d("점세개머선일이고", "근데 커플이야 점도 찍었어8")
+
+                                // view.addSpan(CustmMultipleDotSpan(8.0f, CoupleColor))
+
+                            }
+                        } else {
+                            if (sex == "F") {
+                                hashMap[CalendarDay.from(
+                                    date.year,
+                                    date.month,
+                                    date.day
+                                )] = "F"
+
+                                Log.d("점세개머선일이고", "아직 날짜가 없어 근데여자야")
+                                calendar!!.addDecorator(
+                                    EventDecorator2(
+                                        Collections.singleton(
+                                            CalendarDay.from(
+                                                date.year,
+                                                date.month,
+                                                date.day
+                                            )
+                                        ),
+                                        this@CalendarActivity,
+                                        FamaleColor
+                                    )
+                                )
+
+                                Log.d("점세개머선일이고", "아직 날짜가 없어 근데여자야 점도찍었어")
+                                //  view.addSpan(CustmMultipleDotSpan(8.0f, FamaleColor))
+                            } else {
+                                Log.d("점세개머선일이고", "아직 날짜가 없어 근데남자야")
+                                hashMap[CalendarDay.from(
+                                    date.year,
+                                    date.month,
+                                    date.day
+                                )] = "M"
+
+                                list.add(
+                                    CalendarRecyclerData(
+                                        ctitle,
+                                        ccontent,
+                                        CalendarMode.female
+                                    )
+                                )
+
+
+                                calendar!!.addDecorator(
+                                    EventDecorator2(
+                                        Collections.singleton(
+                                            CalendarDay.from(
+                                                date.year,
+                                                date.month,
+                                                date.day
+                                            )
+                                        ),
+                                        this@CalendarActivity,
+                                        MaleColor
+                                    )
+                                )
+
+
+                                Log.d("점세개머선일이고", "아직 날짜가 없어 근데남자야 점도 찍었어")
+                            }
+                        }
+
+                    } else {
+                        // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+
+                        Log.d(
+                            "Calendar",
+                            "response 실패 에러"
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<Int>, t: Throwable) {
+                    Log.d(
+                        "Calendar",
+                        "onFailure 회원가입 실패 에러: " + t.message.toString()
+                    )
+
+                }
+
+            })
+    }
+
+    private fun clickGetRecycler(Calendardate: String?, list: ArrayList<CalendarRecyclerData>) {
+        //get을 통해 클릭한 날짜의 일정을 가져와서 리사이클러뷰로 보여줌
         list.clear()
-        Log.d("예아", date.toString())
-
-
-        var dayString:String?= null
-        val weekDay = date.toString().get(Calendar.DAY_OF_WEEK)
-
-        /*
-        when(weekDay){
-            Calendar.SUNDAY -> dayString= "일"
-            Calendar.MONDAY -> dayString= "월"
-            Calendar.TUESDAY -> dayString= "화"
-            Calendar.WEDNESDAY -> dayString= "수"
-            Calendar.THURSDAY -> dayString= "목"
-            Calendar.FRIDAY -> dayString= "금"
-            Calendar.SATURDAY -> dayString= "토"
-
-        }
-*/
-        /*
-
-        when(date.day.toString()){
-            "0" -> dayString= "일"
-            "1" -> dayString= "월"
-            "2" -> dayString= "화"
-            "3" -> dayString= "수"
-            "4" -> dayString= "믁"
-            "5" -> dayString= "금"
-            "6" -> dayString= "토"
-
-        }
-*/
-        Log.d("뭐가문제야",date.day.toString())
-        Log.d("뭐가문제야2",date.toString())
-        Log.d("뭐가문제야3",weekDay.toString())
-
-        when(date.day){
-            1 -> recyclerDay.setText("0"+date.day.toString()+".월")
-            2 -> recyclerDay.setText("0"+date.day.toString()+".화")
-            3 -> recyclerDay.setText("0"+date.day.toString()+".수")
-            4 -> recyclerDay.setText("0"+date.day.toString()+".목")
-            5 -> recyclerDay.setText("0"+date.day.toString()+".금")
-            6 -> recyclerDay.setText("0"+date.day.toString()+".토")
-            7 -> recyclerDay.setText("0"+date.day.toString()+".일")
-            8 -> recyclerDay.setText("0"+date.day.toString()+".월")
-            9 -> recyclerDay.setText("0"+date.day.toString()+".화")
-
-            10 -> recyclerDay.setText(date.day.toString()+".수")
-            11->  recyclerDay.setText(date.day.toString()+".목")
-            12->  recyclerDay.setText(date.day.toString()+".금")
-            13->  recyclerDay.setText(date.day.toString()+".토")
-            14->  recyclerDay.setText(date.day.toString()+".일")
-            15->  recyclerDay.setText(date.day.toString()+".월")
-            16->  recyclerDay.setText(date.day.toString()+".화")
-            17->  recyclerDay.setText(date.day.toString()+".수")
-            18->  recyclerDay.setText(date.day.toString()+".목")
-            19->  recyclerDay.setText(date.day.toString()+".금")
-            20->  recyclerDay.setText(date.day.toString()+".토")
-            21->  recyclerDay.setText(date.day.toString()+".일")
-            22->  recyclerDay.setText(date.day.toString()+".월")
-            23->  recyclerDay.setText(date.day.toString()+".화")
-            24->  recyclerDay.setText(date.day.toString()+".수")
-            25->  recyclerDay.setText(date.day.toString()+".목")
-            26->  recyclerDay.setText(date.day.toString()+".금")
-            27->  recyclerDay.setText(date.day.toString()+".토")
-            28->  recyclerDay.setText(date.day.toString()+".일")
-            29->  recyclerDay.setText(date.day.toString()+".월")
-            30->  recyclerDay.setText(date.day.toString()+".화")
-            31->  recyclerDay.setText(date.day.toString()+".수")
-
-
-
-        }
-
-
-        var Calendardate= "${date.year}-0${date.month+1}-${date.day}"
-        //Get을 이용해서 List로 받아온 다음에 같으면 리싸이클러뷰 ㄱㄱ
-
-        //var couplenum:Int
-
-        // if(UserData.connectedCouple()){
-        //    couplenum= UserData.couplenum
-        //}
-
-
-        calendar.addDecorator(EventDecorator2(Collections.singleton(date), button, contextMain,calendar))
-
-
+        //이전에 클릭한 일정을 다시 보지 않게 해줌
         RetrofitBuilder.api.getCalendar(couplenum).enqueue(object: Callback<List<CalendarData>> {
 
             override fun onResponse(call: Call<List<CalendarData>>, response: Response<List<CalendarData>>) {
@@ -312,25 +392,16 @@ calendar.setOnDateChangedListener(object : OnDateSelectedListener {
 
                     var result: List<CalendarData>? = response.body()
                     // 정상적으로 통신이 성공된 경우
-                    Log.d("따라가보자1","1")
-                    Log.d("Retrofit", "onResponse: 캘린더성공"+result?.toString())
-
                     if (result != null) {
-
                         for(i in result){
 
                             var title= i.ctitle
                             var content= i.ccontent
                             var sex = i.csex
                             var splitdate = i.cdate.split(" ")
-                            Log.d("Calendar성공","Calendardate:"+Calendardate)
-                            Log.d("Calendar성공","splitdate:"+splitdate.get(0))
-                            //splitdate가 레트로핏으로 받아온거
+                            //현재 i.cdate는 2022-09-6 00:00:00 형식이여서 뒤에 00:00:00을 빼준다
 
                             if(splitdate.get(0).equals(Calendardate)) {
-
-                                Log.d("Calendar성공", "일단 같은지는 확인완료:")
-                                //이제 문자열 잘 잘랐으니.. 라사이클러뷰를 넣자
 
                                 if(sex=="F") {
                                     list.add(
@@ -340,7 +411,6 @@ calendar.setOnDateChangedListener(object : OnDateSelectedListener {
                                             CalendarMode.female
                                         )
                                     )
-                                Log.d("왜지","여자리사이클러뷰")
 
                                 }else{
                                     list.add(
@@ -350,15 +420,13 @@ calendar.setOnDateChangedListener(object : OnDateSelectedListener {
                                             CalendarMode.male
                                         )
                                     )
-
-                                    Log.d("왜지","남자리사이클러뷰")
                                 }
                             }
 
                         }
 
 
-                        val adapter = CalendarAdapter(list)
+                        adapter = CalendarAdapter(this@CalendarActivity, list)
                         recyclerCalendar.adapter = adapter
 
                     }
@@ -374,570 +442,318 @@ calendar.setOnDateChangedListener(object : OnDateSelectedListener {
             }
 
         })
-        Log.d("따라가보자1","1")
-
-        // calendar.addDecorator(EventDecorator2(Collections.singleton(date), button, contextMain))
-        // calendar.addDecorator(EventDecorator(date,button,contextMain))
     }
 
-})
+    private fun doDayOfWeek(date: CalendarDay): String? {
+        val cal: Calendar = date.calendar
+        var strWeek: String? = null
+        val nWeek: Int = cal.get(Calendar.DAY_OF_WEEK)
 
-
-}
-
-
-
-
-class CustomDialog(context: Context) {
-
-private val dialog = Dialog(context)
-
-interface ButtonClickListener {
-    fun onClicked(ctitle: String, ccontent: String)
-}
-
-private lateinit var onClickedListener: ButtonClickListener
-
-fun setOnClickedListener(listener: ButtonClickListener) {
-    onClickedListener = listener
-}
-
-fun myDig() {
-    dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog)
-    dialog.window!!.setLayout(
-        900,
-        WindowManager.LayoutParams.WRAP_CONTENT)
-    dialog.window!!.setBackgroundDrawableResource(com.example.workingparents.R.drawable.orangeborder)
-    dialog.setCanceledOnTouchOutside(true)
-    dialog.setCancelable(true)
-
-    dialog.show()
-
-    val edit_ctitle = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ctitle)
-    val edit_ccontent = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ccontent)
-
-    val btnDone = dialog.findViewById<Button>(com.example.workingparents.R.id.btnDone)
-    val btnCancel = dialog.findViewById<Button>(com.example.workingparents.R.id.btnCancel)
-
-
-
-    btnDone.setOnClickListener() {
-        //완료버튼을 눌렀을 때
-
-        //리스너를 이용해서 제목,내용,성별 전송
-        onClickedListener.onClicked(edit_ctitle.text.toString(), edit_ccontent.text.toString())
-
-        dialog.dismiss()
-    }
-
-    btnCancel.setOnClickListener {
-        dialog.dismiss()
-    }
-
-}
-
-}
-
-
-
-class TodayDecorator: DayViewDecorator {
-private var date = CalendarDay.today()
-
-override fun shouldDecorate(day: CalendarDay?): Boolean {
-    return day?.equals(date)!!
-}
-
-override fun decorate(view: DayViewFacade?) {
-    view?.addSpan(StyleSpan(Typeface.BOLD))
-    view?.addSpan(RelativeSizeSpan(1.3f))
-    view?.addSpan(ForegroundColorSpan(Color.parseColor("#FF9769")))
-}
-}
-
-class EventDecorator(
-dates: Collection<CalendarDay>,
-val button: ImageButton,
-val context: Context,
-val color: IntArray
-) : DayViewDecorator {
-
-
-var dates= dates
-//마지막으로 클릭한 날짜를 알아보기위해 Hashset에서 어레이리스트로 변경함
-
-
-override fun shouldDecorate(day: CalendarDay): Boolean {
-
-    return dates.contains(day)
-}
-
-override fun decorate(view: DayViewFacade) {
-    view.addSpan(CustmMultipleDotSpan(8.0f, color))
-
-}
-
-
-class CustmMultipleDotSpan : LineBackgroundSpan {
-    private val radius: Float
-    private var color = IntArray(0)
-
-    constructor() {
-        radius = DEFAULT_RADIUS
-        color[0] = 0
-    }
-
-    constructor(color: Int) {
-        radius = DEFAULT_RADIUS
-        this.color[0] = 0
-    }
-
-    constructor(radius: Float) {
-        this.radius = radius
-        color[0] = 0
-    }
-
-    constructor(radius: Float, color: IntArray) {
-        this.radius = radius
-        this.color = color
-    }
-
-    override fun drawBackground(
-        canvas: Canvas, paint: Paint,
-        left: Int, right: Int, top: Int, baseline: Int, bottom: Int,
-        charSequence: CharSequence,
-        start: Int, end: Int, lineNum: Int
-    ) {
-        val total = if (color.size > 5) 5 else color.size
-        var leftMost = (total - 1) * -10
-        for (i in 0 until total) {
-            val oldColor = paint.color
-            if (color[i] != 0) {
-                paint.color = color[i]
-            }
-            canvas.drawCircle(
-                ((left + right) / 2 - leftMost).toFloat(),
-                bottom + radius,
-                radius,
-                paint
-            )
-            paint.color = oldColor
-            leftMost = leftMost + 20
+        if (nWeek == 1) {
+            strWeek = "일"
+        } else if (nWeek == 2) {
+            strWeek = "월"
+        } else if (nWeek == 3) {
+            strWeek = "화"
+        } else if (nWeek == 4) {
+            strWeek = "수"
+        } else if (nWeek == 5) {
+            strWeek = "목"
+        } else if (nWeek == 6) {
+            strWeek = "금"
+        } else if (nWeek == 7) {
+            strWeek = "토"
         }
+        return strWeek
     }
-}
 
-}
+    private fun initCalendar(){
+//처음 캘린더를 시작할 때 점을 찍어주는 역할
 
+        RetrofitBuilder.api.getCalendar(couplenum).enqueue(object : Callback<List<CalendarData>> {
 
+            override fun onResponse(
+                call: Call<List<CalendarData>>,
+                response: Response<List<CalendarData>>
+            ) {
+                if (response.isSuccessful) {
 
+                    var result: List<CalendarData>? = response.body()
+                    // 정상적으로 통신이 성공된 경우
+                    if (result != null) {
 
-class EventDecorator2(
-dates: Collection<CalendarDay>,
-val button: ImageButton,
-val context: Context,
-val calendar: MaterialCalendarView?
-) : DayViewDecorator {
+                        for (i in result) {
+                            //Get으로 가져온 result
 
-    val CoupleColor  =  intArrayOf(
-        //  Color.rgb(255, 184, 203),
-        //  Color.rgb(155, 205, 255)
-        Color.rgb(255, 168, 177),
-        Color.rgb(158, 193, 255)
-    )
+                            var splitdate = i.cdate.split(" ")
+                            //result의 날짜를 Calendar 형식이 되도록 문자열을 잘라줌
 
-    val FamaleColor  =  intArrayOf(
-        // Color.rgb(255, 184, 203)
-        Color.rgb(255, 168, 177)
-    )
+                            var CalendarFromDate: List<String> =
+                                splitdate.get(0).split("-")
+                            //자른 문자열을 다시 잘라줌
 
-    val MaleColor  =  intArrayOf(
-        //Color.rgb(155, 205, 255)
-        Color.rgb(158, 193, 255)
-    )
-
-
-    val OrangeColor  =  intArrayOf(
-        Color.rgb(255, 218, 197)
-
-    )
-
-var dates= dates
-//마지막으로 클릭한 날짜를 알아보기위해 Hashset에서 어레이리스트로 변경함
-
-
-override fun shouldDecorate(day: CalendarDay): Boolean {
-    return dates.contains(day)
-}
-
-override fun decorate(view: DayViewFacade) {
-    Log.d("따라가보자2","2")
-
-    button.setOnClickListener(object : View.OnClickListener {
-
-        override fun onClick(p0: View?) {
-            //일정추가 버튼을 클릭했을 때
-            //완료 클릭했을때 Dialog 생성및 post수행
-            Log.d("따라가보자3","3")
-
-            var dialog = CustomDialog(context)
-            dialog.myDig()
-            dialog.setOnClickedListener(object : CustomDialog.ButtonClickListener {
-                override fun onClicked(ctitle: String, ccontent: String) {
-                    //다이어로그에서 값을 받아옴
-
-                    Log.d("따라가보자1000","1000")
-
-                    var title = ctitle
-                    var content = ccontent
-
-
-                    Log.d("Dialog", "제목은" + title + "내용은" + content + "성별은" + sex)
-
-                    //여기서 다이어로그 내용을 받아왔지
-                    //그럼 Post를 여기에서 해주자
-
-                    var cdate= dates.toString().substring(13,17)+"-0"+(dates.toString().substring(18,19).toInt()+1).toString()+"-"+dates.toString().substring(20,22)+" 00:00:00"
-                    Log.d("따라가보자2000","2000")
-                    Log.d("뭐가","cdate:"+cdate)
-                    //[CalendarDay{2022-7-17}]을 잘라서 2022-8-17 00(뒤에서 빈칸으로 split을 해주므로 뒤에 빈칸이 있어야함)을 만들어야함
-                    //참고로 dates는 이번달이 8월이면 7월로 준다...
-                    //그래도 좀 효율적으로 해보려고 했는데 그냥.. 비효율적으로 하기로 했다..
-
-                    RetrofitBuilder.api.postCalender(couplenum, cdate, ctitle, ccontent ,sex)
-                        .enqueue(object : Callback<Int> {
-                            override fun onResponse(
-                                call: Call<Int>,
-                                response: Response<Int>
-                            ) {
-                                if (response.isSuccessful) {
-                                    //성공하면 이미 전적이 있던걸로 취급하기
-                                    Log.d("따라가보자4","4")
-                                    var result: Int? = response.body()
-                                    // 정상적으로 통신이 성공된 경우
-                                    Log.d(
-                                        "Calendar",
-                                        "onResponse: 성공했나" + result?.toString()
+                            if (hashMap.containsKey(
+                                    CalendarDay.from(
+                                        CalendarFromDate.get(0).toInt(),
+                                        (CalendarFromDate.get(1).toInt() - 1),
+                                        CalendarFromDate.get(2).toInt()
                                     )
-
-                                    Log.d("따라가보자1","1")
-
-
-
-                                    var splitdate = dates.toString().split("}")
-                                    //result의 날짜를 Calendar 형식이 되도록 문자열을 잘라줌
-
-                                    var CalendarFromDate: List<String> = splitdate.get(0).toString().split("-")
-                                    //자른 문자
-
-                                    val firstdate =
-                                        CalendarFromDate.get(0).substring(CalendarFromDate.get(0).lastIndexOf("{") + 1)
-                                    Log.d(
-                                        "Date제발",
-                                        "firstdate:" + firstdate + "CalendarFromDate.get(1):" + CalendarFromDate.get(1) + "CalendarFromDate.get(2):" + CalendarFromDate.get(
-                                            2
-                                        )
-                                    )
-                                    Log.d("Date제발", "CalendarFromDate:" + CalendarFromDate)
-                                    Log.d("따라가보자7","7")
-
-                                    if (hashMap.containsKey(
-                                            CalendarDay.from(
-                                                firstdate.toInt(),
-                                                (CalendarFromDate.get(1).toInt()),
-                                                CalendarFromDate.get(2).toInt()
-                                            )
-                                        )
-                                    ) {
-                                        Log.d("점세개머선일이고","기존에 같은날짜가 있다면1")
-                                        //기존에 이미 같은 키 값(날짜)이 있다면
-                                        Log.d("HashMap", "여기들어가긴함?5")
-                                        if (hashMap.get(
-                                                CalendarDay.from(
-                                                    firstdate.toInt(),
-                                                    (CalendarFromDate.get(1).toInt()),
-                                                    CalendarFromDate.get(2).toInt()
-                                                )
-                                            ) == sex
-                                        ) {
-                                            //근데 같은 성별이라면
-                                            Log.d("점세개머선일이고","근데 같은성별이야2")
-                                            if (sex == "F") {
-
-                                                hashMap[CalendarDay.from(
-                                                    firstdate.toInt(),
-                                                    (CalendarFromDate.get(1).toInt()),
-                                                    CalendarFromDate.get(2).toInt()
-                                                )] = "F"
-                                                Log.d("점세개머선일이고","근데 여자야3")
-                                                calendar!!.addDecorator(
-                                                    EventDecorator(
-                                                        Collections.singleton(CalendarDay.from(
-                                                            firstdate.toInt(),
-                                                            (CalendarFromDate.get(1).toInt()),
-                                                            CalendarFromDate.get(2).toInt()
-                                                        )),
-                                                        button,
-                                                        context,
-                                                        FamaleColor
-                                                    )
-                                                )
-                                                Log.d("점세개머선일이고","근데 여자야 점도 찍었어4")
-                                                //view.addSpan(CustmMultipleDotSpan(8.0f, FamaleColor))
-                                            } else if(sex == "M"){
-                                                hashMap[CalendarDay.from(
-                                                    firstdate.toInt(),
-                                                    (CalendarFromDate.get(1).toInt()),
-                                                    CalendarFromDate.get(2).toInt()
-                                                )] = "M"
-                                                Log.d("점세개머선일이고","근데 남자야5")
-                                                calendar!!.addDecorator(
-                                                    EventDecorator(
-                                                        Collections.singleton(CalendarDay.from(
-                                                            firstdate.toInt(),
-                                                            (CalendarFromDate.get(1).toInt()),
-                                                            CalendarFromDate.get(2).toInt()
-                                                        )),
-                                                        button,
-                                                        context,
-                                                        MaleColor
-                                                    )
-                                                )
-                                                Log.d("점세개머선일이고","근데 남자야 점도찍었어6")
-                                                //  view.addSpan(CustmMultipleDotSpan(8.0f, MaleColor))
-                                            }
-                                            Log.d("HashMap", "여기들어가긴함?6")
-                                        } else {
-                                            //아니라면
-                                            // view.addSpan(CustmMultipleDotSpan(8.0f, CoupleColor))
-
-                                            hashMap[CalendarDay.from(
-                                                firstdate.toInt(),
-                                                (CalendarFromDate.get(1).toInt()),
-                                                CalendarFromDate.get(2).toInt()
-                                            )] = "C"
-                                            Log.d("점세개머선일이고","근데 커플이야7")
-
-
-                                            calendar!!.addDecorator(
-                                                EventDecorator(
-                                                    Collections.singleton(CalendarDay.from(
-                                                        firstdate.toInt(),
-                                                        (CalendarFromDate.get(1).toInt()),
-                                                        CalendarFromDate.get(2).toInt()
-                                                    )),
-                                                    button,
-                                                    context,
-                                                    OrangeColor
-                                                )
-                                            )
-
-                                            calendar!!.addDecorator(
-                                                EventDecorator(
-                                                    Collections.singleton(CalendarDay.from(
-                                                        firstdate.toInt(),
-                                                        (CalendarFromDate.get(1).toInt()),
-                                                        CalendarFromDate.get(2).toInt()
-                                                    )),
-                                                    button,
-                                                    context,
-                                                    OrangeColor
-                                                )
-                                            )
-
-                                            calendar!!.addDecorator(
-                                                EventDecorator(
-                                                    Collections.singleton(CalendarDay.from(
-                                                        firstdate.toInt(),
-                                                        (CalendarFromDate.get(1).toInt()),
-                                                        CalendarFromDate.get(2).toInt()
-                                                    )),
-                                                    button,
-                                                    context,
-                                                    CoupleColor
-                                                )
-                                            )
-                                            calendar!!.invalidateDecorators()
-
-                                            Log.d("점세개머선일이고","근데 커플이야 점도 찍었어8")
-
-                                            // view.addSpan(CustmMultipleDotSpan(8.0f, CoupleColor))
-
-                                            Log.d("HashMap", "여기들어가긴함?7")
-                                        }
-                                    } else {
-                                        Log.d("점세개머선일이고","아직 날짜가 없어")
-                                        Log.d("따라가보자8","8")
-                                        if (sex == "F") {
-                                            hashMap[CalendarDay.from(
-                                                firstdate.toInt(),
-                                                (CalendarFromDate.get(1).toInt()),
-                                                CalendarFromDate.get(2).toInt()
-                                            )] = "F"
-
-                                            Log.d("점세개머선일이고","아직 날짜가 없어 근데여자야")
-                                            calendar!!.addDecorator(
-                                                EventDecorator(
-                                                    Collections.singleton(CalendarDay.from(
-                                                        firstdate.toInt(),
-                                                        (CalendarFromDate.get(1).toInt()),
-                                                        CalendarFromDate.get(2).toInt()
-                                                    )),
-                                                    button,
-                                                    context,
-                                                    FamaleColor
-                                                )
-                                            )
-                                            Log.d("점세개머선일이고","아직 날짜가 없어 근데여자야 점도찍었어")
-                                            //  view.addSpan(CustmMultipleDotSpan(8.0f, FamaleColor))
-                                        } else {
-                                            Log.d("점세개머선일이고","아직 날짜가 없어 근데남자야")
-                                            hashMap[CalendarDay.from(
-                                                firstdate.toInt(),
-                                                (CalendarFromDate.get(1).toInt()),
-                                                CalendarFromDate.get(2).toInt()
-                                            )] = "M"
-                                            calendar!!.addDecorator(
-                                                EventDecorator(
-                                                    Collections.singleton(CalendarDay.from(
-                                                        firstdate.toInt(),
-                                                        (CalendarFromDate.get(1).toInt()),
-                                                        CalendarFromDate.get(2).toInt()
-                                                    )),
-                                                    button,
-                                                    context,
-                                                    MaleColor
-                                                )
-                                            )
-
-
-                                            Log.d("점세개머선일이고","아직 날짜가 없어 근데남자야 점도 찍었어")
-                                            //  view.addSpan(CustmMultipleDotSpan(8.0f, MaleColor))
-                                        }
-                                    }
-
-                                } else {
-                                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-
-                                    Log.d(
-                                        "Calendar",
-                                        "response 실패 에러"
-                                    )
-                                }
-                            }
-
-                            override fun onFailure(call: Call<Int>, t: Throwable) {
-                                Log.d(
-                                    "Calendar",
-                                    "onFailure 회원가입 실패 에러: " + t.message.toString()
                                 )
+                            ) {
+                                //기존에 이미 같은 키값(날짜)이 있다면
+                                Log.d("HashMap", "여기들어가긴함?")
+                                if (hashMap.get(
+                                        CalendarDay.from(
+                                            CalendarFromDate.get(0).toInt(),
+                                            (CalendarFromDate.get(1).toInt() - 1),
+                                            CalendarFromDate.get(2).toInt()
+                                        )
+                                    ) == i.csex
+                                ) {
+                                    //근데 같은 성별이라면
+                                    hashMap[CalendarDay.from(
+                                        CalendarFromDate.get(0).toInt(),
+                                        (CalendarFromDate.get(1).toInt() - 1),
+                                        CalendarFromDate.get(2).toInt()
+                                    )] = i.csex
+                                    Log.d("HashMap", "여기들어가긴함?2")
+                                } else {
+                                    //아니라면
+                                    hashMap[CalendarDay.from(
+                                        CalendarFromDate.get(0).toInt(),
+                                        (CalendarFromDate.get(1).toInt() - 1),
+                                        CalendarFromDate.get(2).toInt()
+                                    )] = "C"
+                                    Log.d("HashMap", "여기들어가긴함?3")
 
+                                }
+                            } else {
+
+                                hashMap[CalendarDay.from(
+                                    CalendarFromDate.get(0).toInt(),
+                                    (CalendarFromDate.get(1).toInt() - 1),
+                                    CalendarFromDate.get(2).toInt()
+                                )] = i.csex
+                                Log.d("HashMap", "여기들어가긴함?4    ")
+
+                                Log.d(
+                                    "Calendar날짜",
+                                    "이게맞나" + CalendarFromDate.get(0)
+                                        .toInt() + (CalendarFromDate.get(1)
+                                        .toInt() - 1) + CalendarFromDate.get(2).toInt()
+                                )
+                                    .toString()
                             }
+                        }
 
-                        })
+                    }
 
+                    for (map in hashMap) {
+                        Log.d("HashMap", "key:" + map.key + "values:" + map.value)
+                        if (map.value == "F") {
+                            calendar.addDecorator(
+                                EventDecorator2(
+                                    Collections.singleton(map.key),
+                                    this@CalendarActivity,
+                                    FamaleColor
+                                )
+                            )
+                        } else if (map.value == "M") {
+                            calendar.addDecorator(
+                                EventDecorator2(
+                                    Collections.singleton(map.key),
+                                    this@CalendarActivity,
+                                    MaleColor
+                                )
+                            )
+
+                        } else if (map.value == "C") {
+                            calendar.addDecorator(
+                                EventDecorator2(
+                                    Collections.singleton(map.key),
+                                    this@CalendarActivity,
+                                    CoupleColor
+                                )
+                            )
+                        }
+                    }
+                } else {
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                    Log.d("Retrofit", "onResponse: 캘린더실패")
                 }
-            })
-
-        }
-
-    })
-
-
-//위에서 만들어준 hashMap이 있으니까...
-    //새로 들어온 애도 비교를 해주면 되지 않을까...
-    Log.d("따라가보자5","5")
-
-}
-
-class CustmMultipleDotSpan : LineBackgroundSpan {
-    private val radius: Float
-    private var color = IntArray(0)
-
-    constructor() {
-        radius = DEFAULT_RADIUS
-        color[0] = 0
-    }
-
-    constructor(color: Int) {
-        radius = DEFAULT_RADIUS
-        this.color[0] = 0
-    }
-
-    constructor(radius: Float) {
-        this.radius = radius
-        color[0] = 0
-    }
-
-    constructor(radius: Float, color: IntArray) {
-        this.radius = radius
-        this.color = color
-    }
-
-    override fun drawBackground(
-        canvas: Canvas, paint: Paint,
-        left: Int, right: Int, top: Int, baseline: Int, bottom: Int,
-        charSequence: CharSequence,
-        start: Int, end: Int, lineNum: Int
-    ) {
-        val total = if (color.size >3 ) 3 else color.size
-        Log.d("Colors","color사이즈:"+color.size)
-        var leftMost = (total - 1) * -10
-        for (i in 0 until total) {
-            val oldColor = paint.color
-            if (color[i] != 0) {
-                paint.color = color[i]
             }
-            canvas.drawCircle(
-                ((left + right) / 2 - leftMost).toFloat(),
-                bottom + radius,
-                radius,
-                paint
-            )
-            paint.color = oldColor
-            leftMost = leftMost + 20
+
+            override fun onFailure(
+                call: Call<List<com.example.workingparents.CalendarData>>,
+                t: Throwable
+            ) {
+                Log.d("Retrofit", "onFailure 캘린더 실패 에러1: " + t.message.toString())
+
+            }
+
+
+        })
+
+    }
+
+
+    class CustomDialog(context: Context) {
+
+        private val dialog = Dialog(context)
+
+        interface ButtonClickListener {
+            fun onClicked(ctitle: String, ccontent: String)
+        }
+
+        private lateinit var onClickedListener: ButtonClickListener
+
+        fun setOnClickedListener(listener: ButtonClickListener) {
+            onClickedListener = listener
+        }
+
+        fun myDig() {
+            dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog)
+            dialog.window!!.setLayout(
+                900,
+                WindowManager.LayoutParams.WRAP_CONTENT)
+            dialog.window!!.setBackgroundDrawableResource(com.example.workingparents.R.drawable.orangeborder)
+            dialog.setCanceledOnTouchOutside(true)
+            dialog.setCancelable(true)
+
+            dialog.show()
+
+            val edit_ctitle = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ctitle)
+            val edit_ccontent = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ccontent)
+
+            val btnDone = dialog.findViewById<Button>(com.example.workingparents.R.id.btnDone)
+            val btnCancel = dialog.findViewById<Button>(com.example.workingparents.R.id.btnCancel)
+
+
+
+            btnDone.setOnClickListener() {
+                //완료버튼을 눌렀을 때
+                //리스너를 이용해서 제목,내용,성별 전송
+                onClickedListener.onClicked(edit_ctitle.text.toString(), edit_ccontent.text.toString())
+
+                dialog.dismiss()
+            }
+
+            btnCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+
+        }
+
+    }
+
+    class EventDecorator2 (
+        dates: Collection<CalendarDay>,
+        val context: Context,
+        val colors: IntArray
+    ) : DayViewDecorator {
+
+
+        var dates= dates
+
+        override fun shouldDecorate(day: CalendarDay): Boolean {
+            return dates.contains(day)
+        }
+
+        override fun decorate(view: DayViewFacade) {
+
+            view.addSpan(CustmMultipleDotSpan(5.0f, colors))
+
+        }
+
+        class CustmMultipleDotSpan : LineBackgroundSpan {
+            private val radius: Float
+            private var color = IntArray(0)
+
+            constructor() {
+                radius = DEFAULT_RADIUS
+                color[0] = 0
+            }
+
+            constructor(color: Int) {
+                radius = DEFAULT_RADIUS
+                this.color[0] = 0
+            }
+
+            constructor(radius: Float) {
+                this.radius = radius
+                color[0] = 0
+            }
+
+            constructor(radius: Float, color: IntArray) {
+                this.radius = radius
+                this.color = color
+            }
+
+            override fun drawBackground(
+                canvas: Canvas, paint: Paint,
+                left: Int, right: Int, top: Int, baseline: Int, bottom: Int,
+                charSequence: CharSequence,
+                start: Int, end: Int, lineNum: Int
+            ) {
+                val total = if (color.size >3 ) 3 else color.size
+                Log.d("Colors","color사이즈:"+color.size)
+                var leftMost = (total - 1) * -10
+                for (i in 0 until total) {
+                    val oldColor = paint.color
+                    if (color[i] != 0) {
+                        paint.color = color[i]
+                    }
+                    canvas.drawCircle(
+                        ((left + right) / 2 - leftMost).toFloat(),
+                        bottom + radius,
+                        radius,
+                        paint
+                    )
+                    paint.color = oldColor
+                    leftMost = leftMost + 20
+                }
+            }
+        }
+
+
+    }
+
+    class TodayDecorator: DayViewDecorator {
+        private var date = CalendarDay.today()
+
+        override fun shouldDecorate(day: CalendarDay?): Boolean {
+            return day?.equals(date)!!
+        }
+
+        override fun decorate(view: DayViewFacade?) {
+            view?.addSpan(StyleSpan(Typeface.BOLD))
+            view?.addSpan(RelativeSizeSpan(1.3f))
+            view?.addSpan(ForegroundColorSpan(Color.parseColor("#FF9769")))
         }
     }
-}
 
-}
-
-}
-
-class MinMaxDecorator(min:CalendarDay, max:CalendarDay):DayViewDecorator {
-val maxDay = max
-val minDay = min
-override fun shouldDecorate(day: CalendarDay?): Boolean {
-return (day?.month == maxDay.month && day.day > maxDay.day)
-        || (day?.month == minDay.month && day.day < minDay.day)
-}
-override fun decorate(view: DayViewFacade?) {
-view?.addSpan(object:ForegroundColorSpan(Color.parseColor("#FF000000")){})
-view?.setDaysDisabled(false)
-}
-}
+    class SaturdayDecorator:DayViewDecorator {
+        private val calendar = Calendar.getInstance()
+        override fun shouldDecorate(day: CalendarDay?): Boolean {
+            day?.copyTo(calendar)
+            val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
+            return weekDay == Calendar.SATURDAY
+        }
+        override fun decorate(view: DayViewFacade?) {
+            view?.addSpan(object:ForegroundColorSpan(Color.rgb(2,82,205)){})
+        }
+    }
 
 
-class SaturdayDecorator:DayViewDecorator {
-private val calendar = Calendar.getInstance()
-override fun shouldDecorate(day: CalendarDay?): Boolean {
-day?.copyTo(calendar)
-val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
-return weekDay == Calendar.SATURDAY
-}
-override fun decorate(view: DayViewFacade?) {
-view?.addSpan(object:ForegroundColorSpan(Color.rgb(2,82,205)){})
-}
-}
-
-
-class SundayDecorator:DayViewDecorator {
-private val calendar = Calendar.getInstance()
-override fun shouldDecorate(day: CalendarDay?): Boolean {
-day?.copyTo(calendar)
-val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
-return weekDay == Calendar.SUNDAY
-}
-override fun decorate(view: DayViewFacade?) {
-view?.addSpan(object:ForegroundColorSpan(Color.rgb(221,46,95)){})
-}
+    class SundayDecorator:DayViewDecorator {
+        private val calendar = Calendar.getInstance()
+        override fun shouldDecorate(day: CalendarDay?): Boolean {
+            day?.copyTo(calendar)
+            val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
+            return weekDay == Calendar.SUNDAY
+        }
+        override fun decorate(view: DayViewFacade?) {
+            view?.addSpan(object:ForegroundColorSpan(Color.rgb(221,46,95)){})
+        }
+    }
 }
