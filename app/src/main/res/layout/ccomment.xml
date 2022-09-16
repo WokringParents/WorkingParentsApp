@@ -82,8 +82,9 @@
                     android:layout_weight="1" />
 
                 <ImageButton
+                    android:id="@+id/ccbtn"
                     android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_height="20dp"
                     android:background="@drawable/round"
                     android:backgroundTint="#FAFAFA"
                     android:scaleType="fitCenter"
@@ -97,6 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:fontFamily="@font/notosans_regular"
                 android:text="혹시 월요일 하원 부탁드려도 괜찮으신 분 계실까요?"
                 android:textColor="@color/black"
                 android:textSize="13dp" />

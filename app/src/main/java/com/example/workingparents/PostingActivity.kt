@@ -7,11 +7,13 @@ import android.os.Message
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import androidx.recyclerview.widget.RecyclerView
+import com.example.workingparents.PostingActivity.Companion.post_ccnt
 import kotlinx.android.synthetic.main.activity_posting.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,6 +45,7 @@ class PostingActivity : AppCompatActivity() {
         lateinit var handler: Handler
         lateinit var msg : Message
         var pno by Delegates.notNull<Int>()
+        lateinit var post_ccnt : TextView
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,13 +53,14 @@ class PostingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_posting)
 
         recyclerView= findViewById(R.id.comment_rv)
+        post_ccnt=findViewById(R.id.ccnt)
 
         pid.setText(intent.getStringExtra("rv_pid"))
         village.setText(intent.getStringExtra("rv_village"))
         goback.setText(intent.getStringExtra("rv_goback"))
         pcontent.setText(intent.getStringExtra("rv_pcontent"))
         hcnt.setText(intent.getStringExtra("rv_hcnt"))
-        ccnt.setText(intent.getStringExtra("rv_ccnt"))
+        post_ccnt.setText(intent.getStringExtra("rv_ccnt"))
         pccnt = intent.getStringExtra("rv_ccnt")?.toInt()!!
         pno = intent.getStringExtra("rv_pno")?.toInt()!!
 
@@ -78,18 +82,10 @@ class PostingActivity : AppCompatActivity() {
         ccomments.clear()
         dataList.clear()
 
-//        if (pno != null) {
-//            checkcomment(pno)
-//        }
-
-
-//        val decoration=DividerItemDecoration(this@PostingActivity, VERTICAL)
-//        comment_rv.addItemDecoration(decoration)
         comment_rv.layoutManager= LinearLayoutManager(this@PostingActivity, LinearLayoutManager.VERTICAL, false)
         handler=MainHandler()
 
         val checkCmentThread = CheckCmentThread(pno) //insert thread 불러오기
-        checkCmentThread.CheckCmentThread2(pno)
         checkCmentThread.start()
 
 
@@ -117,7 +113,7 @@ class PostingActivity : AppCompatActivity() {
                 insertCmentThread.InsertCmentThread2(pno,comment)
                 insertCmentThread.start()
 
-                pccnt++
+                pccnt++ //개수 증가
                 Log.d(TAG, "pccnt"+pccnt)
                 ccnt.setText(pccnt.toString())
                 input1.setText(null)
@@ -133,155 +129,35 @@ class PostingActivity : AppCompatActivity() {
         }
     }
 
-    fun checkcomment(pnumber:Int)
-    {
-        var comment = input1.text.toString()
-        RetrofitBuilder.api.getComment(pnumber).enqueue(object : Callback<List<Comment>>{
-
-            override fun onResponse(call: Call<List<Comment>>, response: Response<List<Comment>>) {
-                if (response.isSuccessful) {
-
-                    Log.d(TAG, "1111111111111111")
-                    var result: List<Comment>? = response.body()
-                    comments= response.body() as ArrayList<Comment>
-
-                    //일부러 따로해줌
-                    Log.d(TAG, "222222222222")
-                    if(comments!=null)
-                    {
-                        for (cment in comments) {
-                            if (cment.cccnt > 0) {
-                                var dataitem= Dataitem()
-                                dataitem.Commentitem(cment,1)
-                                dataList.add(dataitem)
-                                Log.d(TAG, "dataitem추가됨" + dataitem)
-//                                val CheckCcmentThread = CheckCcmentThread(pnumber)
-//                                CheckCcmentThread.CheckCcmentThread2(pnumber)
-//                                //insert thread 불러오기
-//                                CheckCcmentThread.start()
-//                                CheckCcmentThread.join()
-                            }
-                            else{
-                                //대댓글 하나도 없을 경우 바로 보여줌
-                                var dataitem= Dataitem()
-                                dataitem.Commentitem(cment,1)
-                                dataList.add(dataitem)
-                                Log.d(TAG, "dataitem추가됨" + dataitem)
-                            }
-                        }
-                    }
-
-                    Log.d(TAG, "onResponse: 댓글 불러오기 성공" + result.toString())
-                    Log.d(TAG, "onResponse: 댓글 불러오기 성공" + comments)
-                    Log.d(TAG, "dataList!!!"+ dataList.toString())
-    //                val decoration=DividerItemDecoration(this@PostingActivity, VERTICAL)
-    //                comment_rv.addItemDecoration(decoration)
-                    comment_rv.layoutManager= LinearLayoutManager(this@PostingActivity, LinearLayoutManager.VERTICAL, false)
-                    //리사이클러뷰 선언
-                    comment_rv.visibility=View.VISIBLE
-                    comment_rv.setHasFixedSize(true) //리사이클러뷰 성능 개선?
-                    adapter= CommentAdapter(dataList)
-                    comment_rv.adapter= adapter//adapter 선언
-
-                    // 정상적으로 통신이 성공된 경우
-
-
-                } else {
-                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-                }
-            }
-
-            override fun onFailure(call: Call<List<Comment>>, t: Throwable) {
-                Log.d(TAG, "onFailure 댓글 실패 : " + t.message.toString())
-            }
-
-        })
-
-    }
 
     class CheckCmentThread(pno: Int?) : Thread() {
-        private var pno = 0
-        fun CheckCmentThread2(pno: Int) {
-            Log.d(TAG, "00000000000")
-            this.pno = pno
-        }
+        private var pno = pno
         override fun run() {
             super.run()
-            RetrofitBuilder.api.getComment(pno).enqueue(object : Callback<List<Comment>>{
-                override fun onResponse(call: Call<List<Comment>>, response: Response<List<Comment>>) {
-                    if (response.isSuccessful) {
+            pno?.let {
+                RetrofitBuilder.api.getComment(it).enqueue(object : Callback<List<Comment>>{
+                    override fun onResponse(call: Call<List<Comment>>, response: Response<List<Comment>>) {
+                        if (response.isSuccessful) {
 
-                        Log.d(TAG, "1111111111111111")
-                        var result: List<Comment>? = response.body()
-                        comments= response.body() as ArrayList<Comment>
-                        //일부러 따로해줌
-                        Log.d(TAG, "222222222222")
-                        msg= handler.obtainMessage(StateSet.BoardMsg.MSG_SUCCESS_GET_CMENTS)
-                        handler.handleMessage(msg)
-
-                        /*
-                        if(comments!=null)
-                        {
-                            for (cment in comments) {
-                                var withcment = false
-                                if (cment.cccnt > 0) {
-
-                                    Log.d(TAG, "1번째 데이터리스트"+dataList.toString())
-//                                    msg= handler.obtainMessage(StateSet.BoardMsg.MSG_NEED_TO_CCMENTS)
-//                                    handler.handleMessage(msg)
-//                                    var dataitem= Dataitem()
-//                                    dataitem.Commentitem(cment,1)
-//                                    dataList.add(dataitem)
-//                                    Log.d(TAG, "dataitem추가됨" + dataitem)
-//
-                                    val CheckCcmentThread = CheckCcmentThread(pno,cment)
-                                    CheckCcmentThread.CheckCcmentThread2(pno,cment)
-                                    //insert thread 불러오기
-                                    CheckCcmentThread.start()
-                                    withcment=true
-                                    break
-                                }
-                                if(withcment==false){
-                                    //대댓글 하나도 없을 경우 바로 보여줌
-                                    var dataitem= Dataitem()
-                                    dataitem.Commentitem(cment,1)
-                                    dataList.add(dataitem)
-                                    Log.d(TAG, "대댓글 없음 dataitem추가됨" + dataitem)
-                                }
-                            }
-
-                            msg= handler.obtainMessage(StateSet.BoardMsg.MSG_SUCCESS_GET_ALLCMENTS)
+                            Log.d(TAG, "1111111111111111")
+                            var result: List<Comment>? = response.body()
+                            comments= response.body() as ArrayList<Comment>
+                            //일부러 따로해줌
+                            Log.d(TAG, "222222222222")
+                            msg= handler.obtainMessage(StateSet.BoardMsg.MSG_SUCCESS_GET_CMENTS)
                             handler.handleMessage(msg)
+
+                        } else {
+                            // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
                         }
-
-
-                        Log.d(TAG, "onResponse: 댓글 불러오기 성공" + result.toString())
-//                        Log.d(TAG, "onResponse: 댓글 불러오기 성공" + comments)
-//                        Log.d(TAG, "dataList!!!"+ dataList.toString())
-//                        val decoration=DividerItemDecoration(this@PostingActivity, VERTICAL)
-//                        comment_rv.addItemDecoration(decoration)
-//                        comment_rv.layoutManager= LinearLayoutManager(this@PostingActivity, LinearLayoutManager.VERTICAL, false)
-//                        //리사이클러뷰 선언
-//                        comment_rv.visibility=View.VISIBLE
-//                        comment_rv.setHasFixedSize(true) //리사이클러뷰 성능 개선?
-//                        adapter= CommentAdapter(dataList)
-//                        comment_rv.adapter= adapter//adapter 선언
-
-                        // 정상적으로 통신이 성공된 경우
-
-
-
-                         */
-                    } else {
-                        // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
                     }
-                }
 
-                override fun onFailure(call: Call<List<Comment>>, t: Throwable) {
-                    Log.d(TAG, "onFailure 댓글 실패 : " + t.message.toString())
-                }
+                    override fun onFailure(call: Call<List<Comment>>, t: Throwable) {
+                        Log.d(TAG, "onFailure 댓글 실패 : " + t.message.toString())
+                    }
 
-            })
+                })
+            }
         }
 
     }
@@ -345,83 +221,35 @@ class PostingActivity : AppCompatActivity() {
     }
 
     class CheckCcmentThread(pno: Int?) : Thread() {
-        private var pno = 0
-        fun CheckCcmentThread2(pno: Int) {
-            this.pno=pno
-        }
+        private var pno = pno
         override fun run() {
             super.run()
-            RetrofitBuilder.api.getCcomment(pno).enqueue(object : Callback<List<Ccomment>> {
+            pno?.let {
+                RetrofitBuilder.api.getCcomment(it).enqueue(object : Callback<List<Ccomment>> {
 
-                override fun onResponse(call: Call<List<Ccomment>>, response: Response<List<Ccomment>>) {
-                    if (response.isSuccessful) {
+                    override fun onResponse(call: Call<List<Ccomment>>, response: Response<List<Ccomment>>) {
+                        if (response.isSuccessful) {
 
-                        var result: List<Ccomment>? = response.body()
-                        ccomments= response.body() as ArrayList<Ccomment>
-                        msg = handler.obtainMessage(StateSet.BoardMsg.MSG_SUCCESS_GET_CCMENTS)
-                        handler.sendMessage(msg)
-//                        var dataitem= Dataitem()
-//                        dataitem.Commentitem(current_cment,1)
-//                        dataList.add(dataitem)
-//                            Log.d(TAG, "대댓글 있는 댓글 dataitem추가됨" + dataitem)
-//                            if(ccomments!=null)
-//                            {
-//                                for (ccment in ccomments) {
-//                                    var dataitem= Dataitem()
-//                                    dataitem.Ccommentitem(ccment,2)
-//                                    dataList.add(dataitem)
-//                                    Log.d(TAG, "2번째 데이터리스트"+dataList.toString())
-//                                    Log.d(TAG, "대댓글 있음 dataitem추가됨" + dataitem)
-//
-//                                }
-//                            }
+                            var result: List<Ccomment>? = response.body()
+                            ccomments= response.body() as ArrayList<Ccomment>
+                            msg = handler.obtainMessage(StateSet.BoardMsg.MSG_SUCCESS_GET_CCMENTS)
+                            handler.sendMessage(msg)
 
-                        // 정상적으로 통신이 성공된 경우
-                        Log.d(TAG, "onResponse: thread 대댓글 불러오기 성공" + result?.toString())
+                            // 정상적으로 통신이 성공된 경우
+                            Log.d(TAG, "onResponse: thread 대댓글 불러오기 성공" + result?.toString())
 
-                    } else {
-                        // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-                    }
-                }
-
-                override fun onFailure(call: Call<List<Ccomment>>, t: Throwable) {
-                    Log.d(TAG, "onFailure 대댓글 실패 : " + t.message.toString())
-                }
-
-            })
-        }
-    }
-
-    fun checkCcomment(pno: Int) {
-
-        RetrofitBuilder.api.getCcomment(pno).enqueue(object : Callback<List<Ccomment>> {
-
-            override fun onResponse(call: Call<List<Ccomment>>, response: Response<List<Ccomment>>) {
-                if (response.isSuccessful) {
-
-                    var result: List<Ccomment>? = response.body()
-                    ccomments= response.body() as ArrayList<Ccomment>
-                    if(ccomments!=null)
-                    {
-                        for (cment in ccomments) {
-                            var dataitem= Dataitem()
-                            dataitem.Ccommentitem(cment,2)
-                            dataList.add(dataitem)
+                        } else {
+                            // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
                         }
                     }
-                    // 정상적으로 통신이 성공된 경우
-                    Log.d(TAG, "onResponse: 대댓글 불러오기 성공" + result?.toString())
 
-                } else {
-                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-                }
+                    override fun onFailure(call: Call<List<Ccomment>>, t: Throwable) {
+                        Log.d(TAG, "onFailure 대댓글 실패 : " + t.message.toString())
+                    }
+
+                })
             }
-
-            override fun onFailure(call: Call<List<Ccomment>>, t: Throwable) {
-                Log.d(TAG, "onFailure 대댓글 실패 : " + t.message.toString())
-            }
-
-        })
+        }
     }
 
 
@@ -436,7 +264,6 @@ class PostingActivity : AppCompatActivity() {
                         if (cment.cccnt > 0) {
                             Log.d(TAG, "1번째 데이터리스트"+dataList.toString())
                             val CheckCcmentThread = CheckCcmentThread(pno)
-                            CheckCcmentThread.CheckCcmentThread2(pno)
                             //insert thread 불러오기
                             CheckCcmentThread.start()
                             withcment=true
@@ -496,6 +323,13 @@ class PostingActivity : AppCompatActivity() {
 }
 
 fun updateCmentCnt(pno: Int, sign: String) {
+
+    //삭제 시 ccnt를 마이너스 시키고 다시 보여줌
+    if(sign=="minus")
+    {
+        pccnt--
+       post_ccnt.setText(pccnt.toString())
+    }
 
     RetrofitBuilder.api.putCommentCnt(pno, sign).enqueue(object : Callback<Int> {
 
