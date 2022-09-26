@@ -1,15 +1,25 @@
 package com.example.workingparents
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
 private val TAG = "CmentAdapter"
+private var context: Context? = null
+//굳이 context만드는 이유는.. 다른 함수에서 this가 표시하는 곳이 postingActivtiy인걸 알려주기 위해서..
 
 class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
@@ -20,9 +30,11 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
 
         if (viewType == 1) {
             val view=LayoutInflater.from(parent.context).inflate(R.layout.comment,parent,false)
+            context = parent.context
             return CommentViewHolder(view)
         } else {
             val view=LayoutInflater.from(parent.context).inflate(R.layout.ccomment,parent,false)
+            context = parent.context
             return CcommentViewHolder(view)
         }
     }
@@ -102,6 +114,40 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
                 Log.d(TAG,"같은 날 아님")
             }
 
+            val comment = cmentDataList!![position].getComment()
+
+            holder.cbtn.setOnClickListener(View.OnClickListener {
+                Log.d(TAG, "cbtn 눌림")
+                Log.d(TAG, "지금 위치"+position.toString())
+                //  Toast.makeText(view.context,"content: " + item.content , Toast.LENGTH_SHORT).show()
+
+                val bottomSheet = BottomSheetCment() {
+                    when (it) {
+                        //확인해보기
+                        0 -> {
+                            Toast.makeText(context, "대댓글", Toast.LENGTH_SHORT).show()
+                        }
+
+                        1 -> {
+
+                            val builder = AlertDialog.Builder(context)
+                                .setMessage("댓글을 삭제하시겠습니까?")
+                                .setPositiveButton("확인",
+                                    DialogInterface.OnClickListener{ dialog, which ->
+                                        deleteCmentOnPosting(comment!!.pno, comment!!.cno, comment!!.cccnt, position)
+                                        Toast.makeText(context, "확인", Toast.LENGTH_SHORT).show()
+                                    })
+                                .setNegativeButton("취소",
+                                    DialogInterface.OnClickListener { dialog, which ->
+                                        Toast.makeText(context, "취소", Toast.LENGTH_SHORT).show()
+                                    })
+                            builder.show()
+                        }
+                    }
+                }
+                bottomSheet.show((context as PostingActivity).supportFragmentManager,bottomSheet.tag)
+            })
+
         }
 
         else if(holder is CcommentViewHolder){
@@ -178,7 +224,6 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
 
         }
 
-
         //대댓글 꾹 눌렀을 때 본인 글이면 대댓글 삭제하기
         holder.itemView.setOnLongClickListener { v ->
             false
@@ -191,6 +236,7 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
     }
 
     class CommentViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        val cbtn=itemView.findViewById<ImageButton>(R.id.cbtn)
         val cid=itemView.findViewById<TextView>(R.id.cid)
         val ctime=itemView.findViewById<TextView>(R.id.ctime)
         val ccontent=itemView.findViewById<TextView>(R.id.ccontent)
@@ -202,6 +248,42 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
         val cccontent=itemView.findViewById<TextView>(R.id.cccontent)
     }
 
+
+    fun deleteCmentOnPosting(pno: Int, cno: Int, cccnt: Int, position: Int) {
+        if (cccnt > 0) {
+            //댓글의 position 뒤에 대댓글 개수만큼 삭제해준다.
+            for (i in 1..cccnt) {
+                Log.d("tag", "대댓글발견" + cmentDataList!![position + 1].getCcomment()!!.ccment.toString() + "ccno삭제함")
+                //ccnt값도 내려주기
+                //ccnt값도 내려주기
+                updateCmentCnt(pno, "minus")
+                cmentDataList!!.removeAt(position + 1)
+            }
+        }
+        cmentDataList!!.removeAt(position)
+        notifyDataSetChanged()
+
+        RetrofitBuilder.api.deleteComment(pno, cno).enqueue(object : Callback<Int> {
+            //Comment DB에서 삭제임 (delete on Cascade라 DB의 대댓글에선 작동으로 삭제됨)
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                if (response.isSuccessful) {
+                    val result = response.body()
+                    if (result!!.toInt() == 1) {
+                        Log.d("tag", "댓글삭제성공\n")
+                        //ccnt값도 내려주기
+                        updateCmentCnt(pno, "minus")
+
+                    }
+                } else {
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                }
+            }
+            override fun onFailure(call: Call<Int>, t: Throwable) {
+                Log.d(TAG, "onFailure 댓글 실패 : " + t.message.toString())
+            }
+
+        })
+    }
 
 
     fun insertCcmentOnCment(pno: Int, cno: Int, ccid: String, ccment: String, position: Int) {

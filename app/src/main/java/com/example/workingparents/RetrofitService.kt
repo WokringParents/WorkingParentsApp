@@ -2,7 +2,6 @@ package com.example.workingparents
 
 import retrofit2.Call
 import retrofit2.http.*
-import java.sql.Timestamp
 
 interface RetrofitService {
 
@@ -72,6 +71,9 @@ interface RetrofitService {
 
     ): Call<Int>
 
+    @GET("postingContent/{content}")
+    fun getPostingbyContent(@Path("content") pcontent: String?): Call<List<Posting>>
+
     @GET("/posting/all")
     fun getPosting():Call<List<Posting>>
 
@@ -103,7 +105,7 @@ interface RetrofitService {
          @Query("startdate") startdate: String,
          @Query("enddate") enddate: String
      ):Call<List<SharingList>>
-
+    //get할때 param으로 주는건 query로 해야함
 
     @FormUrlEncoded
     @POST("sharinglist")

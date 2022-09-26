@@ -16,6 +16,5 @@ data class CalendarData (
     @SerializedName("csex")
     val csex: String
 
-
 )
 

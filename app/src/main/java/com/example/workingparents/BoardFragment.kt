@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -101,6 +102,15 @@ class BoardFragment : Fragment(){
             val intent = Intent(mContext,WritePostingActivity::class.java)
             mContext.startActivity(intent)
         }
+
+        val PostingSearchBtn = view.findViewById<Button>(R.id.search_bar)
+
+        PostingSearchBtn.setOnClickListener{
+            Log.d(TAG,"클릭됨")
+            val intent = Intent(mContext,PostingSearchActivity::class.java)
+            mContext.startActivity(intent)
+        }
+
         return view
     }
 
