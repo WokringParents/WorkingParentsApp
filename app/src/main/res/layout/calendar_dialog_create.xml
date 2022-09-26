@@ -100,25 +100,15 @@
 
 
 
-            <Button
-                android:id="@+id/btnDone"
-                android:layout_width="85dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="60dp"
-                android:background="@drawable/orangeborder"
-                android:text="완료"
-                android:textColor="@color/main"
-                tools:ignore="TouchTargetSizeCheck" />
-
 
             <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="85dp"
+                android:id="@+id/btnCreate"
+                android:layout_width="185dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/border"
-                android:text="취소"
+                android:text="완료"
                 android:textColor="@color/main"
                 tools:ignore="TouchTargetSizeCheck" />
 

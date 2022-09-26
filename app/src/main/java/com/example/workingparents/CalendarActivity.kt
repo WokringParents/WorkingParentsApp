@@ -7,24 +7,28 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.text.style.ForegroundColorSpan
 import android.text.style.LineBackgroundSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.Log
-import android.view.ContextMenu
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.prolificinteractive.materialcalendarview.*
 import com.prolificinteractive.materialcalendarview.spans.DotSpan.DEFAULT_RADIUS
 import kotlinx.android.synthetic.main.activity_calendar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.set
 
@@ -45,9 +49,9 @@ class CalendarActivity : AppCompatActivity() {
     companion object {
         var hashMap= HashMap<CalendarDay,String>()
         var couplenum:Int =1
-        val sex:String = "F"
-        lateinit var adapter:CalendarAdapter
+        val sex:String = "M"
     }
+
 
     val CoupleColor = intArrayOf(
         Color.rgb(255, 168, 177),
@@ -71,19 +75,15 @@ class CalendarActivity : AppCompatActivity() {
         var contextMain: Context = this@CalendarActivity
         var calendar: MaterialCalendarView = findViewById(R.id.calendar)
 
+
+        var data: CalendarRecyclerData?= null
+
         val sundayDecorator = SundayDecorator()
         val saturdayDecorator = SaturdayDecorator()
         val todayDecorator = TodayDecorator()
 
         calendar.addDecorators(saturdayDecorator,sundayDecorator, todayDecorator)
         //캘린더에 토요일, 일요일, 오늘을 각각 원하는 색깔로 칠해줌
-
-        menu.setOnClickListener {
-            this.registerForContextMenu(it)
-            openContextMenu(it)
-            unregisterForContextMenu(it)
-        }
-        //짧게 클릭했을 때 수정,삭제 나옴
 
         val list = ArrayList<CalendarRecyclerData>()
         //Get할 때 CalendarData형식으로 넣어주는 리스트
@@ -113,8 +113,8 @@ class CalendarActivity : AppCompatActivity() {
                 var Calendardate:String
                 //리사이클러뷰에서 내가 클릭한 날짜와 같은 날짜를 찾아오기 위한 변수
 
-                    Calendardate = "${date.year}-${date.month + 1}-${date.day}"
-                    //특이한 점이 month+1을 해줘야함 그냥 month는 해당 달보다 1씩 작음
+                Calendardate = "${date.year}-${date.month + 1}-${date.day}"
+                //특이한 점이 month+1을 해줘야함 그냥 month는 해당 달보다 1씩 작음
 
 
                 //var couplenum:Int
@@ -123,7 +123,10 @@ class CalendarActivity : AppCompatActivity() {
                 //    couplenum= UserData.couplenum
                 //}
 
-                clickGetRecycler(Calendardate,list)
+                var adapter = CalendarAdapter(this@CalendarActivity, list)
+                //adpater가 여러군데 쓰여서 매개변수로 넣어주기로 함
+
+                clickGetRecycler(adapter, Calendardate,list)
                 //클릭한 날짜의 일정을 리사이클러뷰로 보여줌
 
                 button.setOnClickListener(object : View.OnClickListener {
@@ -135,16 +138,34 @@ class CalendarActivity : AppCompatActivity() {
                         //다이얼로그 부르기
                         dialog.myDig()
                         dialog.setOnClickedListener(object : CustomDialog.ButtonClickListener {
+                            @RequiresApi(Build.VERSION_CODES.O)
                             override fun onClicked(ctitle: String, ccontent: String) {
                                 //완료버튼 클릭 후 정보를 받아오는 리스너
 
                                 var cdate:String?=null
                                 //DB에 날짜를 저장하기 위한 변수
-                                    cdate ="${Calendardate} 00:00:00"
-                                    //앞서 내가 클릭한 날짜의 리사이클러뷰를 가져오기 위해 Calendardate를 만들었다. 여기에 00:00:00를 추가해서 내가 DB에 넣어야할 날짜변수를 만듦
+
+                                var ctime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+                                cdate ="${Calendardate} ${ctime}"
+                                //앞서 내가 클릭한 날짜의 리사이클러뷰를 가져오기 위해 Calendardate를 만들었다. 여기에 ctime을 추가해서 내가 DB에 넣어야할 날짜변수를 만듦
+
+                                //리사이클러뷰 아이템 추가 시 갱신
+
+                                /* 맞다.. 프레그먼트로 바꾼 뒤에 viewType 바꿔주기
+                                if(UserData.sex =="F") {
+                                    list.add(CalendarRecyclerData(ctitle, ccontent, cdate,CalendarMode.female))
+                                }else{
+                                    list.add(CalendarRecyclerData(ctitle, ccontent, cdate,CalendarMode.male))
+                                }
+
+*/
+                                list.add(CalendarRecyclerData(ctitle, ccontent, cdate,1))
+                                adapter.notifyItemRangeChanged(list.size, 1)
 
                                 postCalendar(ccontent, cdate, ctitle,
-                                    date,list)
+                                    date,list, adapter)
+
+
 
                             }
 
@@ -161,11 +182,6 @@ class CalendarActivity : AppCompatActivity() {
 
     }
 
-    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.calendar_recycler_menu, menu)
-        super.onCreateContextMenu(menu, v, menuInfo)
-    }
 
 
     private fun postCalendar(
@@ -173,7 +189,8 @@ class CalendarActivity : AppCompatActivity() {
         cdate: String,
         ctitle: String,
         date: CalendarDay,
-        list: ArrayList<CalendarRecyclerData>
+        list: ArrayList<CalendarRecyclerData>,
+        adapter: CalendarAdapter
     ) {
         //cdate는 내가 DB에 넣을 날짜이고 date는 사용자가 누른 날짜임 즉 같은날짜지만 형식이 아예 다른 날짜로써 cdate자르기 싫어서 가져옴
         RetrofitBuilder.api.postCalender(couplenum, cdate, ctitle, ccontent, sex)
@@ -187,12 +204,6 @@ class CalendarActivity : AppCompatActivity() {
                         var result: Int? = response.body()
                         // 정상적으로 통신이 성공된 경우
 
-                        //리사이클러뷰 아이템 추가해서 갱신
-                        if(sex=="F") {
-                            adapter.addItem(CalendarRecyclerData(ctitle, ccontent,CalendarMode.female))
-                        }else{
-                            adapter.addItem(CalendarRecyclerData(ctitle, ccontent,CalendarMode.male))
-                        }
 
                         //month를 print하면 현재 달로부터 1씩 작게 나와서 DB에 값을 추가할땐 month+1을 해줬음
                         //잘 모르지만 이제부터는 그냥 month를 쓰면 됨
@@ -336,6 +347,7 @@ class CalendarActivity : AppCompatActivity() {
                                     CalendarRecyclerData(
                                         ctitle,
                                         ccontent,
+                                        cdate,
                                         CalendarMode.female
                                     )
                                 )
@@ -381,7 +393,11 @@ class CalendarActivity : AppCompatActivity() {
             })
     }
 
-    private fun clickGetRecycler(Calendardate: String?, list: ArrayList<CalendarRecyclerData>) {
+    private fun clickGetRecycler(
+        adapter: CalendarAdapter,
+        Calendardate: String?,
+        list: ArrayList<CalendarRecyclerData>
+    ) {
         //get을 통해 클릭한 날짜의 일정을 가져와서 리사이클러뷰로 보여줌
         list.clear()
         //이전에 클릭한 일정을 다시 보지 않게 해줌
@@ -397,17 +413,20 @@ class CalendarActivity : AppCompatActivity() {
 
                             var title= i.ctitle
                             var content= i.ccontent
+                            var cdate= i.cdate
                             var sex = i.csex
                             var splitdate = i.cdate.split(" ")
                             //현재 i.cdate는 2022-09-6 00:00:00 형식이여서 뒤에 00:00:00을 빼준다
 
                             if(splitdate.get(0).equals(Calendardate)) {
 
+
                                 if(sex=="F") {
                                     list.add(
                                         CalendarRecyclerData(
                                             title,
                                             content,
+                                            cdate,
                                             CalendarMode.female
                                         )
                                     )
@@ -417,6 +436,7 @@ class CalendarActivity : AppCompatActivity() {
                                         CalendarRecyclerData(
                                             title,
                                             content,
+                                            cdate,
                                             CalendarMode.male
                                         )
                                     )
@@ -425,10 +445,29 @@ class CalendarActivity : AppCompatActivity() {
 
                         }
 
+                        //리사이클러의 아이템 클릭 시 어댑터에 정의해둔 클릭리스너를 호출함
+                        adapter.setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
 
-                        adapter = CalendarAdapter(this@CalendarActivity, list)
+                            override fun onItemClick(data: CalendarRecyclerData, pos: Int) {
+
+                                var dialog = CustomDialog(this@CalendarActivity)
+                                //아이템 클릭 시 다이얼로그 생성 및 생성삭제에 필요한 매개변수들을 전달해줌
+                                dialog.adapterMyDig(data,data.title,data.content,adapter,list,recyclerCalendar,pos,data.cdate)
+                                //recyclerCalendar.adapter = adapter
+                            }
+
+                            override fun onItemEditClick(data: CalendarRecyclerData, pos: Int) {
+
+
+
+                            }
+
+                            override fun onItemDeleteClick(data: CalendarRecyclerData, pos: Int) {
+
+
+                            }
+                        })
                         recyclerCalendar.adapter = adapter
-
                     }
                 }else{
                     // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
@@ -599,9 +638,14 @@ class CalendarActivity : AppCompatActivity() {
 
     class CustomDialog(context: Context) {
 
+        //다이얼로그를 만드는 클래스
+        //일정입력, 수정, 삭제 모두 해당 클래스를 사용함
+
         private val dialog = Dialog(context)
 
         interface ButtonClickListener {
+            //버튼클릭 인터페이스
+            //myDig()함수에서 완료버튼을 눌렀을 때 제목과 내용을 전달함
             fun onClicked(ctitle: String, ccontent: String)
         }
 
@@ -611,8 +655,115 @@ class CalendarActivity : AppCompatActivity() {
             onClickedListener = listener
         }
 
+        fun adapterMyDig(
+            data: CalendarRecyclerData,
+            title: String,
+            content: String,
+            adapter: CalendarAdapter,
+            list: ArrayList<CalendarRecyclerData>,
+            recyclerCalendar: RecyclerView,
+            pos: Int,
+            cdate: String
+        ) {
+
+            //일정 수정 및 삭제를 위한 다이얼로그를 생성하는 함수
+            dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog_update_delete)
+            dialog.window!!.setLayout(
+                900,
+                WindowManager.LayoutParams.WRAP_CONTENT)
+            dialog.window!!.setBackgroundDrawableResource(com.example.workingparents.R.drawable.orangeborder)
+            dialog.setCanceledOnTouchOutside(true)
+            dialog.setCancelable(true)
+
+            val edit_ctitle = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ctitle)
+            val edit_ccontent = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ccontent)
+
+            val btnUpdate = dialog.findViewById<Button>(com.example.workingparents.R.id.btnUpdate)
+            val btnDelete = dialog.findViewById<Button>(com.example.workingparents.R.id.btnDelete)
+
+            edit_ctitle.setText(title)
+            edit_ccontent.setText(content)
+
+            dialog.show()
+
+            btnUpdate.setOnClickListener() {
+                //수정버튼을 눌렀을 때
+
+                //리사이클러뷰 화면 수정
+                data.title= edit_ctitle.text.toString()
+                data.content = edit_ccontent.text.toString()
+                println("cdate====>"+data.cdate)
+
+                adapter.updateItem(pos, data)
+                //이미 내가 누른거, 수정을 눌렀고.. 그 수정누른 아이템이 뭔지를
+                //알고 있잖아..
+                //누른 아이템의.. cdate를 알 수는 없을까?
+
+                adapter.notifyItemRangeChanged(pos, 1)
+
+                //리사이클러뷰 DB수정
+
+                println("커플넘:"+couplenum+"데이트"+data.cdate+"타이틀"+data.title+"내용"+data.content)
+
+                RetrofitBuilder.api.putCalender(couplenum, data.cdate, data.title, data.content).enqueue(object :Callback<Int>{
+                    override fun onResponse(call: Call<Int>, response: Response<Int>) {
+
+                        if(response.isSuccessful){
+                            val result: Int? = response.body()
+                            if(result==1) {
+                                Log.d("업데이트", "onResponse: putCalender 성공 ")
+                            }
+                        }else{
+                            Log.d("업데이트", "onResponse: putCalender 실패 ")
+                        }
+                    }
+                    override fun onFailure(call: Call<Int>, t: Throwable) {
+                        Log.d("업데이트", "onFailure: putCalender 실패 ")
+                    }
+                })
+
+                dialog.dismiss()
+
+                    }
+
+
+            btnDelete.setOnClickListener() {
+                //삭제버튼을 눌렀을 때
+
+                //리사이클러뷰 화면 삭제
+                adapter.deleteItem(pos)
+                adapter.notifyItemRemoved(pos)
+                adapter.notifyItemRangeChanged(pos, list.size)
+
+                //리사이클러뷰 DB삭제
+
+                RetrofitBuilder.api.deleteCalender(couplenum, data.cdate).enqueue(object :Callback<Int>{
+                    override fun onResponse(call: Call<Int>, response: Response<Int>) {
+
+                        if(response.isSuccessful){
+                            val result: Int? = response.body()
+                            if(result==1) {
+                                Log.d("삭제", "onResponse: deleteCalender 성공 ")
+                            }
+                        }else{
+                            Log.d("삭제", "onResponse: deleteCalender 실패 ")
+                        }
+                    }
+                    override fun onFailure(call: Call<Int>, t: Throwable) {
+                        Log.d("삭제", "onFailure: deleteCalender 실패 ")
+                    }
+                })
+
+                dialog.dismiss()
+            }
+
+        }
+
+
         fun myDig() {
-            dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog)
+            //일정 생성을 위한 다이얼로그를 생성하는 함수
+
+            dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog_create)
             dialog.window!!.setLayout(
                 900,
                 WindowManager.LayoutParams.WRAP_CONTENT)
@@ -625,12 +776,11 @@ class CalendarActivity : AppCompatActivity() {
             val edit_ctitle = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ctitle)
             val edit_ccontent = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ccontent)
 
-            val btnDone = dialog.findViewById<Button>(com.example.workingparents.R.id.btnDone)
-            val btnCancel = dialog.findViewById<Button>(com.example.workingparents.R.id.btnCancel)
+            val btnCreate = dialog.findViewById<Button>(com.example.workingparents.R.id.btnCreate)
 
 
 
-            btnDone.setOnClickListener() {
+            btnCreate.setOnClickListener() {
                 //완료버튼을 눌렀을 때
                 //리스너를 이용해서 제목,내용,성별 전송
                 onClickedListener.onClicked(edit_ctitle.text.toString(), edit_ccontent.text.toString())
@@ -638,9 +788,6 @@ class CalendarActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
 
-            btnCancel.setOnClickListener {
-                dialog.dismiss()
-            }
 
         }
 

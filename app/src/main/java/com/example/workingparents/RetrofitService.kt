@@ -143,6 +143,20 @@ interface RetrofitService {
         @Field("csex") csex: String?
     ): Call<Int>
 
+    @FormUrlEncoded
+    @PUT("calendar/{couplenum}")
+    fun putCalender(
+        @Path("couplenum") couplenum: Int,
+        @Field("cdate") cdate: String,
+        @Field("ctitle") ctitle:String,
+        @Field("ccontent") ccontent:String
+    ): Call<Int>
+
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "/calendar/{couplenum}", hasBody = true)
+    fun deleteCalender(@Path("couplenum") couplenum: Int,  @Field("cdate") cdate: String): Call<Int>
+
 
     //-------------------------------Comment------------------------------//
 
