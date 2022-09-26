@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Workingparents"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".JoinActivity2"
+            android:exported="false" />
+        <activity
             android:name=".JoinChildActivity"
             android:exported="false" />
         <activity

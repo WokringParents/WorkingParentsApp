@@ -261,70 +261,15 @@
             android:maxLines="1"
             />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_gravity="center"
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="성별"
-                android:textColor="@color/black"
-                android:layout_weight="0.6"
-                android:textSize="15sp"
-                android:fontFamily="@font/notosans_regular"
-                />
-
-
-
-            <RadioGroup
-                android:id="@+id/radio_group_join"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-
-                >
-
-                <RadioButton
-                    android:id="@+id/dadBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="남성"
-                    android:buttonTint="@color/main"
-                    android:layout_weight="1"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/notosans_regular"
-                    android:textColor="#767676"
-                    />
-
-                <RadioButton
-                    android:id="@+id/momBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="여성"
-                    android:buttonTint="@color/main"
-                    android:layout_weight="1"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/notosans_regular"
-                    android:textColor="#767676"
-                    />
-
-            </RadioGroup>
-        </LinearLayout>
 
         <Button
             android:id="@+id/btn_joinFinish"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="115dp"
             android:background="@drawable/border"
             android:backgroundTint="#FF9769"
-            android:text="가입하기"
+            android:text="다음"
             android:textSize="16sp"
             android:textColor="@color/white" />
 
