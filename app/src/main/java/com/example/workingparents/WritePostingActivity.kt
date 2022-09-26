@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.workingparents.BoardFragment.Companion.postings
 import kotlinx.android.synthetic.main.activity_join.*
 import kotlinx.android.synthetic.main.activity_write_posting.*
 import retrofit2.Call
@@ -80,16 +81,21 @@ class WritePostingActivity : AppCompatActivity() {
 
         if(checkGoback) //등하원 체크했나 확인
         {
-            RetrofitBuilder.api.postPosting(pid,village,goback,content).enqueue(object : Callback<Int> {
-                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+            RetrofitBuilder.api.postPosting(pid,village,goback,content).enqueue(object : Callback<Posting> {
+                override fun onResponse(call: Call<Posting>, response: Response<Posting>) {
                     if (response.isSuccessful) {
-                        var result: Int? = response.body()
+                        var result: Posting? = response.body()
                         //Toast.makeText(applicationContext, "새로고침을 해주세요", Toast.LENGTH_SHORT).show()
 
-                        val intent = Intent(this@WritePostingActivity, AlarmLoadingActivity::class.java)
-                        intent.putExtra("content",content)
-                        startActivity(intent)
-                        overridePendingTransition(R.anim.none, R.anim.none)
+                        //이거 알람 로딩 화면에 쓰이는거
+                        //val intent = Intent(this@WritePostingActivity, AlarmLoadingActivity::class.java)
+                        //intent.putExtra("content",content)
+                        //startActivity(intent)
+                        //overridePendingTransition(R.anim.none, R.anim.none)
+
+                        Log.d(TAG, result.toString())
+                        //boardFragment 갱신
+                        refreshAdapter(result!!)
                         finish() //main으로 돌아감
                         Log.d(TAG, "onResponse: 포스팅 성공")
                     } else {
@@ -98,7 +104,7 @@ class WritePostingActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<Int>, t: Throwable) {
+                override fun onFailure(call: Call<Posting>, t: Throwable) {
                     Log.d(TAG, "onFailure 포스팅 실패 에러: " + t.message.toString())
 
                 }

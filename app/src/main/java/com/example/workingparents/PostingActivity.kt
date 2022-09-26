@@ -7,6 +7,9 @@ import android.os.Message
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -46,6 +49,8 @@ class PostingActivity : AppCompatActivity() {
         lateinit var msg : Message
         var pno by Delegates.notNull<Int>()
         lateinit var post_ccnt : TextView
+        lateinit var input : EditText
+        lateinit var sendbtn : ImageButton
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +59,8 @@ class PostingActivity : AppCompatActivity() {
 
         recyclerView= findViewById(R.id.comment_rv)
         post_ccnt=findViewById(R.id.ccnt)
+        input=findViewById(R.id.input1)
+        sendbtn=findViewById(R.id.sendBtn)
 
         pid.setText(intent.getStringExtra("rv_pid"))
         village.setText(intent.getStringExtra("rv_village"))
@@ -92,17 +99,17 @@ class PostingActivity : AppCompatActivity() {
         Log.d(TAG, pno.toString())
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         //댓글달기 클릭시 키보드+입력창 올라옴
-        input1.setOnClickListener {
-            input1.post(Runnable {
-                input1.setFocusableInTouchMode(true)
-                input1.requestFocus()
-                imm.showSoftInput(input1, 0)
+        input.setOnClickListener {
+            input.post(Runnable {
+                input.setFocusableInTouchMode(true)
+                input.requestFocus()
+                imm.showSoftInput(input, 0)
             })
 
         }
 
-        sendBtn.setOnClickListener {
-            var comment = input1.text.toString()
+        sendbtn.setOnClickListener {
+            var comment = input.text.toString()
 
             if (pno != null) {
                 //checkcomment해서 cno증가시켜서 추가불러오기
@@ -112,10 +119,6 @@ class PostingActivity : AppCompatActivity() {
                 val insertCmentThread = InsertCmentThread(pno,comment) //insert thread 불러오기
                 insertCmentThread.InsertCmentThread2(pno,comment)
                 insertCmentThread.start()
-
-                pccnt++ //개수 증가
-                Log.d(TAG, "pccnt"+pccnt)
-                ccnt.setText(pccnt.toString())
                 input1.setText(null)
                 imm.hideSoftInputFromWindow(input1.windowToken,0)
             }
@@ -124,7 +127,6 @@ class PostingActivity : AppCompatActivity() {
             Log.d(TAG, postingcno.toString())
             Log.d(TAG, UserData.id.toString())
             Log.d(TAG, comment)
-
 
         }
     }
@@ -197,7 +199,6 @@ class PostingActivity : AppCompatActivity() {
                             var result: Comment? = response.body()
                             // 정상적으로 통신이 성공된 경우
                             Log.d(TAG, "onResponse: 댓글 성공" + result?.toString())
-
 
                             comments.add(result!!)
                             var dataitem= Dataitem()
@@ -330,6 +331,12 @@ fun updateCmentCnt(pno: Int, sign: String) {
         pccnt--
        post_ccnt.setText(pccnt.toString())
     }
+    else if(sign=="plus")
+    {
+        pccnt++
+        post_ccnt.setText(pccnt.toString())
+    }
+
 
     RetrofitBuilder.api.putCommentCnt(pno, sign).enqueue(object : Callback<Int> {
 
@@ -352,3 +359,40 @@ fun updateCmentCnt(pno: Int, sign: String) {
     })
 }
 
+fun updateCcmentCnt(pno: Int, cno:Int, sign: String) {
+
+    //삭제 시 ccnt를 마이너스 시키고 다시 보여줌
+    if(sign=="minus")
+    {
+        pccnt--
+        post_ccnt.setText(pccnt.toString())
+    }
+    else if(sign=="plus")
+    {
+        pccnt++
+        post_ccnt.setText(pccnt.toString())
+    }
+
+    RetrofitBuilder.api.putCcommentCnt(pno,cno,sign).enqueue(object : Callback<Int> {
+
+        override fun onResponse(call: Call<Int>, response: Response<Int>) {
+            if (response.isSuccessful) {
+
+                var result: Int? = response.body()
+                if (sign == "plus") {
+                    Log.d("tag", "cccnt++")
+                } else {
+                    Log.d("tag", "cccnt--")
+                }
+
+            } else {
+                // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+            }
+        }
+
+        override fun onFailure(call: Call<Int>, t: Throwable) {
+            Log.d(TAG, "onFailure 댓글 실패 : " + t.message.toString())
+        }
+
+    })
+}

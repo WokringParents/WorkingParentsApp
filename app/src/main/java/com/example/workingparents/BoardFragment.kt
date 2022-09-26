@@ -5,30 +5,36 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.workingparents.BoardFragment.Companion.Postingadapter
+import com.example.workingparents.BoardFragment.Companion.postings
 import kotlinx.android.synthetic.main.fragment_board.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.properties.Delegates
 
-private val TAG="Board"
-private lateinit var mContext:Activity
-private var postings = ArrayList<Posting>()
-private var result = ArrayList<Posting>()
+private var TAG="Board"
 
 
 class BoardFragment : Fragment(){
 
-    private var adapter: PostingAdapter? = null
+    companion object{
+        lateinit var mContext:Activity
+        lateinit var postings : ArrayList<Posting>
+        lateinit var Postingadapter: PostingAdapter
+        lateinit var recyclerView: RecyclerView
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -45,21 +51,16 @@ class BoardFragment : Fragment(){
     ): View {
 
         var view =inflater.inflate(R.layout.fragment_board, container, false)
-        var recyclerView = view.findViewById<RecyclerView>(R.id.rv_posting)
+        recyclerView = view.findViewById<RecyclerView>(R.id.rv_posting)
 
-        postings.clear()
+
+        //포스팅 불러오기
         RetrofitBuilder.api.getPosting().enqueue(object : Callback<List<Posting>> {
             override fun onResponse(call: Call<List<Posting>>, response: Response<List<Posting>>) {
                 if (response.isSuccessful) {
-                    result= response.body() as ArrayList<Posting>
-                    postings=fetchData(result)
-//                    if (result != null) { //recyclerview에 넣을 arraylist에 result 값을 넣는 for문
-//                        for (posting in result) {
-//                            postings.add(posting)
-//                        }
-//                    }
-
-//                    Log.d(TAG, "onResponse: 게시글 불러오기 성공" + result)
+                    postings= response.body() as ArrayList<Posting>
+                    //결과를 postings에 넣기
+                    Log.d(TAG, postings.get(0).toString())
 
                     //divider
                     recyclerView.addItemDecoration(MyDecoration(10, Color.parseColor("#f2f2f2")))
@@ -67,8 +68,8 @@ class BoardFragment : Fragment(){
                     //리사이클러뷰 선언
                     recyclerView.visibility=View.VISIBLE
                     recyclerView.setHasFixedSize(true) //리사이클러뷰 성능 개선?
-                    adapter= PostingAdapter(postings)
-                    recyclerView.adapter= adapter//adapter 선언
+                    Postingadapter= PostingAdapter(postings)
+                    recyclerView.adapter= Postingadapter//adapter 선언
 
 
                 } else {
@@ -82,33 +83,36 @@ class BoardFragment : Fragment(){
 
         })
 
-
-        recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (!recyclerView.canScrollVertically(-1)) {
-                    Log.i(TAG, "Top of list")
-                } else if (!recyclerView.canScrollVertically(1)) {
-                    Log.i(TAG, "End of list")
-                } else {
-                    Log.i(TAG, "idle")
-                }
-            }
-        })
-
+        //작성하기 클릭 시
         val writePostingBtn = view.findViewById<ImageButton>(R.id.writeposting_btn)
-
         writePostingBtn.setOnClickListener{
             Log.d(TAG,"클릭됨")
             val intent = Intent(mContext,WritePostingActivity::class.java)
             mContext.startActivity(intent)
         }
 
+        //검색창 클릭시
         val PostingSearchBtn = view.findViewById<Button>(R.id.search_bar)
-
         PostingSearchBtn.setOnClickListener{
             Log.d(TAG,"클릭됨")
             val intent = Intent(mContext,PostingSearchActivity::class.java)
             mContext.startActivity(intent)
+        }
+
+        val priority = view.findViewById<Button>(R.id.spinner_priority)
+        priority.setOnClickListener {
+            val bottomSheetPriority = BottomSheetPriority{
+                when (it) {
+                    //확인해보기
+                    0 -> Toast.makeText(context, "최신순", Toast.LENGTH_SHORT).show()
+
+                    1 -> Toast.makeText(context, "댓글순", Toast.LENGTH_SHORT).show()
+
+                    2 -> Toast.makeText(context, "공감순 ", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            bottomSheetPriority.show((context as MainActivity).supportFragmentManager,bottomSheetPriority.tag)
         }
 
         return view
@@ -118,30 +122,15 @@ class BoardFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
     }
 
+}
 
-    fun fetchData(result : ArrayList<Posting>):ArrayList<Posting>
-    {
-        val list=ArrayList<Posting>()
-        Log.d(TAG,"fetch확인용"+result.size)
-        for(i in result){
-                list.add(i)
-        }
-        return list
-    }
+//게시글 작성시 adapter을 refresh하는 함수
+fun refreshAdapter(result : Posting){
 
-    fun updateData(result : ArrayList<Posting>):ArrayList<Posting>
-    {
-        val list=ArrayList<Posting>()
-        Log.d(TAG,"update확인용"+result.size)
-        for(i in result){
-            list.add(i)
-        }
-        return list
-    }
-
-    fun refreshAdapter(){
-        adapter?.notifyDataSetChanged()
-    }
-
+    postings.add(0,result)
+    PostingAdapter(postings)
+    Log.d(TAG,"호출됨")
+    Log.d(TAG, postings.get(0).toString())
+    Postingadapter.notifyDataSetChanged()
 }
 

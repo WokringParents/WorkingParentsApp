@@ -15,11 +15,13 @@
         android:theme="@style/Theme.Workingparents"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".JoinChildActivity"
+            android:exported="false" />
+        <activity
             android:name=".PostingSearchActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustNothing"
-            />
-        <activity android:name=".AlarmLoadingActivity"></activity>
+            android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".AlarmLoadingActivity" />
         <activity
             android:name=".InputCodeActivity"
             android:exported="false" />
@@ -31,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CoupleConnectActivity" />
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CalendarActivity" />
         <activity android:name=".JoinActivity" />
         <activity
             android:name=".MainActivity"
