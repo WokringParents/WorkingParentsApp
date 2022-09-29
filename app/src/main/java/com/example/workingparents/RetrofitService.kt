@@ -69,7 +69,7 @@ interface RetrofitService {
         @Field("goback") goback: String,
         @Field("content") content: String
 
-    ): Call<Int>
+    ): Call<Posting>
 
     @GET("postingContent/{content}")
     fun getPostingbyContent(@Path("content") pcontent: String?): Call<List<Posting>>

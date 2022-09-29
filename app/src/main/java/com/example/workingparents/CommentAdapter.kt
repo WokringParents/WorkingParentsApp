@@ -2,15 +2,18 @@ package com.example.workingparents
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.DialogInterface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_posting.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,6 +47,7 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
         if (holder is CommentViewHolder) {
             holder.cid.text= cmentDataList?.get(position)?.getComment()?.cid
             holder.ccontent.text=cmentDataList?.get(position)?.getComment()?.cment.toString()
+
 
             //ctime 알려주는 함수
             //현재시간을 YY-MM-DD 00:00 으로 자른다
@@ -116,11 +120,68 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
 
             val comment = cmentDataList!![position].getComment()
 
+            //더보기 버튼 누르면
             holder.cbtn.setOnClickListener(View.OnClickListener {
                 Log.d(TAG, "cbtn 눌림")
                 Log.d(TAG, "지금 위치"+position.toString())
-                //  Toast.makeText(view.context,"content: " + item.content , Toast.LENGTH_SHORT).show()
 
+                val list: Array<String>
+                list = if (comment!!.cid.equals(UserData.id)) {
+                    arrayOf("대댓글 작성", "삭제")
+                } else {
+                    arrayOf("대댓글 작성")
+                }
+
+                val listbuilder=AlertDialog.Builder(context)
+                    .setItems(list, DialogInterface.OnClickListener { dialog, which ->
+                        if(which==0){
+                            val builder = AlertDialog.Builder(context)
+                                .setMessage("대댓글을 작성하시겠습니까?")
+                                .setPositiveButton("확인",
+                                    DialogInterface.OnClickListener{ dialog, which ->
+
+                                        val imm = context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                                        //댓글달기 클릭시 키보드+입력창 올라옴
+                                            PostingActivity.input.post(Runnable {
+                                                PostingActivity.input.setFocusableInTouchMode(true)
+                                                PostingActivity.input.requestFocus()
+                                                imm.showSoftInput(PostingActivity.input, 0)
+                                            })
+
+                                        PostingActivity.sendbtn.setOnClickListener {
+                                            var ccment = PostingActivity.input.text.toString()
+                                            insertCcmentOnCment(PostingActivity.pno,comment.cno,UserData.id,ccment,position)
+                                            PostingActivity.input.setText(null)
+                                            imm.hideSoftInputFromWindow(PostingActivity.input.windowToken,0)
+
+                                        }
+                                    })
+                                .setNegativeButton("취소",
+                                    DialogInterface.OnClickListener { dialog, which ->
+                                        Toast.makeText(context, "취소", Toast.LENGTH_SHORT).show()
+                                    })
+                            builder.show()
+                        }
+                        else if(which==1){
+                            val builder = AlertDialog.Builder(context)
+                                .setMessage("댓글을 삭제하시겠습니까?")
+                                .setPositiveButton("확인",
+                                    DialogInterface.OnClickListener{ dialog, which ->
+                                        deleteCmentOnPosting(comment!!.pno, comment!!.cno, comment!!.cccnt, position)
+                                        Toast.makeText(context, "확인", Toast.LENGTH_SHORT).show()
+                                    })
+                                .setNegativeButton("취소",
+                                    DialogInterface.OnClickListener { dialog, which ->
+                                        Toast.makeText(context, "취소", Toast.LENGTH_SHORT).show()
+                                    })
+                            builder.show()
+                        }
+
+                    } )
+                listbuilder.show()
+
+                /*
+                //bottomsheet으로 대댓글달기, 삭제
                 val bottomSheet = BottomSheetCment() {
                     when (it) {
                         //확인해보기
@@ -146,6 +207,8 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
                     }
                 }
                 bottomSheet.show((context as PostingActivity).supportFragmentManager,bottomSheet.tag)
+
+                 */
             })
 
         }
@@ -224,10 +287,6 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
 
         }
 
-        //대댓글 꾹 눌렀을 때 본인 글이면 대댓글 삭제하기
-        holder.itemView.setOnLongClickListener { v ->
-            false
-        }
 
     }
 
@@ -235,6 +294,7 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
         return cmentDataList!!.size
     }
 
+    //댓글 뷰홀더
     class CommentViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val cbtn=itemView.findViewById<ImageButton>(R.id.cbtn)
         val cid=itemView.findViewById<TextView>(R.id.cid)
@@ -242,6 +302,7 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
         val ccontent=itemView.findViewById<TextView>(R.id.ccontent)
     }
 
+    //대댓글 뷰홀더
     class CcommentViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val ccid=itemView.findViewById<TextView>(R.id.ccid)
         val cctime=itemView.findViewById<TextView>(R.id.cctime)
@@ -249,12 +310,12 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
     }
 
 
+    //댓글 삭제 함수
     fun deleteCmentOnPosting(pno: Int, cno: Int, cccnt: Int, position: Int) {
         if (cccnt > 0) {
             //댓글의 position 뒤에 대댓글 개수만큼 삭제해준다.
             for (i in 1..cccnt) {
                 Log.d("tag", "대댓글발견" + cmentDataList!![position + 1].getCcomment()!!.ccment.toString() + "ccno삭제함")
-                //ccnt값도 내려주기
                 //ccnt값도 내려주기
                 updateCmentCnt(pno, "minus")
                 cmentDataList!!.removeAt(position + 1)
@@ -272,7 +333,6 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
                         Log.d("tag", "댓글삭제성공\n")
                         //ccnt값도 내려주기
                         updateCmentCnt(pno, "minus")
-
                     }
                 } else {
                     // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
@@ -292,6 +352,8 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
         //DB쪽 - 대댓글테이블에 댓글 올리기, 댓글테이블에 대댓글 수 증가. 포스팅테이블에 댓글 수 증가
         //DataList쪽 - 대댓글 달려고 한 댓글 posotion 뒤에 대댓글 추가해서 리사이클러뷰에 데이터리스트 변화 notify. 이때 기존 대댓글이 있다면 가장 뒤에 추가
 
+        Log.d(TAG,"대댓글 삽입 진입")
+
         //1) ccno 숫자 만들기
         var current_comment : Comment? = cmentDataList?.get(position)?.getComment()
         val cccnt: Int = current_comment!!.cccnt
@@ -309,8 +371,45 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
             ccno++ //최댓값보다 1증가
         }
 
-    }
+        RetrofitBuilder.api.postCcomment(pno,cno,ccno,ccid,ccment).enqueue(object : Callback<Ccomment> {
+                override fun onResponse(call: Call<Ccomment>, response: Response<Ccomment>) {
+                    if (response.isSuccessful) {
+                        Log.d(TAG, "55555555555555")
 
+                        var result: Ccomment? = response.body()
+                        // 정상적으로 통신이 성공된 경우
+                        Log.d(TAG, "onResponse: 댓글 성공" + result?.toString())
+
+
+                        //2) 데이터리스트에 추가해주기
+                        //대댓글 없는 댓글이라면 댓글바로 뒤에 추가        //대댓글 있는 댓글이라면 가장 뒤 대댓글 뒤에 추가
+                        var dataitem= Dataitem()
+                        dataitem.Ccommentitem(result,2)
+                        cmentDataList!!.add(position + cccnt + 1,dataitem)
+
+
+                        //3) ccnt, cccnt 값 1증가 업데이트 - DB
+                        updateCmentCnt(pno, "plus")
+                        updateCcmentCnt(pno, cno, "plus")
+
+                        //3) cccnt 값 1증가 업데이트 - dataList
+                        cmentDataList!![position].getComment()!!.cccnt++
+
+                        //4) 리사이클러뷰 다시 구성
+                        notifyItemRangeChanged(position + 1, cmentDataList!!.size)
+
+
+                    } else {
+                        // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                    }
+                }
+                override fun onFailure(call: Call<Ccomment>, t: Throwable) {
+                    Log.d(TAG, "onFailure 댓글 실패 : " + t.message.toString())
+                }
+
+            })
+
+    }
 
     //원래 있는 함수 우리가 준 Viewtype을 똑바로 들고 오기 위해서
     override fun getItemViewType(position: Int): Int {
