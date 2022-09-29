@@ -2,6 +2,7 @@ package com.example.workingparents
 
 
 import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -9,6 +10,7 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.text.format.DateFormat.is24HourFormat
 import android.text.style.ForegroundColorSpan
 import android.text.style.LineBackgroundSpan
 import android.text.style.RelativeSizeSpan
@@ -18,15 +20,24 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.prolificinteractive.materialcalendarview.*
 import com.prolificinteractive.materialcalendarview.spans.DotSpan.DEFAULT_RADIUS
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout
 import kotlinx.android.synthetic.main.activity_calendar.*
+import kotlinx.android.synthetic.main.calendar_dialog_create.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -136,7 +147,7 @@ class CalendarActivity : AppCompatActivity() {
 
                         var dialog = CustomDialog(contextMain)
                         //다이얼로그 부르기
-                        dialog.myDig()
+                        dialog.myDig(contextMain)
                         dialog.setOnClickedListener(object : CustomDialog.ButtonClickListener {
                             @RequiresApi(Build.VERSION_CODES.O)
                             override fun onClicked(ctitle: String, ccontent: String) {
@@ -159,7 +170,7 @@ class CalendarActivity : AppCompatActivity() {
                                 }
 
 */
-                                list.add(CalendarRecyclerData(ctitle, ccontent, cdate,1))
+                                list.add(CalendarRecyclerData(ctitle, ccontent, cdate,CalendarMode.male))
                                 adapter.notifyItemRangeChanged(list.size, 1)
 
                                 postCalendar(ccontent, cdate, ctitle,
@@ -636,7 +647,7 @@ class CalendarActivity : AppCompatActivity() {
     }
 
 
-    class CustomDialog(context: Context) {
+    class CustomDialog(val context: Context) {
 
         //다이얼로그를 만드는 클래스
         //일정입력, 수정, 삭제 모두 해당 클래스를 사용함
@@ -648,8 +659,8 @@ class CalendarActivity : AppCompatActivity() {
             //myDig()함수에서 완료버튼을 눌렀을 때 제목과 내용을 전달함
             fun onClicked(ctitle: String, ccontent: String)
         }
-
         private lateinit var onClickedListener: ButtonClickListener
+
 
         fun setOnClickedListener(listener: ButtonClickListener) {
             onClickedListener = listener
@@ -692,13 +703,8 @@ class CalendarActivity : AppCompatActivity() {
                 //리사이클러뷰 화면 수정
                 data.title= edit_ctitle.text.toString()
                 data.content = edit_ccontent.text.toString()
-                println("cdate====>"+data.cdate)
 
                 adapter.updateItem(pos, data)
-                //이미 내가 누른거, 수정을 눌렀고.. 그 수정누른 아이템이 뭔지를
-                //알고 있잖아..
-                //누른 아이템의.. cdate를 알 수는 없을까?
-
                 adapter.notifyItemRangeChanged(pos, 1)
 
                 //리사이클러뷰 DB수정
@@ -760,12 +766,12 @@ class CalendarActivity : AppCompatActivity() {
         }
 
 
-        fun myDig() {
+        fun myDig(context: Context) {
             //일정 생성을 위한 다이얼로그를 생성하는 함수
 
             dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog_create)
             dialog.window!!.setLayout(
-                900,
+                950,
                 WindowManager.LayoutParams.WRAP_CONTENT)
             dialog.window!!.setBackgroundDrawableResource(com.example.workingparents.R.drawable.orangeborder)
             dialog.setCanceledOnTouchOutside(true)
@@ -774,13 +780,42 @@ class CalendarActivity : AppCompatActivity() {
             dialog.show()
 
             val edit_ctitle = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ctitle)
+            val btn_start = dialog.findViewById<Button>(com.example.workingparents.R.id.btnStartTime)
             val edit_ccontent = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ccontent)
 
-            val btnCreate = dialog.findViewById<Button>(com.example.workingparents.R.id.btnCreate)
+            val btnDone = dialog.findViewById<Button>(com.example.workingparents.R.id.btnDone)
+
+            btn_start.setOnClickListener() {
+                //시작버튼 눌렀을 때
+
+
+                dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog_starttime)
+                dialog.window!!.setLayout(
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT)
+                dialog.window!!.setBackgroundDrawableResource(com.example.workingparents.R.drawable.orangeborder)
+                dialog.setCanceledOnTouchOutside(true)
+                dialog.setCancelable(true)
+
+                dialog.show()
+
+                val timePicker: TimePicker = dialog.findViewById(R.id.timePicker)
+                timePicker.setOnTimeChangedListener {
+                        timePicker, hourOfDay, minutes ->
+                    btn_start.text = "${hourOfDay}시 ${minutes}분"
+                    Log.d("TIme", "${hourOfDay}시 ${minutes}분")
+                }
 
 
 
-            btnCreate.setOnClickListener() {
+
+
+
+
+            }
+
+
+            btnDone.setOnClickListener() {
                 //완료버튼을 눌렀을 때
                 //리스너를 이용해서 제목,내용,성별 전송
                 onClickedListener.onClicked(edit_ctitle.text.toString(), edit_ccontent.text.toString())
@@ -790,7 +825,20 @@ class CalendarActivity : AppCompatActivity() {
 
 
         }
+/*
+        private fun openTimePicker() { 프레그먼트 쓰게된다면..시도해볼만 함
+            val isSystem24Hour = is24HourFormat(context)
+            val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
 
+            val picker = MaterialTimePicker.Builder()
+                .setTimeFormat(clockFormat)
+                .setHour(12)
+                .setMinute(0)
+                .setTitleText("set Alarm")
+                .build()
+            picker.show(, "TAG")
+        }
+*/
     }
 
     class EventDecorator2 (
