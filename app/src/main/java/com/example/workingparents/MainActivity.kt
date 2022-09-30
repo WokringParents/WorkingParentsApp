@@ -101,6 +101,17 @@ class MainActivity : AppCompatActivity() {
                         menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
                     }
 
+                    R.id.fifth_tab -> {
+                        val calendarFragment = CalendarFragment()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.container, calendarFragment).commit()
+
+                        it.setIcon(R.drawable.bottom_calendar)
+                        menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
+                        menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
+                        menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
+                        menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
+                    }
 
 
                 }
