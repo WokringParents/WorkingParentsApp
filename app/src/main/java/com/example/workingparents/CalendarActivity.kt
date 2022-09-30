@@ -16,6 +16,7 @@ import android.text.style.LineBackgroundSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
@@ -27,6 +28,8 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.workingparents.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.prolificinteractive.materialcalendarview.*
@@ -56,13 +59,15 @@ import kotlin.collections.set
 3. 일정 수정 및 삭제
  */
 
-class CalendarActivity : AppCompatActivity() {
+class CalendarActivity : AppCompatActivity(){
+
+    private lateinit var calendarFragment: CalendarFragment
+
     companion object {
         var hashMap= HashMap<CalendarDay,String>()
         var couplenum:Int =1
         val sex:String = "M"
     }
-
 
     val CoupleColor = intArrayOf(
         Color.rgb(255, 168, 177),
@@ -79,9 +84,17 @@ class CalendarActivity : AppCompatActivity() {
 
     val TAG: String = "로그"
 
+    //메모리에 올라갔을 때
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
+
+
+                Log.d(TAG,"Main- OnCreate()")
+        bottom_menu.setOnNavigationItemSelectedListener(onBottomNavigationSelectedListener)
+
+        calendarFragment = CalendarFragment.newInstance()
+        supportFragmentManager.beginTransaction().add(R.id.fifth_tab, calendarFragment).commit()
 
         var contextMain: Context = this@CalendarActivity
         var calendar: MaterialCalendarView = findViewById(R.id.calendar)
@@ -193,6 +206,21 @@ class CalendarActivity : AppCompatActivity() {
 
     }
 
+    private fun initTransactionEvent() {
+        val sampleFragment = CalendarFragment()
+
+        //SupportFragmentManager로 FragmentManager를 호출
+        supportFragmentManager.beginTransaction().add(R.id.container, sampleFragment).commit()
+
+        //beginTranscation을 통해 트랜잭션 작업 생성
+            val transaction = supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.container, CalendarFragment())
+
+
+            //작업 수행
+            transaction.commit()
+
+    }
 
 
     private fun postCalendar(
@@ -951,4 +979,20 @@ class CalendarActivity : AppCompatActivity() {
             view?.addSpan(object:ForegroundColorSpan(Color.rgb(221,46,95)){})
         }
     }
+
+    //바텀네비게이션 아이템 클릭 리스너 설정
+    private val onBottomNavigationSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener{
+
+        when(it.itemId){
+            R.id.fifth_tab -> {
+                Log.d(TAG,"Main- 캘린더버튼 클릭")
+                calendarFragment = CalendarFragment.newInstance()
+                supportFragmentManager.beginTransaction().replace(R.id.fifth_tab, calendarFragment).commit()
+            }
+        }
+
+        true
+    }
+
+
 }
