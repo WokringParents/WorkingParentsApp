@@ -63,6 +63,7 @@ class CalendarActivity : AppCompatActivity(){
 
     private lateinit var calendarFragment: CalendarFragment
 
+
     companion object {
         var hashMap= HashMap<CalendarDay,String>()
         var couplenum:Int =1
