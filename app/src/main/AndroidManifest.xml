@@ -14,40 +14,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Workingparents"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".AlarmLoadingActivity">
-
-
-        </activity>
 
         <activity
-            android:name=".CoroutinesTest">
+            android:name=".TeacherMainActivity"
+            android:exported="false" />
 
-
-        </activity>
-
+        <activity android:name=".AlarmLoadingActivity"></activity>
+        <activity android:name=".CoroutinesTest"></activity>
         <activity
             android:name=".InputCodeActivity"
             android:exported="false" />
         <activity android:name=".LoginActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
-        <activity android:name=".CoupleConnectActivity"></activity>
+        <activity android:name=".CoupleConnectActivity" />
         <activity android:name=".CalendarActivity">
 
-         </activity>
+        </activity>
         <activity android:name=".JoinActivity" />
-
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".SplashActivity"></activity>
+        <activity android:name=".SplashActivity" />
         <activity android:name=".WritePostingActivity" />
         <activity android:name=".PostingActivity" />
 
