@@ -78,12 +78,12 @@
 
             <ImageButton
                 android:id="@+id/cbtn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="28dp"
+                android:layout_height="20dp"
                 android:background="@drawable/round"
                 android:backgroundTint="@color/white"
                 android:scaleType="fitCenter"
-                android:src="@drawable/more" />
+                android:src="@drawable/more"  />
 
         </LinearLayout>
 

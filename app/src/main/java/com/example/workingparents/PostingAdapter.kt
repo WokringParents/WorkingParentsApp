@@ -6,7 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,6 +44,7 @@ class PostingAdapter(postingList: ArrayList<Posting>): RecyclerView.Adapter<Post
                 intent.putExtra("rv_pdate", postings.pdate.toString())
                 intent.putExtra("rv_hcnt",postings.hcnt.toString())
                 intent.putExtra("rv_ccnt",postings.ccnt.toString())
+                intent.putExtra("rv_position",curPos.toString())
                 context.startActivity(intent)
 
             }
@@ -134,8 +137,9 @@ class PostingAdapter(postingList: ArrayList<Posting>): RecyclerView.Adapter<Post
 
         }
 
-
     }
+
+
 
     override fun getItemCount(): Int {
         //리스트들을 쭉 출력할건데 그에 대한 개수를 알려준다

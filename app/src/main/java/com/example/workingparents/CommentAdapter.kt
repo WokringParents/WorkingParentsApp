@@ -48,7 +48,6 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
             holder.cid.text= cmentDataList?.get(position)?.getComment()?.cid
             holder.ccontent.text=cmentDataList?.get(position)?.getComment()?.cment.toString()
 
-
             //ctime 알려주는 함수
             //현재시간을 YY-MM-DD 00:00 으로 자른다
             var comment_time : String = cmentDataList?.get(position)?.getComment()?.cdate.toString()
@@ -142,11 +141,9 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
 
                                         val imm = context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                                         //댓글달기 클릭시 키보드+입력창 올라옴
-                                            PostingActivity.input.post(Runnable {
-                                                PostingActivity.input.setFocusableInTouchMode(true)
-                                                PostingActivity.input.requestFocus()
-                                                imm.showSoftInput(PostingActivity.input, 0)
-                                            })
+                                        PostingActivity.input.setFocusableInTouchMode(true)
+                                        PostingActivity.input.requestFocus()
+                                        imm.showSoftInput(PostingActivity.input, 0)
 
                                         PostingActivity.sendbtn.setOnClickListener {
                                             var ccment = PostingActivity.input.text.toString()
@@ -213,6 +210,7 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
 
         }
 
+        //대댓글 뷰홀더일시
         else if(holder is CcommentViewHolder){
 
             holder.ccid.text=cmentDataList?.get(position)?.getCcomment()?.ccid
@@ -267,10 +265,8 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
                     if (minuteDifference <= 60) {  //한시간 이내인데
                         if (minuteDifference == 60) {
                             holder.cctime.text="1시간 전"
-
                         } else {
                             holder.cctime.text=minuteDifference.toString() + "분 전"
-
                         }
                     }
                 }
@@ -278,15 +274,60 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
                 {
                     holder.cctime.text=hourDifference.toString()+"시간 전"
                     Log.d(TAG,"0도 1 도 아님")
-
                 }
             } else {
                 holder.cctime.text=cctimecheck.substring(3)
                 Log.d(TAG,"같은 날 아님")
             }
 
-        }
+            holder.ccbtn.setOnClickListener(View.OnClickListener {
+                Log.d(TAG, "cbtn 눌림")
+                Log.d(TAG, "지금 위치"+position.toString())
 
+                val ccomment = cmentDataList!![position].getCcomment()
+                val list: Array<String>
+                list = if (ccomment!!.ccid.equals(UserData.id)) {
+                    arrayOf("삭제", "신고")
+                } else {
+                    arrayOf("삭제")
+                }
+
+                val listbuilder=AlertDialog.Builder(context)
+                    .setItems(list, DialogInterface.OnClickListener { dialog, which ->
+                        if(which==0){
+                            val builder = AlertDialog.Builder(context)
+                                .setMessage("댓글을 삭제하시겠습니까?")
+                                .setPositiveButton("확인",
+                                    DialogInterface.OnClickListener{ dialog, which ->
+                                        deleteCcmentOnPosting(ccomment!!.pno, ccomment!!.cno, ccomment!!.ccno, position)
+                                        Toast.makeText(context, "확인", Toast.LENGTH_SHORT).show()
+                                    })
+                                .setNegativeButton("취소",
+                                    DialogInterface.OnClickListener { dialog, which ->
+                                        Toast.makeText(context, "취소", Toast.LENGTH_SHORT).show()
+                                    })
+                            builder.show()
+                        }
+                        else if(which==1){
+                            val builder = AlertDialog.Builder(context)
+                                .setMessage("해당댓글을 신고하시겠습니까?")
+                                .setPositiveButton("확인",
+                                    DialogInterface.OnClickListener{ dialog, which ->
+                                        Toast.makeText(context, "확인", Toast.LENGTH_SHORT).show()
+                                    })
+                                .setNegativeButton("취소",
+                                    DialogInterface.OnClickListener { dialog, which ->
+                                        Toast.makeText(context, "취소", Toast.LENGTH_SHORT).show()
+                                    })
+                            builder.show()
+                        }
+
+                    } )
+                listbuilder.show()
+
+            })
+
+        }
 
     }
 
@@ -304,11 +345,16 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
 
     //대댓글 뷰홀더
     class CcommentViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        val ccbtn=itemView.findViewById<ImageButton>(R.id.ccbtn)
         val ccid=itemView.findViewById<TextView>(R.id.ccid)
         val cctime=itemView.findViewById<TextView>(R.id.cctime)
         val cccontent=itemView.findViewById<TextView>(R.id.cccontent)
     }
 
+    //원래 있는 함수 우리가 준 Viewtype을 똑바로 들고 오기 위해서
+    override fun getItemViewType(position: Int): Int {
+        return cmentDataList!![position].getViewType()
+    }
 
     //댓글 삭제 함수
     fun deleteCmentOnPosting(pno: Int, cno: Int, cccnt: Int, position: Int) {
@@ -380,25 +426,20 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
                         // 정상적으로 통신이 성공된 경우
                         Log.d(TAG, "onResponse: 댓글 성공" + result?.toString())
 
-
                         //2) 데이터리스트에 추가해주기
-                        //대댓글 없는 댓글이라면 댓글바로 뒤에 추가        //대댓글 있는 댓글이라면 가장 뒤 대댓글 뒤에 추가
+                        //대댓글 없는 댓글이라면 댓글바로 뒤에 추가
                         var dataitem= Dataitem()
                         dataitem.Ccommentitem(result,2)
                         cmentDataList!!.add(position + cccnt + 1,dataitem)
 
-
                         //3) ccnt, cccnt 값 1증가 업데이트 - DB
                         updateCmentCnt(pno, "plus")
                         updateCcmentCnt(pno, cno, "plus")
-
                         //3) cccnt 값 1증가 업데이트 - dataList
                         cmentDataList!![position].getComment()!!.cccnt++
 
                         //4) 리사이클러뷰 다시 구성
                         notifyItemRangeChanged(position + 1, cmentDataList!!.size)
-
-
                     } else {
                         // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
                     }
@@ -411,9 +452,38 @@ class CommentAdapter(cmentDataList: ArrayList<Dataitem>) : RecyclerView.Adapter<
 
     }
 
-    //원래 있는 함수 우리가 준 Viewtype을 똑바로 들고 오기 위해서
-    override fun getItemViewType(position: Int): Int {
-        return cmentDataList!![position].getViewType()
+    fun deleteCcmentOnPosting(pno: Int, cno: Int, ccno: Int, position: Int) {
+
+        RetrofitBuilder.api.deleteCcomment(pno, cno,ccno).enqueue(object : Callback<Int> {
+            //Comment DB에서 삭제임 (delete on Cascade라 DB의 대댓글에선 작동으로 삭제됨)
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                if (response.isSuccessful) {
+                    Log.d("tag", "대댓글삭제성공\n")
+
+                    updateCmentCnt(pno, "minus") //ccnt 내리기
+                    updateCcmentCnt(pno, cno, "minus") //cccnt 내리기
+
+                    //DataList 쪽  cccnt내리기
+                    for (dataItem in cmentDataList!!) {
+                        if (dataItem.getComment() != null) {
+                            if (dataItem.getComment()!!.cno=== cno)
+                                dataItem.getComment()!!.cccnt--
+                        }
+                    }
+
+                    notifyItemRemoved(position)
+                    cmentDataList!!.removeAt(position)
+                    notifyItemRangeChanged(position, cmentDataList!!.size)
+
+                } else {
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                }
+            }
+            override fun onFailure(call: Call<Int>, t: Throwable) {
+                Log.d(TAG, "onFailure 댓글 실패 : " + t.message.toString())
+            }
+
+        })
     }
 
 }

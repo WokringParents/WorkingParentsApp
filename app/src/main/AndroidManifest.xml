@@ -14,14 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Workingparents"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".SearchKingergardenActivity"
+            android:exported="false" />
         <activity
             android:name=".TeacherMainActivity"
             android:exported="false" />
-
-
-        <activity android:name=".AlarmLoadingActivity"></activity>
-        <activity android:name=".CoroutinesTest"></activity>
+        <activity android:name=".AlarmLoadingActivity" />
+        <activity android:name=".CoroutinesTest" />
         <activity
             android:name=".InputCodeActivity"
             android:exported="false" />
@@ -33,9 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CoupleConnectActivity" />
-        <activity android:name=".CalendarActivity">
-
-        </activity>
+        <activity android:name=".CalendarActivity"></activity>
         <activity android:name=".JoinActivity" />
         <activity
             android:name=".MainActivity"

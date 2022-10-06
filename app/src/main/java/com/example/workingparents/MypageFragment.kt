@@ -34,6 +34,8 @@ class MypageFragment : Fragment() {
         var view =inflater.inflate(R.layout.fragment_mypage, container, false)
 
         val couplePageBtn = view.findViewById<LinearLayout>(R.id.couplePage)
+        val childPageBtn = view.findViewById<LinearLayout>(R.id.childPage)
+
 
         //이상하게 fragment에서 textview띄우려면 선언받아서 다시 재정의해줘야한다.. 왜? 다른 방법들로 해결하려 했지만
         //되지않았음///
@@ -64,10 +66,10 @@ class MypageFragment : Fragment() {
             mContext.startActivity(intent)
         }
 
-
-
-
-
+        childPageBtn.setOnClickListener {
+            val intent = Intent(mContext, RegisterChildActivity::class.java)
+            mContext.startActivity(intent)
+        }
 
         return view
     }

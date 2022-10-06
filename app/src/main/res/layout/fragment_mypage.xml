@@ -65,20 +65,20 @@
                         tools:text="이지현" />
 
                     <TextView
-                        android:id="@+id/user_sex"
+                        android:id="@+id/user_teacher"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#797979"
                         android:textSize="12sp"
-                        tools:text="워킹맘" />
+                        tools:text="선생님" />
 
                     <TextView
-                        android:id="@+id/user_id"
+                        android:id="@+id/teacher_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#797979"
                         android:textSize="12sp"
-                        tools:text="walkingparents1234" />
+                        tools:text="walkingparents1111" />
 
 
                 </LinearLayout>
@@ -204,6 +204,7 @@
                     android:layout_weight="1" />
 
                 <LinearLayout
+                    android:id="@+id/childPage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
@@ -211,7 +212,6 @@
                     android:orientation="vertical"
                     android:paddingTop="10dp"
                     android:paddingRight="10dp"
-
                     android:layout_marginStart="-5dp"
                     android:paddingLeft="20dp"
                     android:paddingBottom="10dp"

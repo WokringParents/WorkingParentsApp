@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,14 +13,13 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.workingparents.BoardFragment.Companion.Postingadapter
 import com.example.workingparents.BoardFragment.Companion.postings
+import com.example.workingparents.BoardFragment.Companion.recyclerView
 import kotlinx.android.synthetic.main.fragment_board.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.properties.Delegates
 
 private var TAG="Board"
 
@@ -104,11 +101,19 @@ class BoardFragment : Fragment(){
             val bottomSheetPriority = BottomSheetPriority{
                 when (it) {
                     //확인해보기
-                    0 -> Toast.makeText(context, "최신순", Toast.LENGTH_SHORT).show()
+                    0 -> {
+                        priority.setText("최신순")
+                        GetPostingsOfBoard("pdate")
+                    }
+                    1 -> {
+                        priority.setText("댓글순")
+                        GetPostingsOfBoard("ccnt")
+                    }
 
-                    1 -> Toast.makeText(context, "댓글순", Toast.LENGTH_SHORT).show()
-
-                    2 -> Toast.makeText(context, "공감순 ", Toast.LENGTH_SHORT).show()
+                    2 -> {
+                        priority.setText("공감순")
+                        GetPostingsOfBoard("hcnt")
+                    }
 
                 }
             }
@@ -126,11 +131,51 @@ class BoardFragment : Fragment(){
 
 //게시글 작성시 adapter을 refresh하는 함수
 fun refreshAdapter(result : Posting){
-
     postings.add(0,result)
     PostingAdapter(postings)
     Log.d(TAG,"호출됨")
     Log.d(TAG, postings.get(0).toString())
     Postingadapter.notifyDataSetChanged()
 }
+
+//뒤로 가기시 바로 갱신을 해주고 싶은데 좀 이상함
+fun positionAdapter(position : Int){
+    Postingadapter.notifyItemChanged(position)
+    postings.get(position)
+    Postingadapter.notifyItemChanged(position, postings.size)
+}
+
+//삭제하고 refresh
+fun deleteAdapter(position : Int){
+    Postingadapter.notifyItemRemoved(position)
+    postings.removeAt(position)
+    Postingadapter.notifyItemChanged(position, postings.size)
+}
+
+
+//게시글 정렬함수
+fun GetPostingsOfBoard(attribute : String)
+{
+    //게시글 초기화
+    postings.clear()
+    RetrofitBuilder.api.getBoardPosting(attribute).enqueue(object : Callback<List<Posting>> {
+        override fun onResponse(call: Call<List<Posting>>, response: Response<List<Posting>>) {
+            if (response.isSuccessful) {
+                postings= response.body() as ArrayList<Posting>
+                //결과를 postings에 넣기
+                Log.d(TAG,"정렬 함수로 들어옴")
+                Postingadapter= PostingAdapter(postings)
+                recyclerView.adapter= Postingadapter//adapter 선언
+
+            } else {
+                Log.d(TAG, "onResponse 후 실패 에러: ")
+                // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+            }
+        }
+        override fun onFailure(call: Call<List<Posting>>, t: Throwable) {
+            Log.d(TAG, "onFailure 연결 실패 에러 테스트: " + t.message.toString())
+        }
+    })
+}
+
 

@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
-import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,7 +21,6 @@ import retrofit2.Response
 //MainActivity.kt
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
     private val fragmentManager = supportFragmentManager
     private var childCaringFragment: ChildCaringFragment? = null
     private var boardFragment: BoardFragment? = null
@@ -52,76 +50,76 @@ class MainActivity : AppCompatActivity() {
 
         // OnNavigationItemSelectedListener를 통해 탭 아이템 선택 시 이벤트를 처리
         // navi_menu.xml에서 설정했던 각 아이템들의 id를 통해 알맞은 프래그먼트로 변경하게 한다.
-      /*
-        bnv_main.run {
+        /*
+          bnv_main.run {
 
-            setOnNavigationItemSelectedListener {
-                when (it.itemId) {
-                    R.id.first_tab -> {
-                        //다른 프래그먼트 화면으로 이동하는 기능
-                        val MainFragment = ChildCaringFragment()
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, MainFragment).commit()
-                        //아이콘 변경
-                        it.setIcon(R.drawable.bottom_main2)
-                        menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
-                        menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
-                        menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
-                        menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
+              setOnNavigationItemSelectedListener {
+                  when (it.itemId) {
+                      R.id.first_tab -> {
+                          //다른 프래그먼트 화면으로 이동하는 기능
+                          val MainFragment = ChildCaringFragment()
+                          supportFragmentManager.beginTransaction()
+                              .replace(R.id.container, MainFragment).commit()
+                          //아이콘 변경
+                          it.setIcon(R.drawable.bottom_main2)
+                          menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
+                          menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
+                          menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
+                          menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
 
-                    }
-                    R.id.second_tab -> {
-                        val boardFragment = BoardFragment()
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, boardFragment).commit()
+                      }
+                      R.id.second_tab -> {
+                          val boardFragment = BoardFragment()
+                          supportFragmentManager.beginTransaction()
+                              .replace(R.id.container, boardFragment).commit()
 
-                        it.setIcon(R.drawable.bottom_board2)
-                        menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
-                        menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
-                        menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
-                        menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
+                          it.setIcon(R.drawable.bottom_board2)
+                          menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
+                          menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
+                          menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
+                          menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
 
-                    }
-                    R.id.third_tab -> {
-                        val InfoFragment = InfoFragment()
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, InfoFragment).commit()
+                      }
+                      R.id.third_tab -> {
+                          val InfoFragment = InfoFragment()
+                          supportFragmentManager.beginTransaction()
+                              .replace(R.id.container, InfoFragment).commit()
 
-                        it.setIcon(R.drawable.bottom_information2)
-                        menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
-                        menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
-                        menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
-                        menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
-                    }
+                          it.setIcon(R.drawable.bottom_information2)
+                          menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
+                          menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
+                          menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
+                          menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
+                      }
 
-                    R.id.fourth_tab -> {
-                        val MypageFragment = MypageFragment()
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, MypageFragment).commit()
+                      R.id.fourth_tab -> {
+                          val MypageFragment = MypageFragment()
+                          supportFragmentManager.beginTransaction()
+                              .replace(R.id.container, MypageFragment).commit()
 
-                        it.setIcon(R.drawable.bottom_mypage2)
-                        menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
-                        menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
-                        menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
-                        menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
-                    }
+                          it.setIcon(R.drawable.bottom_mypage2)
+                          menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
+                          menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
+                          menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
+                          menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
+                      }
 
-                    R.id.fifth_tab -> {
+                      R.id.fifth_tab -> {
 
-                        it.setIcon(R.drawable.bottom_calendar2)
-                        menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
-                        menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
-                        menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
-                        menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
-                    }
+                          it.setIcon(R.drawable.bottom_calendar2)
+                          menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
+                          menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
+                          menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
+                          menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
+                      }
 
-                }
-                true
-            }
-            selectedItemId = R.id.first_tab
+                  }
+                  true
+              }
+              selectedItemId = R.id.first_tab
 
-        }
-      */
+          }
+        */
 
     }
 
@@ -231,17 +229,6 @@ class MainActivity : AppCompatActivity() {
                     }
                     R.id.fifth_tab->{
 
-                    R.id.fifth_tab -> {
-                        val calendarFragment = CalendarFragment()
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, calendarFragment).commit()
-
-                        it.setIcon(R.drawable.bottom_calendar)
-                        menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
-                        menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
-                        menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
-                        menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
-                    }
                         it.setIcon(R.drawable.bottom_calendar2)
                         menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
                         menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)
@@ -256,40 +243,4 @@ class MainActivity : AppCompatActivity() {
             selectedItemId = R.id.first_tab
         }
     }
-}
-
-                }
-
-                override fun onFailure(call: Call<User>, t: Throwable) {
-                    Log.d(TAG, "onFailure 에러 " + t.message.toString());
-                }
-            })
-
-
-        })*/
-
-    }
-
-
-    fun requestPushAlram(token: String) {
-
-        val obj = FCMRetrofitBuilder.takeJsonObject(token, "08-05 16:51 포그라운드", "경주 핸드폰 푸시알람테스트")
-
-        FCMRetrofitBuilder.api.pushAlram(obj.toString()).enqueue(object : Callback<ResponseBody> {
-
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if (response.isSuccessful) {
-                    Log.d(TAG, "onResponse 성공: " + response?.body().toString());
-                } else {
-                    Log.d(TAG, "onResponse 실패: ");
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(TAG, "onFailure 에러: " + t.message.toString());
-            }
-        })
-    }
-
-
 }

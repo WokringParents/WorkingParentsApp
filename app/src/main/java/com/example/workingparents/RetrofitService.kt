@@ -77,6 +77,11 @@ interface RetrofitService {
     @GET("/posting/all")
     fun getPosting():Call<List<Posting>>
 
+    @GET("posting/{attribute}")
+    fun getBoardPosting(
+        @Path("attribute") attribute: String?
+    ): Call<List<Posting>>
+
     @FormUrlEncoded
     @PUT("posting/ccnt/{pno}")
     fun putCommentCnt(

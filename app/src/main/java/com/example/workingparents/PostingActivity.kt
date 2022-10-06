@@ -1,20 +1,16 @@
 package com.example.workingparents
 
-import android.content.Context
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workingparents.PostingActivity.Companion.post_ccnt
 import kotlinx.android.synthetic.main.activity_posting.*
@@ -30,6 +26,7 @@ private val dataList = ArrayList<Dataitem>()
 private var postingcno :Int = 0
 private var pccnt:Int = 0
 private var adapter: CommentAdapter? = null
+private var post_id: String? =null
 
 
 
@@ -41,9 +38,6 @@ class PostingActivity : AppCompatActivity() {
 
     companion object{
         lateinit var instance:PostingActivity
-        fun PostingActivityContext() : Context{
-            return instance.applicationContext
-        }
         lateinit var recyclerView: RecyclerView
         lateinit var handler: Handler
         lateinit var msg : Message
@@ -51,6 +45,8 @@ class PostingActivity : AppCompatActivity() {
         lateinit var post_ccnt : TextView
         lateinit var input : EditText
         lateinit var sendbtn : ImageButton
+        lateinit var deletebtn : ImageButton
+        var position by Delegates.notNull<Int>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +57,8 @@ class PostingActivity : AppCompatActivity() {
         post_ccnt=findViewById(R.id.ccnt)
         input=findViewById(R.id.input1)
         sendbtn=findViewById(R.id.sendBtn)
+        deletebtn=findViewById(R.id.deleteBtn)
+
 
         pid.setText(intent.getStringExtra("rv_pid"))
         village.setText(intent.getStringExtra("rv_village"))
@@ -70,6 +68,7 @@ class PostingActivity : AppCompatActivity() {
         post_ccnt.setText(intent.getStringExtra("rv_ccnt"))
         pccnt = intent.getStringExtra("rv_ccnt")?.toInt()!!
         pno = intent.getStringExtra("rv_pno")?.toInt()!!
+        post_id = intent.getStringExtra("rv_pid")
 
         var post_time : String = intent.getStringExtra("rv_pdate")!!
         val stringBuilder = StringBuilder()
@@ -94,7 +93,6 @@ class PostingActivity : AppCompatActivity() {
 
         val checkCmentThread = CheckCmentThread(pno) //insert thread 불러오기
         checkCmentThread.start()
-
 
         Log.d(TAG, pno.toString())
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -129,6 +127,35 @@ class PostingActivity : AppCompatActivity() {
             Log.d(TAG, comment)
 
         }
+
+        deletebtn.setOnClickListener {
+            if(UserData.id.equals(post_id))
+            {
+                Log.d(TAG,"삭제 버튼 진입")
+                val builder = AlertDialog.Builder(this)
+                    .setMessage("게시글을 삭제하시겠습니까?")
+                    .setPositiveButton("확인",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            val deletePostingThread = DeletePostingThread(pno) //insert thread 불러오기
+                            deletePostingThread.start()
+                            finish()
+                        })
+                    .setNegativeButton("취소",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show()
+                        })
+                builder.show()
+            }
+        }
+    }
+
+    //뒤로가기시?
+    override fun onBackPressed() {
+        Toast.makeText(this,"뒤로가기", Toast.LENGTH_SHORT).show()
+        position= intent.getStringExtra("rv_position")?.toInt()!!
+        Log.d(TAG,"몇번 째 위치인지"+ position.toString())
+        positionAdapter(position)
+        super.onBackPressed()
     }
 
 
@@ -227,7 +254,6 @@ class PostingActivity : AppCompatActivity() {
             super.run()
             pno?.let {
                 RetrofitBuilder.api.getCcomment(it).enqueue(object : Callback<List<Ccomment>> {
-
                     override fun onResponse(call: Call<List<Ccomment>>, response: Response<List<Ccomment>>) {
                         if (response.isSuccessful) {
 
@@ -245,6 +271,35 @@ class PostingActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<List<Ccomment>>, t: Throwable) {
+                        Log.d(TAG, "onFailure 대댓글 실패 : " + t.message.toString())
+                    }
+
+                })
+            }
+        }
+    }
+
+    class DeletePostingThread(pno: Int?) : Thread() {
+        private var pno = pno
+        override fun run() {
+            super.run()
+            pno?.let {
+                RetrofitBuilder.api.deleteBoardPosting(pno!!).enqueue(object : Callback<Int> {
+                    override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                        if (response.isSuccessful) {
+
+                            var result: Int? = response.body()
+                            if (result!!.toInt() == 1) {
+                                msg = handler.obtainMessage(StateSet.BoardMsg.MSG_SUCCESS_DEL_POSTING)
+                                handler.sendMessage(msg)
+                            }
+
+                        } else {
+                            // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Int>, t: Throwable) {
                         Log.d(TAG, "onFailure 대댓글 실패 : " + t.message.toString())
                     }
 
@@ -283,7 +338,6 @@ class PostingActivity : AppCompatActivity() {
                 }
 
                 StateSet.BoardMsg.MSG_SUCCESS_GET_CCMENTS->{
-
                     //대댓글 받아오면 dataList를 리사이클러뷰 구성할 수있도록 순서 맞춰줘야함.
                     //에혀 걍 DB에서 댓글별로 대댓글 각각 들고오는거 말고 포스팅별로 대댓글 전체 다 들고오는게 훨씬 더 편했을 듯.  ---->수정함 12/01
                     for (cment in comments) {
@@ -307,15 +361,19 @@ class PostingActivity : AppCompatActivity() {
                 }
 
                 StateSet.BoardMsg.MSG_SUCCESS_GET_ALLCMENTS -> {
-
                     //리사이클러뷰 선언
                     Log.d(TAG, "3번째 데이터리스트"+dataList.toString())
                     recyclerView.visibility=View.VISIBLE
                     recyclerView.setHasFixedSize(true) //리사이클러뷰 성능 개선?
                     adapter= CommentAdapter(dataList)
                     recyclerView.adapter= adapter
-
                 }
+
+                StateSet.BoardMsg.MSG_SUCCESS_DEL_POSTING -> {
+
+                    deleteAdapter(position)
+                }
+
             }
         }
     }
@@ -323,6 +381,7 @@ class PostingActivity : AppCompatActivity() {
 
 }
 
+//댓글 카운트 update
 fun updateCmentCnt(pno: Int, sign: String) {
 
     //삭제 시 ccnt를 마이너스 시키고 다시 보여줌
@@ -339,14 +398,11 @@ fun updateCmentCnt(pno: Int, sign: String) {
 
 
     RetrofitBuilder.api.putCommentCnt(pno, sign).enqueue(object : Callback<Int> {
-
         override fun onResponse(call: Call<Int>, response: Response<Int>) {
             if (response.isSuccessful) {
-
                 var result: Int? = response.body()
                 // 정상적으로 통신이 성공된 경우
                 Log.d(TAG, "onResponse: 댓글 조회수 성공" + result?.toString())
-
             } else {
                 // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
             }
@@ -359,32 +415,18 @@ fun updateCmentCnt(pno: Int, sign: String) {
     })
 }
 
+//대댓글카운트 update
 fun updateCcmentCnt(pno: Int, cno:Int, sign: String) {
 
-    //삭제 시 ccnt를 마이너스 시키고 다시 보여줌
-    if(sign=="minus")
-    {
-        pccnt--
-        post_ccnt.setText(pccnt.toString())
-    }
-    else if(sign=="plus")
-    {
-        pccnt++
-        post_ccnt.setText(pccnt.toString())
-    }
-
     RetrofitBuilder.api.putCcommentCnt(pno,cno,sign).enqueue(object : Callback<Int> {
-
         override fun onResponse(call: Call<Int>, response: Response<Int>) {
             if (response.isSuccessful) {
-
                 var result: Int? = response.body()
                 if (sign == "plus") {
                     Log.d("tag", "cccnt++")
                 } else {
                     Log.d("tag", "cccnt--")
                 }
-
             } else {
                 // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
             }
@@ -393,6 +435,6 @@ fun updateCcmentCnt(pno: Int, cno:Int, sign: String) {
         override fun onFailure(call: Call<Int>, t: Throwable) {
             Log.d(TAG, "onFailure 댓글 실패 : " + t.message.toString())
         }
-
     })
+
 }

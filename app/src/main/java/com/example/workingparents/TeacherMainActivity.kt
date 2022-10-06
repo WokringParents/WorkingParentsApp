@@ -45,6 +45,14 @@ class TeacherMainActivity : AppCompatActivity() {
         bnv_main.itemIconTintList = null
         // OnNavigationItemSelectedListener를 통해 탭 아이템 선택 시 이벤트를 처리
         // navi_menu.xml에서 설정했던 각 아이템들의 id를 통해 알맞은 프래그먼트로 변경하게 한다.
+
+        //바텀바 아이템 꾹누르면 이름 떴던거 없앰
+        val longClickListener = View.OnLongClickListener { true }
+        findViewById<View>(R.id.first_tab).setOnLongClickListener(longClickListener)
+        findViewById<View>(R.id.second_tab).setOnLongClickListener(longClickListener)
+        findViewById<View>(R.id.third_tab).setOnLongClickListener(longClickListener)
+        findViewById<View>(R.id.fourth_tab).setOnLongClickListener(longClickListener)
+
         bnv_main.run {
 
             setOnNavigationItemSelectedListener {

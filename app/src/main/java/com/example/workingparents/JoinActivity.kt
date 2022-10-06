@@ -143,13 +143,13 @@ class JoinActivity : AppCompatActivity() {
         })
 
 
-        radio_group_join.setOnCheckedChangeListener{ group, checkedId ->
+        /*radio_group_join.setOnCheckedChangeListener{ group, checkedId ->
             when(checkedId){
                 R.id.momBtn -> sex =  "F"
                 R.id.dadBtn -> sex =  "M"
             }
         }
-
+         */
 
         btn_joinFinish.setOnClickListener(View.OnClickListener {
 

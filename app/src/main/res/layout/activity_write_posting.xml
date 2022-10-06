@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginTop="15dp"
         android:padding="20dp"
         >
 
@@ -58,9 +59,9 @@
         <EditText
             android:id="@+id/inputContent"
             android:layout_width="match_parent"
-            android:layout_height="365dp"
+            android:layout_height="400dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/orangeborder"
+            android:background="@drawable/border"
             android:maxLength="300"
             android:gravity="top"
             android:hint="내용을 입력해주세요"
@@ -114,39 +115,17 @@
 
         </LinearLayout>
 
-        <LinearLayout
+
+        <Button
+            android:id="@+id/completeBt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/postingListBt"
-                android:layout_width="130dp"
-                android:layout_height="45dp"
-                android:background="@drawable/orangeborder"
-                android:text="글 목록"
-                android:textColor="@color/main"
-                android:textSize="17sp"
-                />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
-
-            <Button
-                android:id="@+id/completeBt"
-                android:layout_width="130dp"
-                android:layout_height="45dp"
-                android:background="@drawable/orangeborder"
-                android:text="작성 완료"
-                android:textColor="@color/main"
-                android:textSize="17sp" />
-
-
-        </LinearLayout>
+            android:layout_height="50dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/border"
+            android:backgroundTint="#FF9769"
+            android:text="작성 완료"
+            android:textSize="16sp"
+            android:textColor="@color/white"  />
 
     </LinearLayout>
 

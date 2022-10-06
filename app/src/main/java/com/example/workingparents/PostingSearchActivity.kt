@@ -32,6 +32,7 @@ class PostingSearchActivity : AppCompatActivity() {
         lateinit var msg : Message
         private var adapter: PostingAdapter? = null
         lateinit var searchImage : ImageView
+        lateinit var nosearchImage : ImageView
         lateinit var searchment : TextView
         lateinit var search : EditText
 
@@ -47,6 +48,7 @@ class PostingSearchActivity : AppCompatActivity() {
         recyclerView.layoutManager= LinearLayoutManager(this@PostingSearchActivity, LinearLayoutManager.VERTICAL, false)
         searchImage = findViewById(R.id.searchGlassImage)
         searchment = findViewById(R.id.searchMent)
+        nosearchImage=findViewById(R.id.searchNoImage)
         search =findViewById(R.id.searchbar)
 
 
@@ -102,6 +104,7 @@ class PostingSearchActivity : AppCompatActivity() {
                         }
 
                         searchImage.visibility=INVISIBLE
+                        nosearchImage.visibility= INVISIBLE
                         searchment.visibility= INVISIBLE
                         recyclerView.visibility=VISIBLE
                         recyclerView.setHasFixedSize(true) //리사이클러뷰 성능 개선?
@@ -117,8 +120,10 @@ class PostingSearchActivity : AppCompatActivity() {
                             handler.handleMessage(msg)
                             recyclerView.visibility= INVISIBLE
                             searchImage.visibility=INVISIBLE
+                            nosearchImage.visibility= VISIBLE
                             searchment.setText("검색 결과가 존재하지 않습니다")
                             searchment.visibility= VISIBLE
+
 
                         } else {
                             msg = handler.obtainMessage(StateSet.BoardMsg.MSG_SEARCH_NO_WORD)
