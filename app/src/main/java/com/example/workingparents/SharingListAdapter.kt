@@ -22,7 +22,7 @@ class SharingListAdapter(private val context: Context) :
     RecyclerView.Adapter<SharingListAdapter.ViewHolder>() {
 
     val TAG = "ChildCaring"
-    var datas = mutableListOf<SharingList>()
+    var todoData = mutableListOf<SharingList>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -31,45 +31,45 @@ class SharingListAdapter(private val context: Context) :
 
     }
 
-    override fun getItemCount(): Int = datas.size
+    override fun getItemCount(): Int = todoData.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
 
-        if(!datas[position].inputMode) {
+        if(!todoData[position].inputMode) {
 
-            holder.bindForRead(datas[position])
+            holder.bindForRead(todoData[position])
 
             if (UserData.sex == "F") {
                 holder.femaleDoBtn.setOnClickListener(View.OnClickListener {
-                    Log.d(TAG, "여자 수행완료 버튼클릭됨" + datas[position].fdo)
+                    Log.d(TAG, "여자 수행완료 버튼클릭됨" + todoData[position].fdo)
 
-                    if (!datas[position].fdo) {
+                    if (!todoData[position].fdo) {
                         //수행완료 보여주고 그림?으로도 괜찮을듯 지그재그에서 즐겨찾기 추가하면 하트뜨는 것처럼
                         Toast.makeText(context, "엄마 수행완료:)", Toast.LENGTH_SHORT).show()
-                        datas[position].fdo = true
-                        holder.bindForRead(datas[position])
-                        completeTodo(datas[position], "F")
+                        todoData[position].fdo = true
+                        holder.bindForRead(todoData[position])
+                        completeTodo(todoData[position], "F")
                     }
 
                 })
             } else {
                 holder.maleDoBtn.setOnClickListener(View.OnClickListener {
-                    Log.d(TAG, "남자 수행완료 버튼클릭됨" + datas[position].mdo)
+                    Log.d(TAG, "남자 수행완료 버튼클릭됨" + todoData[position].mdo)
 
-                    if (!datas[position].mdo) {
+                    if (!todoData[position].mdo) {
                         //수행완료 보여주고 그림?으로도 괜찮을듯 지그재그에서 즐겨찾기 추가하면 하트뜨는 것처럼
                         Toast.makeText(context, "아빠 수행완료:)", Toast.LENGTH_SHORT).show()
-                        datas[position].mdo = true
-                        holder.bindForRead(datas[position])
-                        completeTodo(datas[position], "M")
+                        todoData[position].mdo = true
+                        holder.bindForRead(todoData[position])
+                        completeTodo(todoData[position], "M")
                     }
                 })
             }
 
         }else{
             //입력모드라면
-            holder.bindForWrite(datas[position],position)
+            holder.bindForWrite(todoData[position],position)
         }
     }
 
@@ -144,16 +144,17 @@ class SharingListAdapter(private val context: Context) :
                     if(contentET.text.toString()==""){
                         //아무것도 입력하지 않았는데 입력완료 버튼을 눌렀다. --> 입력이 취소되어야한다.
                         Log.d(TAG,"아무것도 입력안되었을때 확인용")
-                        datas.removeAt(pos)
+                        todoData.removeAt(pos)
                         notifyDataSetChanged()
 
                     }else{
                         //사용자가 무언가를 입력한 상태
 
-                        datas[pos].inputMode=false
-                        datas[pos].content=contentET.text.toString()
+                        todoData[pos].inputMode=false
+                        todoData[pos].content=contentET.text.toString()
 
-                        insertSharingList(datas[pos])  //DB에 올려준다 !!
+                        insertSharingList(todoData[pos])  //DB에 올려준다 !!
+
                         if(item.daily){
 
                             for(i in 0..6){
@@ -179,7 +180,7 @@ class SharingListAdapter(private val context: Context) :
                                 }
                             }
                         }else {
-                            toDoList.add(datas[pos])
+                            toDoList.add(todoData[pos])
 
                         }
 
@@ -200,6 +201,7 @@ class SharingListAdapter(private val context: Context) :
 
         var sdate=todo.sdate.toString()
         sdate= sdate.substring(0,sdate.length-2)
+        Log.d(TAG, "출력안해??"+ dateArr[6]!!+ todo.daily)
 
         RetrofitBuilder.api.postSharingList(todo.couplenum,sdate,todo.content,todo.daily, dateArr[6].toString()
         ).enqueue(object: Callback<Int>{
@@ -207,7 +209,8 @@ class SharingListAdapter(private val context: Context) :
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
                 if(response.isSuccessful){
                     val result: Int? = response.body()
-                    Log.d(TAG,result.toString())
+                    Log.d(TAG,"출력안해"+result.toString())
+
                     if(result!! >= 1) {  //DailyList는 일요일이 아니라면 2행이상 post하니까
                         Log.d(TAG, "onResponse: PostSharingList 성공 ")
                     }

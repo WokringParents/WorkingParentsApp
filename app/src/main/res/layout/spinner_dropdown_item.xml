@@ -4,7 +4,9 @@
     style="?android:attr/spinnerDropDownItemStyle"
     android:maxLines="1"
     android:layout_width="match_parent"
-    android:layout_height="22dp"
+    android:layout_height="25dp"
     android:ellipsize="marquee"
     android:textColor="@color/black"
-    android:textSize="12sp"/>
+    android:textSize="12sp"
+    android:fontFamily="@font/notosans_regular"
+    android:includeFontPadding="false"/>

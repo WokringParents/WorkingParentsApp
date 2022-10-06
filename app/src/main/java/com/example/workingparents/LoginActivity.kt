@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_login.*
@@ -24,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); //시스템상 다크모드 끄는거
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -118,7 +119,13 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<User>, t: Throwable) {
                 // 통신 실패 (인터넷 끊킴, 예외 발생 등 시스템적인 이유)
-                Log.d(TAG, "onFailure 에러: " + t.message.toString());
+                if (t.message == "End of input at line 1 column 1 path $") {
+                    Toast.makeText(
+                        applicationContext,
+                        "미가입된 계정입니다",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         })
     }
@@ -144,8 +151,12 @@ class LoginActivity : AppCompatActivity() {
                         UserData.setCoupleInfo(result!!.couplenum,result.did)
                     }
 
-                    UserData.setCoupleAddress(result!!.city,result.village)
-
+                    if(result.city==null || result.village==null){
+                        //부부연결이 되었긴하나 동네등록을 안함
+                        UserData.setCoupleAddress("NONE", "NONE")
+                    }else {
+                        UserData.setCoupleAddress(result!!.city, result.village)
+                    }
                     startActivity(intent)
 
                 } else {

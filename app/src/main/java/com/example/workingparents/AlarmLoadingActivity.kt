@@ -38,7 +38,7 @@ class AlarmLoadingActivity : AppCompatActivity() {
 
         }
 
-
+        //상대방 핸드폰에 푸시알람보내는 것임!!!!
             RetrofitBuilder.api.getUser("TestUser3").enqueue(object : Callback<User> {
 
                 override fun onResponse(call: Call<User>, response: Response<User>) {
@@ -62,6 +62,17 @@ class AlarmLoadingActivity : AppCompatActivity() {
                 }
             })
     }
+
+
+    /*
+
+        val obj = JsonObject()
+        val notification = JsonObject()
+        notification.addProperty("title", "04:00 fore그라운드 오류나지마")
+        notification.addProperty("body", "제발 코딩꾸버신이여 저를 도와주소서")
+        obj.addProperty("to","c7UAgs7nSYKeqr_6zFeDpq:APA91bGJmhvQzbtW396sZu2l9vWxKxROIe8A5BXpUArDGF7ps5TQqyqs6H5xt5opSX0o6WqLdNlOjO2QVi3IBSGZ9AhBG9dsVxAcZ9EY5sRI80LJX7h55-ONY9ISmBg_6wpqaAtlhMh-")
+        obj.add("notification", notification)
+*/
 
 
     fun requestPushAlram(token: String) {
