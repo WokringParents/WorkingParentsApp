@@ -42,6 +42,8 @@
           android:paddingTop="-15dp"
           android:theme="@style/EditTheme"
           android:backgroundTint="@color/black"
+          android:fontFamily="@font/notosans_regular"
+          android:includeFontPadding="false"
           />
 
 
