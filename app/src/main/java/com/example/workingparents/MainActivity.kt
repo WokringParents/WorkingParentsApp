@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         var bnv_main = findViewById(R.id.bottom_menu) as BottomNavigationView
         var menu= bnv_main.menu
+        bnv_main.itemIconTintList = null
         // OnNavigationItemSelectedListener를 통해 탭 아이템 선택 시 이벤트를 처리
         // navi_menu.xml에서 설정했던 각 아이템들의 id를 통해 알맞은 프래그먼트로 변경하게 한다.
         bnv_main.run {
@@ -94,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.container, MypageFragment).commit()
 
-
++99
                         it.setIcon(R.drawable.bottom_mypage2)
                         menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)
                         menu.findItem(R.id.second_tab).setIcon(R.drawable.bottom_board)

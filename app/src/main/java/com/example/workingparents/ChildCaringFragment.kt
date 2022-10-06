@@ -61,7 +61,7 @@ class ChildCaringFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is MainActivity) {
+        if (context is TeacherMainActivity) {
             mContext = context
         }
 

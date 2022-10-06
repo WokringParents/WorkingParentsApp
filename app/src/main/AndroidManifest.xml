@@ -19,6 +19,7 @@
             android:name=".TeacherMainActivity"
             android:exported="false" />
 
+
         <activity android:name=".AlarmLoadingActivity"></activity>
         <activity android:name=".CoroutinesTest"></activity>
         <activity

@@ -42,6 +42,7 @@ class TeacherMainActivity : AppCompatActivity() {
 
         var bnv_main = findViewById(R.id.teacher_bottom_menu) as BottomNavigationView
         var menu= bnv_main.menu
+        bnv_main.itemIconTintList = null
         // OnNavigationItemSelectedListener를 통해 탭 아이템 선택 시 이벤트를 처리
         // navi_menu.xml에서 설정했던 각 아이템들의 id를 통해 알맞은 프래그먼트로 변경하게 한다.
         bnv_main.run {
@@ -50,7 +51,7 @@ class TeacherMainActivity : AppCompatActivity() {
                 when (it.itemId) {
                     R.id.first_tab -> {
                         //다른 프래그먼트 화면으로 이동하는 기능
-                        val MainFragment = ChildCaringFragment()
+                        val MainFragment = GobackFragment()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.container, MainFragment).commit()
 
@@ -75,9 +76,9 @@ class TeacherMainActivity : AppCompatActivity() {
 
                     }
                     R.id.third_tab -> {
-                        val InfoFragment = InfoFragment()
+                        val CafeteriaFragment = CafeteriaFragment()
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, InfoFragment).commit()
+                            .replace(R.id.container, CafeteriaFragment).commit()
 
 
                         it.setIcon(R.drawable.icon_cafeteria2)
@@ -87,9 +88,9 @@ class TeacherMainActivity : AppCompatActivity() {
                     }
 
                     R.id.fourth_tab -> {
-                        val MypageFragment = MypageFragment()
+                        val TeacherMyPageFragment = TeacherMyPageFragment()
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, MypageFragment).commit()
+                            .replace(R.id.container, TeacherMyPageFragment).commit()
 
 
                         it.setIcon(R.drawable.bottom_mypage2)

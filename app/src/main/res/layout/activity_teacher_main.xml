@@ -30,7 +30,7 @@
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             app:labelVisibilityMode="unlabeled"
-            app:menu="@menu/teacher_bottom_menu" />
+            app:menu="@menu/teacher_bottom_menu"  />
     </RelativeLayout>
 
 

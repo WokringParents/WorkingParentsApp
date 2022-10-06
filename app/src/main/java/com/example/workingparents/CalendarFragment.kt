@@ -22,6 +22,11 @@ class CalendarFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "Home- onCreate")
+
+
+
+
+
     }
 
     //프레그먼트를 안고 있는 액티비티에 붙었을 때

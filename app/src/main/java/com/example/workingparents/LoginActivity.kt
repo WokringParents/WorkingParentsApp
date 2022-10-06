@@ -128,7 +128,7 @@ class LoginActivity : AppCompatActivity() {
 
     fun checkCouple() {
 
-        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+        val intent = Intent(this@LoginActivity, TeacherMainActivity::class.java)
 
         RetrofitBuilder.api.getCouplebyID(UserData.id).enqueue(object : Callback<Couple> {
             override fun onResponse(call: Call<Couple>, response: Response<Couple>) {
