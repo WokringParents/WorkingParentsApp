@@ -1,4 +1,4 @@
-package com.example.workingparents
+package com.example.workingparents.Notice
 
 import android.app.Activity
 import android.content.Context
@@ -10,6 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.example.workingparents.R
+import com.example.workingparents.TeacherMainActivity
+
 
 private lateinit var mContext: Activity
 
@@ -17,7 +20,7 @@ class NoticeFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context is MainActivity){
+        if(context is TeacherMainActivity){
             mContext=context
         }
     }
@@ -38,10 +41,20 @@ class NoticeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
+
+
+
+
+
+
+
+
     }
 
 
-    fun getInstance(): MypageFragment? {
-        return MypageFragment()
+    fun getInstance(): NoticeFragment? {
+        return NoticeFragment()
     }
 }

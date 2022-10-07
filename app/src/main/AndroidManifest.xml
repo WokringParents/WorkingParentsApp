@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CoupleConnectActivity" />
-        <activity android:name=".CalendarActivity">
+        <activity android:name=".Calendar.CalendarActivity">
 
         </activity>
         <activity android:name=".JoinActivity" />

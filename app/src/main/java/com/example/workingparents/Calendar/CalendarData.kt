@@ -1,4 +1,4 @@
-package com.example.workingparents
+package com.example.workingparents.Calendar
 
 import com.google.gson.annotations.SerializedName
 import java.sql.Timestamp

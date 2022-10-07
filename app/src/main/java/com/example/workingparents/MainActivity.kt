@@ -1,18 +1,14 @@
 package com.example.workingparents
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.databinding.DataBindingUtil
+import com.example.workingparents.Calendar.CalendarFragment
 import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -231,7 +227,8 @@ class MainActivity : AppCompatActivity() {
                     }
                     R.id.fifth_tab->{
 
-                    R.id.fifth_tab -> {
+                    R.id.fifth_tab
+                        -> {
                         val calendarFragment = CalendarFragment()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.container, calendarFragment).commit()

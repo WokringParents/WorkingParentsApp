@@ -1,8 +1,7 @@
-package com.example.workingparents
+package com.example.workingparents.Calendar
 
 
 import android.app.Dialog
-import android.app.TimePickerDialog
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -10,13 +9,11 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.text.format.DateFormat.is24HourFormat
 import android.text.style.ForegroundColorSpan
 import android.text.style.LineBackgroundSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
@@ -24,23 +21,16 @@ import android.widget.EditText
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workingparents.databinding.ActivityMainBinding
+import com.example.workingparents.R
+import com.example.workingparents.RetrofitBuilder
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import com.prolificinteractive.materialcalendarview.*
 import com.prolificinteractive.materialcalendarview.spans.DotSpan.DEFAULT_RADIUS
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout
 import kotlinx.android.synthetic.main.activity_calendar.*
-import kotlinx.android.synthetic.main.calendar_dialog_create.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -486,7 +476,8 @@ class CalendarActivity : AppCompatActivity(){
                         }
 
                         //리사이클러의 아이템 클릭 시 어댑터에 정의해둔 클릭리스너를 호출함
-                        adapter.setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
+                        adapter.setOnItemClickListener(object :
+                            CalendarAdapter.OnItemClickListener {
 
                             override fun onItemClick(data: CalendarRecyclerData, pos: Int) {
 
@@ -515,7 +506,7 @@ class CalendarActivity : AppCompatActivity(){
                 }
             }
 
-            override fun onFailure(call: Call<List<com.example.workingparents.CalendarData>>, t: Throwable) {
+            override fun onFailure(call: Call<List<CalendarData>>, t: Throwable) {
                 Log.d("Retrofit", "onFailure 캘린더 실패 에러2: " + t.message.toString())
 
             }
@@ -663,7 +654,7 @@ class CalendarActivity : AppCompatActivity(){
             }
 
             override fun onFailure(
-                call: Call<List<com.example.workingparents.CalendarData>>,
+                call: Call<List<CalendarData>>,
                 t: Throwable
             ) {
                 Log.d("Retrofit", "onFailure 캘린더 실패 에러1: " + t.message.toString())
@@ -707,19 +698,19 @@ class CalendarActivity : AppCompatActivity(){
         ) {
 
             //일정 수정 및 삭제를 위한 다이얼로그를 생성하는 함수
-            dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog_update_delete)
+            dialog.setContentView(R.layout.calendar_dialog_update_delete)
             dialog.window!!.setLayout(
                 900,
                 WindowManager.LayoutParams.WRAP_CONTENT)
-            dialog.window!!.setBackgroundDrawableResource(com.example.workingparents.R.drawable.orangeborder)
+            dialog.window!!.setBackgroundDrawableResource(R.drawable.orangeborder)
             dialog.setCanceledOnTouchOutside(true)
             dialog.setCancelable(true)
 
-            val edit_ctitle = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ctitle)
-            val edit_ccontent = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ccontent)
+            val edit_ctitle = dialog.findViewById<EditText>(R.id.edit_ctitle)
+            val edit_ccontent = dialog.findViewById<EditText>(R.id.edit_ccontent)
 
-            val btnUpdate = dialog.findViewById<Button>(com.example.workingparents.R.id.btnUpdate)
-            val btnDelete = dialog.findViewById<Button>(com.example.workingparents.R.id.btnDelete)
+            val btnUpdate = dialog.findViewById<Button>(R.id.btnUpdate)
+            val btnDelete = dialog.findViewById<Button>(R.id.btnDelete)
 
             edit_ctitle.setText(title)
             edit_ccontent.setText(content)
@@ -738,7 +729,7 @@ class CalendarActivity : AppCompatActivity(){
 
                 //리사이클러뷰 DB수정
 
-                println("커플넘:"+couplenum+"데이트"+data.cdate+"타이틀"+data.title+"내용"+data.content)
+                println("커플넘:"+ couplenum +"데이트"+data.cdate+"타이틀"+data.title+"내용"+data.content)
 
                 RetrofitBuilder.api.putCalender(couplenum, data.cdate, data.title, data.content).enqueue(object :Callback<Int>{
                     override fun onResponse(call: Call<Int>, response: Response<Int>) {
@@ -798,31 +789,31 @@ class CalendarActivity : AppCompatActivity(){
         fun myDig(context: Context) {
             //일정 생성을 위한 다이얼로그를 생성하는 함수
 
-            dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog_create)
+            dialog.setContentView(R.layout.calendar_dialog_create)
             dialog.window!!.setLayout(
                 950,
                 WindowManager.LayoutParams.WRAP_CONTENT)
-            dialog.window!!.setBackgroundDrawableResource(com.example.workingparents.R.drawable.orangeborder)
+            dialog.window!!.setBackgroundDrawableResource(R.drawable.orangeborder)
             dialog.setCanceledOnTouchOutside(true)
             dialog.setCancelable(true)
 
             dialog.show()
 
-            val edit_ctitle = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ctitle)
-            val btn_start = dialog.findViewById<Button>(com.example.workingparents.R.id.btnStartTime)
-            val edit_ccontent = dialog.findViewById<EditText>(com.example.workingparents.R.id.edit_ccontent)
+            val edit_ctitle = dialog.findViewById<EditText>(R.id.edit_ctitle)
+            val btn_start = dialog.findViewById<Button>(R.id.btnStartTime)
+            val edit_ccontent = dialog.findViewById<EditText>(R.id.edit_ccontent)
 
-            val btnDone = dialog.findViewById<Button>(com.example.workingparents.R.id.btnDone)
+            val btnDone = dialog.findViewById<Button>(R.id.btnDone)
 
             btn_start.setOnClickListener() {
                 //시작버튼 눌렀을 때
 
 
-                dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog_starttime)
+                dialog.setContentView(R.layout.calendar_dialog_starttime)
                 dialog.window!!.setLayout(
                     WindowManager.LayoutParams.WRAP_CONTENT,
                     WindowManager.LayoutParams.WRAP_CONTENT)
-                dialog.window!!.setBackgroundDrawableResource(com.example.workingparents.R.drawable.orangeborder)
+                dialog.window!!.setBackgroundDrawableResource(R.drawable.orangeborder)
                 dialog.setCanceledOnTouchOutside(true)
                 dialog.setCancelable(true)
 

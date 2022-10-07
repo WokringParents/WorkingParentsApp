@@ -1,4 +1,4 @@
-package com.example.workingparents
+package com.example.workingparents.Calendar
 
 import android.content.Context
 import android.os.Bundle
@@ -7,13 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.workingparents.R
 
 class CalendarFragment : Fragment() {
 
     companion object{
         const val TAG: String = "로그"
 
-        fun newInstance(): CalendarFragment{
+        fun newInstance(): CalendarFragment {
             return CalendarFragment()
         }
     }
