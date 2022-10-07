@@ -1,10 +1,11 @@
-package com.example.workingparents
+package com.example.workingparents.Calendar
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.workingparents.R
 import kotlinx.android.synthetic.main.calendar_dialog_update_delete.view.*
 import kotlinx.android.synthetic.main.schedule_male.view.*
 
@@ -55,15 +56,15 @@ class CalendarAdapter(private val context: Context, private val items: ArrayList
         if (viewType == CalendarMode.female) {
             val inflatedView =
                 LayoutInflater.from(parent.context).inflate(R.layout.schedule_female, parent, false)
-            return CalendarAdapter.ViewHolder(inflatedView)
+            return ViewHolder(inflatedView)
         } else {
             val inflatedView =
                 LayoutInflater.from(parent.context).inflate(R.layout.schedule_male, parent, false)
-            return CalendarAdapter.ViewHolder(inflatedView)
+            return ViewHolder(inflatedView)
         }
     }
 
-    override fun onBindViewHolder(holder: CalendarAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val item = items[position]
         val listener = View.OnClickListener { it ->

@@ -1,4 +1,4 @@
-package com.example.workingparents
+package com.example.workingparents.Calendar
 
 class CalendarMode {
 
