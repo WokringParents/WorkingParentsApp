@@ -64,7 +64,7 @@ class ChildCaringFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is TeacherMainActivity) {
+        if (context is MainActivity) {
             mContext = context
         }
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); //시스템상 다크모드 끄는거

@@ -8,4 +8,5 @@ class SearchKingergardenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_kingergarden)
     }
+
 }

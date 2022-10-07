@@ -22,11 +22,12 @@
 
             <ImageButton
                 android:id="@+id/imageButton3"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:scaleType="fitStart"
                 android:padding="0dp"
                 android:backgroundTint="@color/white"
+                android:background="@color/white"
                 android:src="@drawable/backarrow" />
 
 
@@ -39,7 +40,7 @@
                 android:text="회원가입"
                 android:textAlignment="center"
                 android:textColor="@color/main"
-                android:textSize="19sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -71,7 +72,7 @@
                 android:ems="10"
                 android:hint="아이디 입력"
                 android:textSize="14sp"
-                android:paddingLeft="20dp"
+                android:paddingLeft="10dp"
                 android:inputType="text"
                 android:layout_weight="8"
                 android:fontFamily="@font/notosans_regular"
@@ -134,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/border"
-                android:paddingLeft="20dp"
+                android:paddingLeft="10dp"
                 android:hint="비밀번호 (영문,숫자 포함 10자이내)"
                 android:inputType="textPassword"
                 android:textSize="14sp"
@@ -173,7 +174,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="9dp"
             android:background="@drawable/border"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:hint="비밀번호와 동일"
             android:textSize="14sp"
             android:inputType="textPassword"
@@ -223,7 +224,7 @@
                 android:ems="10"
                 android:hint="이메일 입력"
                 android:textSize="14sp"
-                android:paddingLeft="20dp"
+                android:paddingLeft="10dp"
                 android:layout_weight="8"
                 android:fontFamily="@font/notosans_regular"
                 android:includeFontPadding="false"
@@ -249,9 +250,9 @@
             android:id="@+id/edit_emailCode"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="9dp"
             android:background="@drawable/border"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:hint="인증코드 입력"
             android:inputType="number"
             android:textSize="14sp"
@@ -267,7 +268,7 @@
             android:id="@+id/btn_joinFinish"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="115dp"
+            android:layout_marginTop="121dp"
             android:background="@drawable/border"
             android:backgroundTint="#FF9769"
             android:text="다음"

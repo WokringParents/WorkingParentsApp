@@ -57,28 +57,32 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/teacher_name"
+                        android:id="@+id/tracher_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
                         android:textSize="21sp"
-                        tools:text="김수진" />
+                        android:text="김수진"
+                        android:textColor="@color/black"
+                        />
+
 
                     <TextView
-                        android:id="@+id/user_sex"
+                        android:id="@+id/user_teacher"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#797979"
                         android:textSize="12sp"
-                        tools:text="교사" />
+                        android:text="교사"
+                        />
 
                     <TextView
-                        android:id="@+id/user_id"
+                        android:id="@+id/teacher_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#797979"
                         android:textSize="12sp"
-                        tools:text="walkingparents1234" />
+                        android:text="workingparents1234"
+                        />
 
 
                 </LinearLayout>
@@ -136,7 +140,8 @@
                             android:layout_height="wrap_content"
                             android:textColor="#797979"
                             android:textSize="13sp"
-                            tools:text="유치원 연결" />
+                            android:text="유치원 연결"
+                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -160,12 +165,14 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:id="@+id/spouse_state"
+                                    android:id="@+id/kg_state"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="#ff9769"
+                                    android:textColor="@color/main"
                                     android:textSize="12sp"
-                                    tools:text="연결중" />
+                                    android:text="연결중"
+                                    />
+
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -174,14 +181,14 @@
                                     android:orientation="horizontal">
 
                                     <TextView
-                                        android:id="@+id/spouse_name"
+                                        android:id="@+id/kg_name"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/black"
                                         android:textSize="12sp"
-                                        android:textStyle="normal"
-                                        tools:text="별빛 유치원 햇님반" />
-
+                                        android:fontFamily="@font/notosans_regular"
+                                        android:text="별빛 유치원 햇님반"
+                                        />
 
                                     <ImageView
                                         android:layout_width="13dp"

@@ -21,6 +21,7 @@
             android:name=".TeacherMainActivity"
             android:exported="false" />
         <activity android:name=".AlarmLoadingActivity" />
+        <activity android:name=".RegisterChildActivity" />
         <activity android:name=".CoroutinesTest" />
         <activity
             android:name=".InputCodeActivity"
