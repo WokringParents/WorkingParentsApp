@@ -221,6 +221,25 @@ interface RetrofitService {
         @Field("ccno") ccno: Int
     ): Call<Int>
 
+    //-------------------------------Child------------------------------//
+
+    @GET("child/all")
+    fun getAllChild(): Call<List<Child>>
+
+    @GET("child/{couplenum}")
+    fun getChild(@Path("couplenum") couplenum: Int): Call<Child>
+
+    @FormUrlEncoded
+    @POST("child/{couplenum}")
+    fun postChild(
+
+        @Path("couplenum") couplenum: Int,
+        @Field("kname") kname: String,
+        @Field("name") name: String,
+        @Field("sex") sex: String
+
+    ): Call<Int>
+
 
 // @GET("posts/{page}")
     // fun getUserPage(@Path("page") page: String): Call<User>
