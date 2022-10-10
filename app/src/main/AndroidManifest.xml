@@ -22,7 +22,6 @@
             android:exported="false" />
         <activity android:name=".AlarmLoadingActivity" />
         <activity android:name=".RegisterChildActivity" />
-        <activity android:name=".CoroutinesTest" />
         <activity
             android:name=".InputCodeActivity"
             android:exported="false" />
@@ -39,6 +38,10 @@
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".JoinActivity2">
+        </activity>
+
         <activity android:name=".SplashActivity" />
         <activity android:name=".WritePostingActivity" />
         <activity android:name=".PostingActivity" />

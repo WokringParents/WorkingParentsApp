@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_join.*
@@ -29,7 +30,6 @@ class JoinActivity : AppCompatActivity() {
     lateinit var token : String     //사용자가 앱깔때 들어온 토큰
     private var validateEmailFormat = false //이메일 형식통과했는지
     private var validateEmail = false //이메일 중복검사했는지
-    lateinit private var sex: String
     private var sysNumber = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,20 +50,20 @@ class JoinActivity : AppCompatActivity() {
 
 
         btn_CheckID.setOnClickListener( View.OnClickListener
-            //ID중복검사 버튼
-            {
-                val id: String = edit_joinID.getText().toString()
-                if (validateID) {
-                    return@OnClickListener  //검증 완료
-                }
-                if (id == "") { //아이디 입력안했을 때
-                    Toast.makeText(this@JoinActivity, "아이디를 입력하세요", Toast.LENGTH_SHORT).show()
-                    return@OnClickListener
-                }
+        //ID중복검사 버튼
+        {
+            val id: String = edit_joinID.getText().toString()
+            if (validateID) {
+                return@OnClickListener  //검증 완료
+            }
+            if (id == "") { //아이디 입력안했을 때
+                Toast.makeText(this@JoinActivity, "아이디를 입력하세요", Toast.LENGTH_SHORT).show()
+                return@OnClickListener
+            }
 
-                //DB에  가입된 아이디인지 체크하는 함수
-                checkID(id)
-            })
+            //DB에  가입된 아이디인지 체크하는 함수
+            checkID(id)
+        })
 
 
         edit_joinPW.addTextChangedListener(object : TextWatcher {
@@ -143,14 +143,6 @@ class JoinActivity : AppCompatActivity() {
         })
 
 
-        /*radio_group_join.setOnCheckedChangeListener{ group, checkedId ->
-            when(checkedId){
-                R.id.momBtn -> sex =  "F"
-                R.id.dadBtn -> sex =  "M"
-            }
-        }
-         */
-
         btn_joinFinish.setOnClickListener(View.OnClickListener {
 
             var id = edit_joinID.text.toString()
@@ -160,7 +152,7 @@ class JoinActivity : AppCompatActivity() {
             var userNumber = edit_emailCode.text.toString()
 
 
-            if (id == "" || pw == "" || checkPW == "" || !this::sex.isInitialized || !this::token.isInitialized) {
+            if (id == "" || pw == "" || checkPW == "" || !this::token.isInitialized) {
                 Toast.makeText(this@JoinActivity, "모두 입력하였는지 확인해주세요", Toast.LENGTH_SHORT).show()
             } else if (validateID == false) {
                 Toast.makeText(this@JoinActivity, "아이디 중복확인을 진행해주세요", Toast.LENGTH_SHORT).show()
@@ -175,50 +167,23 @@ class JoinActivity : AppCompatActivity() {
                 Toast.makeText(this@JoinActivity, "인증번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
             }
             else {
-                joinApplication(id, pw, email, sex, token) //모든 조건 완료시 회원 가입 시키는 함수
-            }
+                val intent = Intent(this, JoinActivity2::class.java)
+                intent.putExtra("id", id)
+                intent.putExtra("pw", pw)
+                intent.putExtra("email", email)
+                intent.putExtra("token", token)
+                startActivity(intent)
 
-        })
-
-
-
-
-
-    }
-
-
-
-    private fun joinApplication(id: String, pw: String, email: String, sex: String, token: String) {
-
-        RetrofitBuilder.api.postUser(id, pw, email, sex, token).enqueue(object : Callback<Int> {
-
-            override fun onResponse(call: Call<Int>, response: Response<Int>) {
-                if (response.isSuccessful) {
-
-                    var result: Int? = response.body()
-                    // 정상적으로 통신이 성공된 경우
-                    Log.d(TAG, "onResponse: 회원등록성공" + result?.toString())
-                    Toast.makeText(this@JoinActivity, "회원가입 완료", Toast.LENGTH_SHORT).show()
-
-                    val intent = Intent(this@JoinActivity, MainActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-                    Toast.makeText(this@JoinActivity, "회원가입 실패", Toast.LENGTH_SHORT).show()
                 }
-            }
 
-            override fun onFailure(call: Call<Int>, t: Throwable) {
-                Log.d(TAG, "onFailure 회원가입 실패 에러: " + t.message.toString())
-                Toast.makeText(this@JoinActivity, "회원가입 실패, 네트워크를 확인하세요", Toast.LENGTH_SHORT).show()
-
-            }
 
         })
 
 
-    }
 
+
+
+    }
 
     private fun checkEmail(email: String) {
         //DB에 이미 저장된 메일이 있는지 검사, 없다면? 검증완료 된 것,그리고 메일을 발송함

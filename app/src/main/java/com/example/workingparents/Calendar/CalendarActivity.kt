@@ -28,13 +28,13 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.workingparents.Calendar.CalendarMode.Companion.female
 import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.prolificinteractive.materialcalendarview.*
 import com.prolificinteractive.materialcalendarview.spans.DotSpan.DEFAULT_RADIUS
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout
 import kotlinx.android.synthetic.main.activity_calendar.*
 import kotlinx.android.synthetic.main.calendar_dialog_create.view.*
 import retrofit2.Call
@@ -61,7 +61,7 @@ import kotlin.collections.set
 
 class CalendarActivity : AppCompatActivity(){
 
-    private lateinit var calendarFragment: CalendarFragment
+    private lateinit var calendarFragment: com.example.workingparents.Calendar.CalendarFragment
 
 
     companion object {
@@ -91,17 +91,18 @@ class CalendarActivity : AppCompatActivity(){
         setContentView(R.layout.activity_calendar)
 
 
+
                 Log.d(TAG,"Main- OnCreate()")
         bottom_menu.setOnNavigationItemSelectedListener(onBottomNavigationSelectedListener)
 
-        calendarFragment = CalendarFragment.newInstance()
+        calendarFragment = com.example.workingparents.Calendar.CalendarFragment.newInstance()
         supportFragmentManager.beginTransaction().add(R.id.fifth_tab, calendarFragment).commit()
 
         var contextMain: Context = this@CalendarActivity
         var calendar: MaterialCalendarView = findViewById(R.id.calendar)
 
 
-        var data: CalendarRecyclerData?= null
+        var data: com.example.workingparents.Calendar.CalendarRecyclerData?= null
 
         val sundayDecorator = SundayDecorator()
         val saturdayDecorator = SaturdayDecorator()
@@ -110,7 +111,7 @@ class CalendarActivity : AppCompatActivity(){
         calendar.addDecorators(saturdayDecorator,sundayDecorator, todayDecorator)
         //캘린더에 토요일, 일요일, 오늘을 각각 원하는 색깔로 칠해줌
 
-        val list = ArrayList<CalendarRecyclerData>()
+        val list = ArrayList<com.example.workingparents.Calendar.CalendarRecyclerData>()
         //Get할 때 CalendarData형식으로 넣어주는 리스트
 
         initCalendar()
@@ -148,7 +149,7 @@ class CalendarActivity : AppCompatActivity(){
                 //    couplenum= UserData.couplenum
                 //}
 
-                var adapter = CalendarAdapter(this@CalendarActivity, list)
+                var adapter = com.example.workingparents.Calendar.CalendarAdapter(this@CalendarActivity, list)
                 //adpater가 여러군데 쓰여서 매개변수로 넣어주기로 함
 
                 clickGetRecycler(adapter, Calendardate,list)
@@ -184,7 +185,7 @@ class CalendarActivity : AppCompatActivity(){
                                 }
 
 */
-                                list.add(CalendarRecyclerData(ctitle, ccontent, cdate,CalendarMode.male))
+                                list.add(com.example.workingparents.Calendar.CalendarRecyclerData(ctitle, ccontent, cdate,com.example.workingparents.Calendar.CalendarMode.male))
                                 adapter.notifyItemRangeChanged(list.size, 1)
 
                                 postCalendar(ccontent, cdate, ctitle,
@@ -208,14 +209,14 @@ class CalendarActivity : AppCompatActivity(){
     }
 
     private fun initTransactionEvent() {
-        val sampleFragment = CalendarFragment()
+        val sampleFragment = com.example.workingparents.Calendar.CalendarFragment()
 
         //SupportFragmentManager로 FragmentManager를 호출
         supportFragmentManager.beginTransaction().add(R.id.container, sampleFragment).commit()
 
         //beginTranscation을 통해 트랜잭션 작업 생성
             val transaction = supportFragmentManager.beginTransaction()
-                    transaction.replace(R.id.container, CalendarFragment())
+                    transaction.replace(R.id.container, com.example.workingparents.Calendar.CalendarFragment())
 
 
             //작업 수행
@@ -229,8 +230,8 @@ class CalendarActivity : AppCompatActivity(){
         cdate: String,
         ctitle: String,
         date: CalendarDay,
-        list: ArrayList<CalendarRecyclerData>,
-        adapter: CalendarAdapter
+        list: ArrayList<com.example.workingparents.Calendar.CalendarRecyclerData>,
+        adapter: com.example.workingparents.Calendar.CalendarAdapter
     ) {
         //cdate는 내가 DB에 넣을 날짜이고 date는 사용자가 누른 날짜임 즉 같은날짜지만 형식이 아예 다른 날짜로써 cdate자르기 싫어서 가져옴
         RetrofitBuilder.api.postCalender(couplenum, cdate, ctitle, ccontent, sex)
@@ -384,11 +385,11 @@ class CalendarActivity : AppCompatActivity(){
                                 )] = "M"
 
                                 list.add(
-                                    CalendarRecyclerData(
+                                    com.example.workingparents.Calendar.CalendarRecyclerData(
                                         ctitle,
                                         ccontent,
                                         cdate,
-                                        CalendarMode.female
+                                        com.example.workingparents.Calendar.CalendarMode.female
                                     )
                                 )
 
@@ -434,19 +435,19 @@ class CalendarActivity : AppCompatActivity(){
     }
 
     private fun clickGetRecycler(
-        adapter: CalendarAdapter,
+        adapter: com.example.workingparents.Calendar.CalendarAdapter,
         Calendardate: String?,
-        list: ArrayList<CalendarRecyclerData>
+        list: ArrayList<com.example.workingparents.Calendar.CalendarRecyclerData>
     ) {
         //get을 통해 클릭한 날짜의 일정을 가져와서 리사이클러뷰로 보여줌
         list.clear()
         //이전에 클릭한 일정을 다시 보지 않게 해줌
-        RetrofitBuilder.api.getCalendar(couplenum).enqueue(object: Callback<List<CalendarData>> {
+        RetrofitBuilder.api.getCalendar(couplenum).enqueue(object: Callback<List<com.example.workingparents.Calendar.CalendarData>> {
 
-            override fun onResponse(call: Call<List<CalendarData>>, response: Response<List<CalendarData>>) {
+            override fun onResponse(call: Call<List<com.example.workingparents.Calendar.CalendarData>>, response: Response<List<com.example.workingparents.Calendar.CalendarData>>) {
                 if(response.isSuccessful){
 
-                    var result: List<CalendarData>? = response.body()
+                    var result: List<com.example.workingparents.Calendar.CalendarData>? = response.body()
                     // 정상적으로 통신이 성공된 경우
                     if (result != null) {
                         for(i in result){
@@ -463,21 +464,21 @@ class CalendarActivity : AppCompatActivity(){
 
                                 if(sex=="F") {
                                     list.add(
-                                        CalendarRecyclerData(
+                                        com.example.workingparents.Calendar.CalendarRecyclerData(
                                             title,
                                             content,
                                             cdate,
-                                            CalendarMode.female
+                                            com.example.workingparents.Calendar.CalendarMode.female
                                         )
                                     )
 
                                 }else{
                                     list.add(
-                                        CalendarRecyclerData(
+                                        com.example.workingparents.Calendar.CalendarRecyclerData(
                                             title,
                                             content,
                                             cdate,
-                                            CalendarMode.male
+                                            com.example.workingparents.Calendar.CalendarMode.male
                                         )
                                     )
                                 }
@@ -486,9 +487,9 @@ class CalendarActivity : AppCompatActivity(){
                         }
 
                         //리사이클러의 아이템 클릭 시 어댑터에 정의해둔 클릭리스너를 호출함
-                        adapter.setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
+                        adapter.setOnItemClickListener(object : com.example.workingparents.Calendar.CalendarAdapter.OnItemClickListener {
 
-                            override fun onItemClick(data: CalendarRecyclerData, pos: Int) {
+                            override fun onItemClick(data: com.example.workingparents.Calendar.CalendarRecyclerData, pos: Int) {
 
                                 var dialog = CustomDialog(this@CalendarActivity)
                                 //아이템 클릭 시 다이얼로그 생성 및 생성삭제에 필요한 매개변수들을 전달해줌
@@ -496,13 +497,13 @@ class CalendarActivity : AppCompatActivity(){
                                 //recyclerCalendar.adapter = adapter
                             }
 
-                            override fun onItemEditClick(data: CalendarRecyclerData, pos: Int) {
+                            override fun onItemEditClick(data: com.example.workingparents.Calendar.CalendarRecyclerData, pos: Int) {
 
 
 
                             }
 
-                            override fun onItemDeleteClick(data: CalendarRecyclerData, pos: Int) {
+                            override fun onItemDeleteClick(data: com.example.workingparents.Calendar.CalendarRecyclerData, pos: Int) {
 
 
                             }
@@ -515,7 +516,7 @@ class CalendarActivity : AppCompatActivity(){
                 }
             }
 
-            override fun onFailure(call: Call<List<com.example.workingparents.CalendarData>>, t: Throwable) {
+            override fun onFailure(call: Call<List<com.example.workingparents.Calendar.CalendarData>>, t: Throwable) {
                 Log.d("Retrofit", "onFailure 캘린더 실패 에러2: " + t.message.toString())
 
             }
@@ -549,15 +550,15 @@ class CalendarActivity : AppCompatActivity(){
     private fun initCalendar(){
 //처음 캘린더를 시작할 때 점을 찍어주는 역할
 
-        RetrofitBuilder.api.getCalendar(couplenum).enqueue(object : Callback<List<CalendarData>> {
+        RetrofitBuilder.api.getCalendar(couplenum).enqueue(object : Callback<List<com.example.workingparents.Calendar.CalendarData>> {
 
             override fun onResponse(
-                call: Call<List<CalendarData>>,
-                response: Response<List<CalendarData>>
+                call: Call<List<com.example.workingparents.Calendar.CalendarData>>,
+                response: Response<List<com.example.workingparents.Calendar.CalendarData>>
             ) {
                 if (response.isSuccessful) {
 
-                    var result: List<CalendarData>? = response.body()
+                    var result: List<com.example.workingparents.Calendar.CalendarData>? = response.body()
                     // 정상적으로 통신이 성공된 경우
                     if (result != null) {
 
@@ -663,7 +664,7 @@ class CalendarActivity : AppCompatActivity(){
             }
 
             override fun onFailure(
-                call: Call<List<com.example.workingparents.CalendarData>>,
+                call: Call<List<com.example.workingparents.Calendar.CalendarData>>,
                 t: Throwable
             ) {
                 Log.d("Retrofit", "onFailure 캘린더 실패 에러1: " + t.message.toString())
@@ -696,11 +697,11 @@ class CalendarActivity : AppCompatActivity(){
         }
 
         fun adapterMyDig(
-            data: CalendarRecyclerData,
+            data: com.example.workingparents.Calendar.CalendarRecyclerData,
             title: String,
             content: String,
-            adapter: CalendarAdapter,
-            list: ArrayList<CalendarRecyclerData>,
+            adapter: com.example.workingparents.Calendar.CalendarAdapter,
+            list: ArrayList<com.example.workingparents.Calendar.CalendarRecyclerData>,
             recyclerCalendar: RecyclerView,
             pos: Int,
             cdate: String
@@ -981,13 +982,15 @@ class CalendarActivity : AppCompatActivity(){
         }
     }
 
+
+
     //바텀네비게이션 아이템 클릭 리스너 설정
     private val onBottomNavigationSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener{
 
         when(it.itemId){
             R.id.fifth_tab -> {
                 Log.d(TAG,"Main- 캘린더버튼 클릭")
-                calendarFragment = CalendarFragment.newInstance()
+                calendarFragment = com.example.workingparents.Calendar.CalendarFragment.newInstance()
                 supportFragmentManager.beginTransaction().replace(R.id.fifth_tab, calendarFragment).commit()
             }
         }

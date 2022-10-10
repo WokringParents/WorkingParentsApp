@@ -6,12 +6,9 @@ import android.os.Bundle
 import android.content.Intent
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import com.example.workingparents.Goback.GobackFragment
 import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.gson.JsonObject
-import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -70,7 +67,7 @@ class TeacherMainActivity : AppCompatActivity() {
                         menu.findItem(R.id.fourth_tab).setIcon(R.drawable.bottom_mypage)
                     }
                     R.id.second_tab -> {
-                        val NoticeFragment = NoticeFragment()
+                        val NoticeFragment = com.example.workingparents.Notice.NoticeFragment()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.container, NoticeFragment).commit()
 

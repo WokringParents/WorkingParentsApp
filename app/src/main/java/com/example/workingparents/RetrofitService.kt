@@ -26,7 +26,11 @@ interface RetrofitService {
         @Field("pw") pw: String,
         @Field("email") email:String,
         @Field("sex") sex:String,
-        @Field("token") token:String
+        @Field("token") token:String,
+        @Field("name") name:String,
+        @Field("pnumber") pnumber:String,
+        @Field("city") city:String,
+        @Field("village") village:String,
     ): Call<Int>
 
 
