@@ -128,7 +128,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/notosans_medium"
+                    android:fontFamily="@font/notosans_regular"
                     android:text="동신유치원"
                     android:textColor="@color/black"
                     android:textSize="14dp" />
@@ -137,7 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:fontFamily="@font/notosans_medium"
+                    android:fontFamily="@font/notosans_regular"
                     android:text="대구광역시 수성구 교학로 4길 39"
                     android:textColor="#797979"
                     android:textSize="14dp" />
@@ -154,7 +154,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/notosans_medium"
+                    android:fontFamily="@font/notosans_regular"
                     android:text="동산초등학교 병설유치원"
                     android:textColor="@color/black"
                     android:textSize="14dp" />
@@ -163,7 +163,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:fontFamily="@font/notosans_medium"
+                    android:fontFamily="@font/notosans_regular"
                     android:text="대구광역시 수성구 동대구로 42길 29"
                     android:textColor="#797979"
                     android:textSize="14dp" />
@@ -179,7 +179,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/notosans_medium"
+                    android:fontFamily="@font/notosans_regular"
                     android:text="동도초등학교 병설유치원"
                     android:textColor="@color/black"
                     android:textSize="14dp" />
@@ -188,7 +188,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:fontFamily="@font/notosans_medium"
+                    android:fontFamily="@font/notosans_regular"
                     android:text="대구광역시 수성구 동대구로 57길 8"
                     android:textColor="#797979"
                     android:textSize="14dp" />

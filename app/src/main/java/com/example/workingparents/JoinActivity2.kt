@@ -83,7 +83,7 @@ class JoinActivity2 : AppCompatActivity() {
             if (name == "" || city == "" || village == "" || pnumber == "") {
                 Toast.makeText(this@JoinActivity2, "모두 입력하였는지 확인해주세요", Toast.LENGTH_SHORT).show()
             } else if (sex ==null) {
-                Toast.makeText(this@JoinActivity2, "성별을 입력해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@JoinActivity2, "성별을 선택해주세요", Toast.LENGTH_SHORT).show()
             }
             else {
                     joinApplication(id!!, pw!!, email!!, sex!!, token!!, name, pnumber, city, village)//모든 조건 완료시 회원 가입 시키는 함수

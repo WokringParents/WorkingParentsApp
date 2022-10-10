@@ -1,25 +1,58 @@
 package com.example.workingparents
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.NumberPicker
+import android.os.Handler
+import android.os.Message
+import android.util.Log
+import android.widget.*
+import androidx.recyclerview.widget.RecyclerView
+import com.example.workingparents.RegisterChildActivity.Companion.kingdergarden
+import kotlinx.android.synthetic.main.activity_join.*
+import kotlinx.android.synthetic.main.activity_join2.*
 import kotlinx.android.synthetic.main.activity_register_child.*
+import kotlinx.android.synthetic.main.activity_register_child.daySpinner
+import kotlinx.android.synthetic.main.activity_register_child.monthSpinner
+import kotlinx.android.synthetic.main.activity_register_child.yearSpinner
 import kotlinx.android.synthetic.main.activity_search_kingergarden.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.properties.Delegates
+
+private val TAG="Child"
 
 class RegisterChildActivity : AppCompatActivity() {
+
+    //전역변수
+    companion object{
+        lateinit var kingdergarden:TextView
+        lateinit var sex:String
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_child)
 
+
+        //뒤로가기
         registerchild_back.setOnClickListener{
             onBackPressed()
         }
 
+        //유치원 찾기 버튼 클릭 시
         btn_search.setOnClickListener {
             val intent = Intent(this@RegisterChildActivity, SearchKingergardenActivity::class.java)
             startActivity(intent)
         }
+
+        edit_kg.setOnClickListener {
+            val intent = Intent(this@RegisterChildActivity, SearchKingergardenActivity::class.java)
+            startActivity(intent)
+        }
+
 
         var yearList = (1950..2022).toList()
         var monthList = (1..12).toList()
@@ -28,6 +61,8 @@ class RegisterChildActivity : AppCompatActivity() {
         var yearStrConvertList = yearList.map { it.toString() }
         var monthStrConvertList = monthList.map { it.toString() }
         var dateStrConvertList = dateList.map { it.toString() }
+
+        kingdergarden=findViewById(R.id.edit_kg)
 
 
         //wrapSelectorWheel : default 값은 true로 false시 picker의 범위가 시작 ~ 끝으로 고정됩니다. 아래 예제 년도는 false 값이고 월은 true 값입니다.
@@ -54,5 +89,60 @@ class RegisterChildActivity : AppCompatActivity() {
             wrapSelectorWheel = true
             displayedValues = dateStrConvertList.toTypedArray()
         }
+
+
+        radio_group_child.setOnCheckedChangeListener{
+                group, checkedId ->
+            when(checkedId){
+                R.id.girlBtn -> sex =  "F"
+                R.id.boyBtn -> sex =  "M"
+            }
+        }
+
+        btn_childFinish.setOnClickListener {
+
+            var kname = edit_kg.text.toString()
+            var cname= edit_childname.text.toString()
+
+            if (kname == "" || cname == "") {
+                Toast.makeText(this@RegisterChildActivity, "모두 입력하였는지 확인해주세요", Toast.LENGTH_SHORT).show()
+            } else if (sex ==null) {
+                Toast.makeText(this@RegisterChildActivity, "성별을 선택해주세요", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                postChild(UserData.couplenum, kname, cname, sex)
+            }
+
+        }
+
     }
+
+    fun postChild(couplenum:Int, kname:String, name:String, sex:String)
+    {
+        RetrofitBuilder.api.postChild(couplenum, kname, name, sex).enqueue(object : Callback<Int> {
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                if (response.isSuccessful) {
+                    var result: Int? = response.body()
+                    // 정상적으로 통신이 성공된 경우
+                    Log.d(TAG, "onResponse: 아이등록성공" + result?.toString())
+                    Toast.makeText(this@RegisterChildActivity, "아이등록 완료", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                    Toast.makeText(this@RegisterChildActivity, "아이등록 실패", Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onFailure(call: Call<Int>, t: Throwable) {
+                Log.d(TAG, "onFailure 회원가입 실패 에러: " + t.message.toString())
+                Toast.makeText(this@RegisterChildActivity, "아이등록 실패, 네트워크를 확인하세요", Toast.LENGTH_SHORT).show()
+
+            }
+        })
+    }
+}
+
+fun selectkg(name : String)
+{
+    kingdergarden.setText(name)
+    kingdergarden.setTextColor(Color.parseColor("#000000"))
 }

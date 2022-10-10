@@ -61,16 +61,18 @@
             android:layout_marginTop="7dp"
             android:orientation="horizontal">
 
-            <EditText
+            <TextView
                 android:id="@+id/edit_kg"
                 android:layout_width="250dp"
                 android:layout_height="match_parent"
                 android:layout_weight="8"
                 android:background="@drawable/border"
-                android:hint="유치원 찾기"
+                android:paddingTop="15dp"
+                android:text="유치원 찾기"
                 android:fontFamily="@font/notosans_regular"
                 android:paddingLeft="10dp"
                 android:includeFontPadding="false"
+                android:textColor="#A4A4A4"
                 android:textSize="13dp" />
 
             <View
