@@ -93,27 +93,25 @@ class LoginActivity : AppCompatActivity() {
                     var result: User? = response.body()
                     Log.d(TAG, "onResponse 성공: " + result?.toString());
 
-                    if(!result?.pw.equals(pw)){
-                        Toast.makeText(this@LoginActivity, "아이디 또는 비밀번호가 잘못 입력되었습니다", Toast.LENGTH_SHORT).show()
-                    }
-                    else {
+                    if(result!=null){
+                        if(!result.pw.equals(pw))
+                            Toast.makeText(this@LoginActivity, "아이디 또는 비밀번호가 잘못 입력되었습니다", Toast.LENGTH_SHORT).show()
+                        else{
 
-                        //만약 DB속 토큰과 지금 앱의 토큰이 다르다면? update해준다.
-                        if( this@LoginActivity::token.isInitialized && !result?.token.equals(token)){
-                            Log.d(TAG, "token 업데이트할거임");
-                            updateToken(id,token)
-                        }else{
-                            Log.d(TAG, "token 같아서 업데이트 안해도됨")
+                            //만약 DB속 토큰과 지금 앱의 토큰이 다르다면? update해준다.
+                            if( this@LoginActivity::token.isInitialized && !result.token.equals(token)){
+                                Log.d(TAG, "token 업데이트할거임");
+                                updateToken(id,token)
+                            }else{
+                                Log.d(TAG, "token 같아서 업데이트 안해도됨")
+                            }
+
+                            UserData.setUserInfo(result.id,result.sex,result.name,result.pnumber,result.city, result.village)
+
+                            checkCouple()
+
                         }
-
-                        UserData.setUserInfo(result!!.id,result!!.sex)
-                        UserData.setUserInfo(result!!.id,result!!.sex)
-
-                        checkCouple()
-                     }
-
-                }else{
-                    Log.d(TAG, "onResponse 실패")
+                    }
                 }
             }
 
@@ -140,21 +138,16 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     var result: Couple? = response.body()
                     // 정상적으로 통신이 성공된 경우
-
                     Log.d(TAG, "onResponse: 부부정보 들고오기 성공" + result?.toString())
 
-                    if(UserData.sex=="M") {
-                        UserData.setCoupleInfo(result!!.couplenum,result.mid) //사용자가 남자일때, 배우자에는 엄마아이디
-                    } else {
-                        UserData.setCoupleInfo(result!!.couplenum,result.did)
+                    if(result!=null){
+                        if(UserData.sex=="M") {
+                            UserData.setCoupleInfo(result.couplenum,result.mid,result.spouseName) //사용자가 남자일때, 배우자에는 엄마아이디
+                        } else {
+                            UserData.setCoupleInfo(result.couplenum,result.did,result.spouseName)
+                        }
                     }
 
-                    if(result.city==null || result.village==null){
-                        //부부연결이 되었긴하나 동네등록을 안함
-                        UserData.setCoupleAddress("NONE", "NONE")
-                    }else {
-                        UserData.setCoupleAddress(result!!.city, result.village)
-                    }
                     startActivity(intent)
 
                 } else {
@@ -163,7 +156,7 @@ class LoginActivity : AppCompatActivity() {
             }
             override fun onFailure(call: Call<Couple>, t: Throwable) {
                 if(t.message == "End of input at line 1 column 1 path $") {
-                    UserData.setCoupleInfo(-1,"NONE")
+                    UserData.setCoupleInfo(-1,"NONE","NONE")
                     startActivity(intent)
                 }
                 Log.d(TAG, "onFailure 부부확인 실패 에러 테스트: " + t.message.toString())

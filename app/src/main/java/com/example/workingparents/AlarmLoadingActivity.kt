@@ -38,6 +38,19 @@ class AlarmLoadingActivity : AppCompatActivity() {
 
         }
 
+        RetrofitBuilder.api.getTokenListByVillage(UserData.village).enqueue(object: Callback<List<String>>{
+            override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
+
+            }
+
+            override fun onFailure(call: Call<List<String>>, t: Throwable) {
+
+            }
+
+
+        })
+
+
         //상대방 핸드폰에 푸시알람보내는 것임!!!!
             RetrofitBuilder.api.getUser("TestUser3").enqueue(object : Callback<User> {
 

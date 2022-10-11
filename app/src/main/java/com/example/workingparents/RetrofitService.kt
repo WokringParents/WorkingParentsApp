@@ -11,9 +11,8 @@ interface RetrofitService {
     @GET("user/{id}")
     fun getUser(@Path("id") id: String): Call<User>
 
-    @GET("useremail/{email}")
-    fun getUserbyEmail(@Path("email") email: String ) : Call<User>
-
+    @GET("user/{village}")
+    fun getTokenListByVillage(@Path("village") village: String ) : Call<List<String>>
 
     @FormUrlEncoded
     @PUT("user/{id}")
@@ -32,6 +31,8 @@ interface RetrofitService {
         @Field("city") city:String,
         @Field("village") village:String,
     ): Call<Int>
+
+
 
 
     //--------------------------CoupleCode---------------------------//

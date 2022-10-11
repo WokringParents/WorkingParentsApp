@@ -12,10 +12,7 @@ data class Couple(
     @SerializedName("did")
     val did: String,
 
-    @SerializedName("city")
-    val city: String,
-
-    @SerializedName("village")
-    val village: String
+    @SerializedName("spousename")
+    val spouseName: String
 
 )
