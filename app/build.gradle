@@ -50,7 +50,6 @@ dependencies {
     //캘린더 관련
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
 
-    
 
     //리싸이클러뷰 관련
     implementation 'androidx.recyclerview:recyclerview:1.1.0'

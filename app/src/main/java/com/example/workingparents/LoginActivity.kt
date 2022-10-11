@@ -132,8 +132,6 @@ class LoginActivity : AppCompatActivity() {
 
     fun checkCouple() {
 
-        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-
         RetrofitBuilder.api.getCouplebyID(UserData.id).enqueue(object : Callback<Couple> {
             override fun onResponse(call: Call<Couple>, response: Response<Couple>) {
                 if (response.isSuccessful) {
@@ -144,12 +142,12 @@ class LoginActivity : AppCompatActivity() {
                     if(result!=null){
                         if(UserData.sex=="M") {
                             UserData.setCoupleInfo(result.couplenum,result.mid,result.spouseName) //사용자가 남자일때, 배우자에는 엄마아이디
+                            checkChild(result.couplenum)
                         } else {
                             UserData.setCoupleInfo(result.couplenum,result.did,result.spouseName)
+                            checkChild(result.couplenum)
                         }
                     }
-
-                    startActivity(intent)
 
                 } else {
                     Log.d(TAG, "onResponse 부부정보 들고오기 에러: ")
@@ -158,9 +156,42 @@ class LoginActivity : AppCompatActivity() {
             override fun onFailure(call: Call<Couple>, t: Throwable) {
                 if(t.message == "End of input at line 1 column 1 path $") {
                     UserData.setCoupleInfo(-1,"NONE","NONE")
-                    startActivity(intent)
+
                 }
                 Log.d(TAG, "onFailure 부부확인 실패 에러 테스트: " + t.message.toString())
+            }
+        })
+
+    }
+
+    fun checkChild(couplenum: Int) {
+        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+
+        RetrofitBuilder.api.getChildbyCoupleNum(UserData.couplenum).enqueue(object : Callback<Child> {
+            override fun onResponse(call: Call<Child>, response: Response<Child>) {
+                if (response.isSuccessful) {
+                    var result: Child? = response.body()
+                    // 정상적으로 통신이 성공된 경우
+                    Log.d(TAG, "onResponse: 아이정보 들고오기 성공" + result?.toString())
+
+                    if (result != null) {
+                        UserData.setChildInfo(
+                            result.name
+                        )
+                    }
+                    startActivity(intent)
+
+                } else {
+                    Log.d(TAG, "onResponse 아이정보 들고오기 에러: ")
+                }
+            }
+
+            override fun onFailure(call: Call<Child>, t: Throwable) {
+                if (t.message == "End of input at line 1 column 1 path $") {
+                    UserData.setChildInfo("NONE")
+                    startActivity(intent)
+                }
+                Log.d(TAG, "onFailure 아이정보 실패 에러 테스트: " + t.message.toString())
             }
         })
 

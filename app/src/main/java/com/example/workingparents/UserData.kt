@@ -15,6 +15,8 @@ object UserData {
     lateinit var spouseID: String
     lateinit var spouseName: String
 
+    lateinit var childName: String
+
     fun setUserInfo(id: String, sex:String, name: String, pNumber: String, token: String, village: String){
         this.id=id
         this.sex=sex
@@ -30,9 +32,19 @@ object UserData {
         this.spouseName=spouseName
     }
 
+    fun setChildInfo(name:String){
+        this.childName=name
+    }
+
     //부부연결된 사용자인지 아닌지 알려준다. 연결되어있으면 true
     fun connectedCouple():Boolean{
         return !(spouseID=="NONE" && couplenum==-1)
     }
+
+    //User에게 아이 존재 유무를 알려준다. 연결되어있으면 true
+    fun connectedChild():Boolean{
+        return !(childName=="NONE")
+    }
+
 
 }

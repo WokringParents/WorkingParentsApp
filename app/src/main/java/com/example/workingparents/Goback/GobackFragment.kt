@@ -1,6 +1,7 @@
 package com.example.workingparents.Goback
 
 import android.content.Context
+import com.example.workingparents.Goback.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,14 +20,6 @@ class GobackFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    lateinit var tab1:GobackFragmentTab
-    lateinit var tab2:GobackFragmentTab2
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,39 +35,12 @@ class GobackFragment : Fragment() {
     ): View? {
         var view= inflater.inflate(R.layout.fragment_goback, container, false)
 
-        tab1  = GobackFragmentTab() //프레그먼트 GobackFragmentTab 객체화
-        tab2 = GobackFragmentTab2()
+        val fragmentadapter = GobackAdapter(getParentFragmentManager())
+        viewpager_main.adapter = fragmentadapter
 
-        tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                when(tab?.position){
+        tab_layout.setupWithViewPager(viewpager_main)
 
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                TODO("Not yet implemented")
-            }
-
-        })
         return view
-    }
-
-    private fun replaceView(tab: Fragment) {
-
-        var selectedFragment: Fragment? = null
-        selectedFragment = tab
-        selectedFragment?.let {
-
-
-
-        }
-
-
     }
 
     companion object {

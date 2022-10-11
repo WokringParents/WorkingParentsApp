@@ -11,11 +11,11 @@ interface RetrofitService {
     @GET("user/{id}")
     fun getUser(@Path("id") id: String): Call<User>
 
-    @GET("usertoken/{village}")
-    fun getTokenListByVillage(@Path("village") village: String ) : Call<List<String>>
-
     @GET("useremail/{email}")
-    fun getUserbyEmail(@Path("email")email:String):Call<User>
+    fun getUserbyEmail(@Path("email") email: String ) : Call<User>
+
+    @GET("user/{village}")
+    fun getTokenListByVillage(@Path("village") village: String ) : Call<List<String>>
 
     @FormUrlEncoded
     @PUT("user/{id}")
@@ -97,6 +97,8 @@ interface RetrofitService {
         @Field("sign") sign: String?
     ): Call<Int> //sign에 plus or minus
 
+    @GET("user/{id}")
+    fun getUserWithChild(@Path("id") id: String) : Call<User>
 
     @FormUrlEncoded
     @PUT("posting/hcnt/{pno}")
@@ -112,12 +114,12 @@ interface RetrofitService {
 
     //--------------------------SharingList---------------------------//
 
-     @GET("sharinglist")
-     fun getSharingList(
-         @Query("couplenum") couplenum: Int,
-         @Query("startdate") startdate: String,
-         @Query("enddate") enddate: String
-     ):Call<List<SharingList>>
+    @GET("sharinglist")
+    fun getSharingList(
+        @Query("couplenum") couplenum: Int,
+        @Query("startdate") startdate: String,
+        @Query("enddate") enddate: String
+    ):Call<List<SharingList>>
     //get할때 param으로 주는건 query로 해야함
 
     @FormUrlEncoded
@@ -234,7 +236,7 @@ interface RetrofitService {
     @HTTP(method = "DELETE", path = "/comment/delete", hasBody = true)
     fun deleteComment(@Field("pno") pno: Int, @Field("cno") cno: Int): Call<Int>
 
-    
+
     //-------------------------------Ccomment------------------------------//
 
     @GET("ccomment/{pno}")
@@ -277,6 +279,9 @@ interface RetrofitService {
 
     ): Call<Int>
 
+
+    @GET("childHaving/{couplenum}")
+    fun getChildbyCoupleNum(@Path("couplenum") couplenum: Int): Call<Child>
 
 // @GET("posts/{page}")
     // fun getUserPage(@Path("page") page: String): Call<User>

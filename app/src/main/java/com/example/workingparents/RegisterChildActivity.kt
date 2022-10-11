@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workingparents.RegisterChildActivity.Companion.kingdergarden
+import com.example.workingparents.UserData.connectedChild
 import kotlinx.android.synthetic.main.activity_join.*
 import kotlinx.android.synthetic.main.activity_join2.*
 import kotlinx.android.synthetic.main.activity_register_child.*
@@ -126,6 +127,9 @@ class RegisterChildActivity : AppCompatActivity() {
                     // 정상적으로 통신이 성공된 경우
                     Log.d(TAG, "onResponse: 아이등록성공" + result?.toString())
                     Toast.makeText(this@RegisterChildActivity, "아이등록 완료", Toast.LENGTH_SHORT).show()
+                    UserData.setChildInfo(kname) //이걸 넣어둬야 아이등록했을 때 이름이 뜸
+                    //물론 다자녀따윈 고려하지 않는다. 이미 아이가 있는데 또 등록을 하면 그 아이 이름을 뜰 수밖에...
+
                     finish()
                 } else {
                     // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
