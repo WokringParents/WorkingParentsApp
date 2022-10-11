@@ -11,8 +11,11 @@ interface RetrofitService {
     @GET("user/{id}")
     fun getUser(@Path("id") id: String): Call<User>
 
-    @GET("user/{village}")
+    @GET("usertoken/{village}")
     fun getTokenListByVillage(@Path("village") village: String ) : Call<List<String>>
+
+    @GET("useremail/{email}")
+    fun getUserbyEmail(@Path("email")email:String):Call<User>
 
     @FormUrlEncoded
     @PUT("user/{id}")

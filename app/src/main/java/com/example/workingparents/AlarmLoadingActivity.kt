@@ -40,7 +40,18 @@ class AlarmLoadingActivity : AppCompatActivity() {
 
         RetrofitBuilder.api.getTokenListByVillage(UserData.village).enqueue(object: Callback<List<String>>{
             override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
+                if(response.isSuccessful){
 
+                    var result: List<String>? = response.body()
+                    if(result!=null){
+                        Log.d(TAG, "onResponse 성공: getTokenListByVillage")
+                        for(token: String in result){
+                            requestPushAlram(token)
+                            Log.d(TAG,token+"에게 알람보냄")
+                        }
+
+                    }
+                }
             }
 
             override fun onFailure(call: Call<List<String>>, t: Throwable) {
@@ -60,7 +71,10 @@ class AlarmLoadingActivity : AppCompatActivity() {
 
                     if (response.isSuccessful) {
                         Log.d(TAG, "onResponse 성공: $result");
+
                         if (result != null) {
+
+
                             requestPushAlram(result.token)
                         }
 
@@ -91,7 +105,7 @@ class AlarmLoadingActivity : AppCompatActivity() {
     fun requestPushAlram(token: String) {
 
         val obj = FCMRetrofitBuilder.takeJsonObject(token, "방금전 같은 동네에서 새로운 글이 작성되었어요",
-            "만촌동 주민에게 도움이 필요해요: $content"
+            UserData.village+" 주민에게 도움이 필요해요: $content"
         )
 
         FCMRetrofitBuilder.api.pushAlram(obj.toString()).enqueue(object : Callback<ResponseBody> {
@@ -99,7 +113,6 @@ class AlarmLoadingActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Log.d(TAG, "onResponse 성공: " + response?.body().toString());
-
 
                 } else {
                     Log.d(TAG, "onResponse 실패: ");

@@ -112,7 +112,8 @@ class LoginActivity : AppCompatActivity() {
 
                         }
                     }
-                }
+                }else
+                    Log.d(TAG, "onResponse 실패: loginApplication");
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
