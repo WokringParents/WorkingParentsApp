@@ -88,10 +88,10 @@ class WritePostingActivity : AppCompatActivity() {
                         //Toast.makeText(applicationContext, "새로고침을 해주세요", Toast.LENGTH_SHORT).show()
 
                         //이거 알람 로딩 화면에 쓰이는거
-                        //val intent = Intent(this@WritePostingActivity, AlarmLoadingActivity::class.java)
-                        //intent.putExtra("content",content)
-                        //startActivity(intent)
-                        //overridePendingTransition(R.anim.none, R.anim.none)
+                        val intent = Intent(this@WritePostingActivity, AlarmLoadingActivity::class.java)
+                        intent.putExtra("content",content)
+                        startActivity(intent)
+                        overridePendingTransition(R.anim.none, R.anim.none)
 
                         Log.d(TAG, result.toString())
                         //boardFragment 갱신

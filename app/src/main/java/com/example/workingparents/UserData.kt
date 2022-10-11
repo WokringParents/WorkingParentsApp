@@ -7,7 +7,7 @@ object UserData {
     lateinit var id: String
     lateinit var sex: String
     lateinit var name: String
-    lateinit var city: String
+    lateinit var token: String
     lateinit var village: String
     lateinit var pNumber: String
 
@@ -15,12 +15,12 @@ object UserData {
     lateinit var spouseID: String
     lateinit var spouseName: String
 
-    fun setUserInfo(id: String, sex:String, name: String, pNumber: String, city: String, village: String){
+    fun setUserInfo(id: String, sex:String, name: String, pNumber: String, token: String, village: String){
         this.id=id
         this.sex=sex
         this.name=name
         this.pNumber=pNumber
-        this.city=city
+        this.token=token
         this.village=village
     }
 

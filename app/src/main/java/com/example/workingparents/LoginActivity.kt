@@ -106,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
                                 Log.d(TAG, "token 같아서 업데이트 안해도됨")
                             }
 
-                            UserData.setUserInfo(result.id,result.sex,result.name,result.pnumber,result.city, result.village)
+                            UserData.setUserInfo(result.id,result.sex,result.name,result.pnumber,result.token, result.village)
 
                             checkCouple()
 
