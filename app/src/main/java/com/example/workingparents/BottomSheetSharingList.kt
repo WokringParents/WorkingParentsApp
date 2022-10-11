@@ -8,7 +8,8 @@ import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class BottomSheetFragment(val content: String, val itemClick: (Int) -> Unit) : BottomSheetDialogFragment() {
+//육아분담쪽 바텀시트
+class BottomSheetSharingList(val content: String, val itemClick: (Int) -> Unit) : BottomSheetDialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,

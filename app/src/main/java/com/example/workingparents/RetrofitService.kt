@@ -49,6 +49,7 @@ interface RetrofitService {
     @GET("couplecode/{code}")
     fun getSpouseID(@Path("code") code: String): Call<String>
 
+
     //--------------------------Couple---------------------------//
     @FormUrlEncoded
     @POST("couple")
@@ -63,8 +64,6 @@ interface RetrofitService {
 
 
     //--------------------------Posting---------------------------//
-
-
     @FormUrlEncoded
     @POST("posting/{pid}")
     fun postPosting(
@@ -128,6 +127,23 @@ interface RetrofitService {
     ):Call<Int>
 
     @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "/sharinglist/today", hasBody = true)
+    fun deleteTodaySharingList(
+        @Field("couplenum") couplenum: Int,
+        @Field("sdate") sdate: String,
+    ): Call<Int>
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "/sharinglist/daily", hasBody = true)
+    fun deleteDailySharingList(
+        @Field("couplenum") couplenum: Int,
+        @Field("content") content:String,
+        @Field("startdate") startdate: String,
+        @Field("enddate") enddate:String
+    ): Call<Int>
+
+
+    @FormUrlEncoded
     @PUT("sharinglist/mdo")
     fun putMaleDo(@Field("couplenum") couplenum: Int, @Field("sdate") sdate: String): Call<Int>
 
@@ -135,7 +151,24 @@ interface RetrofitService {
     @PUT("sharinglist/fdo")
     fun putFemaleDo(@Field("couplenum") couplenum: Int, @Field("sdate") sdate: String): Call<Int>
 
+    @FormUrlEncoded
+    @PUT("sharinglist/today")
+    fun putTodayContent(
+        @Field("couplenum") couplenum: Int,
+        @Field("sdate") sdate:String,
+        @Field("content")content:String,
+    ): Call<Int>
 
+
+    @FormUrlEncoded
+    @PUT("sharinglist/daily")
+    fun putDailyContent(
+        @Field("couplenum") couplenum: Int,
+        @Field("prevcontent") prevcontent:String,
+        @Field("content")content:String,
+        @Field("startdate")startdate:String,
+        @Field("enddate")enddate:String
+    ): Call<Int>
 
 
 
