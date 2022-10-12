@@ -1,18 +1,15 @@
 package com.example.workingparents
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.workingparents.Goback.GobackFragment
 import com.example.workingparents.Notice.NoticeFragment
 import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -98,12 +95,6 @@ class TeacherMainActivity : AppCompatActivity() {
                     }
 
                     R.id.fourth_tab -> {
-                        val TeacherMyPageFragment = TeacherMyPageFragment()
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, TeacherMyPageFragment).commit()
-
-
-                        it.setIcon(R.drawable.bottom_mypage2)
                         menu.findItem(R.id.first_tab).setIcon(R.drawable.icon_goback)
                         menu.findItem(R.id.second_tab).setIcon(R.drawable.icon_notice)
                         menu.findItem(R.id.third_tab).setIcon(R.drawable.icon_cafeteria)

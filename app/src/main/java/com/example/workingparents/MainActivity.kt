@@ -1,22 +1,15 @@
 package com.example.workingparents
 
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 //MainActivity.kt
@@ -211,16 +204,17 @@ class MainActivity : AppCompatActivity() {
                         menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
                     }
                     R.id.fourth_tab -> {
-                        if (mypageFragment == null) {
-                            mypageFragment = MypageFragment()
-                            fragmentManager.beginTransaction()
-                                .add(R.id.container, mypageFragment!!).commit()
-                        }
+
+                        mypageFragment = MypageFragment()
+                        fragmentManager.beginTransaction()
+                            .add(R.id.container, mypageFragment!!).commit()
+
                         if (childCaringFragment != null) fragmentManager.beginTransaction().hide(childCaringFragment!!).commit()
                         //  if(calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
                         if (boardFragment != null) fragmentManager.beginTransaction().hide(boardFragment!!).commit()
                         if (infoFragment != null) fragmentManager.beginTransaction().hide(infoFragment!!).commit()
                         if (mypageFragment != null) fragmentManager.beginTransaction().show(mypageFragment!!).commit()
+
 
 
                         it.setIcon(R.drawable.bottom_mypage2)
@@ -229,6 +223,8 @@ class MainActivity : AppCompatActivity() {
                         menu.findItem(R.id.third_tab).setIcon(R.drawable.bottom_information)
                         menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
                     }
+
+
                     R.id.fifth_tab->{
 
                         it.setIcon(R.drawable.bottom_calendar2)
