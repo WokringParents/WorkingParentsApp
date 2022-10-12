@@ -136,6 +136,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     fun checkCouple() {
+        val intent = Intent(this@LoginActivity, MainActivity::class.java)
 
         RetrofitBuilder.api.getCouplebyID(UserData.id).enqueue(object : Callback<Couple> {
             override fun onResponse(call: Call<Couple>, response: Response<Couple>) {
@@ -147,10 +148,10 @@ class LoginActivity : AppCompatActivity() {
                     if(result!=null){
                         if(UserData.sex=="M") {
                             UserData.setCoupleInfo(result.couplenum,result.mid,result.spouseName) //사용자가 남자일때, 배우자에는 엄마아이디
-                            checkChild(result.couplenum)
+                            checkChild(result.couplenum, intent)
                         } else {
                             UserData.setCoupleInfo(result.couplenum,result.did,result.spouseName)
-                            checkChild(result.couplenum)
+                            checkChild(result.couplenum, intent)
                         }
                     }
 
@@ -161,16 +162,18 @@ class LoginActivity : AppCompatActivity() {
             override fun onFailure(call: Call<Couple>, t: Throwable) {
                 if(t.message == "End of input at line 1 column 1 path $") {
                     UserData.setCoupleInfo(-1,"NONE","NONE")
+                    //부부가 아님
+                    startActivity(intent)
 
                 }
                 Log.d(TAG, "onFailure 부부확인 실패 에러 테스트: " + t.message.toString())
+
             }
         })
 
     }
 
-    fun checkChild(couplenum: Int) {
-        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+    fun checkChild(couplenum: Int, intent: Intent) {
 
         RetrofitBuilder.api.getChildbyCoupleNum(UserData.couplenum).enqueue(object : Callback<Child> {
             override fun onResponse(call: Call<Child>, response: Response<Child>) {

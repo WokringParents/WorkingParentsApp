@@ -15,7 +15,8 @@ object UserData {
     lateinit var spouseID: String
     lateinit var spouseName: String
 
-    lateinit var childName: String
+    var childName: String = "NONE"
+
 
     fun setUserInfo(id: String, sex:String, name: String, pNumber: String, token: String, village: String){
         this.id=id

@@ -38,23 +38,25 @@ class MypageFragment : Fragment() {
 
         val couplePageBtn = view.findViewById<LinearLayout>(R.id.couplePage)
         val childPageBtn = view.findViewById<LinearLayout>(R.id.childPage)
-        var valiNotconnectedCouple = false  //부부연결됐는지
+        var valiConnectedCouple = false  //부부연결됐는지
         var valiConnectedChild = false  //아이연결됐는지
 
-        if(!UserData.connectedCouple()){
-            //부부연결이 안된 상태라면
-            valiNotconnectedCouple= true
-            view.spouse_state.text ="연결안됨"
-            view.spouse_image.visibility = View.GONE
-            view.spouse_name.text="상대방과 함께해요"
+        if(UserData.connectedCouple()){
+            //부부연결이 된 상태라면
+            valiConnectedCouple= true
+            view.spouse_state.text = "연결중"
+            view.spouse_state.setTextColor(Color.parseColor("#ff9769"))
+            view.spouse_image.visibility = View.VISIBLE
+            view.spouse_name.text = UserData.spouseName
 
         }
 
-        if(valiNotconnectedCouple) {
+        if(!valiConnectedCouple) {
             //부부연결이 안된 상태라면
             couplePageBtn.setOnClickListener {
                 val intent = Intent(mContext, CoupleConnectActivity::class.java)
                 mContext.startActivity(intent)
+
             }
         }
 

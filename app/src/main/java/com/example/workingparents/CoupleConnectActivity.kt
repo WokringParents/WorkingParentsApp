@@ -41,7 +41,7 @@ class CoupleConnectActivity : AppCompatActivity() {
 
             val intent = Intent(this@CoupleConnectActivity, InputCodeActivity::class.java)
             startActivity(intent)
-
+            finish()
         })
 
 
@@ -71,6 +71,7 @@ class CoupleConnectActivity : AppCompatActivity() {
                     // 정상적으로 통신이 성공된 경우
                     var result: Int? = response.body()
                     Log.d(TAG, "onResponse: 커플코드등록 성공"+result?.toString())
+
                 }else{
                     // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
                     Log.d(TAG, "onResponse: 커플코드등록 실패")

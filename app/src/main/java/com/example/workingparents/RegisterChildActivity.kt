@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_register_child.*
 import kotlinx.android.synthetic.main.activity_register_child.daySpinner
 import kotlinx.android.synthetic.main.activity_register_child.monthSpinner
 import kotlinx.android.synthetic.main.activity_register_child.yearSpinner
-import kotlinx.android.synthetic.main.activity_search_kingergarden.*
+import kotlinx.android.synthetic.main.activity_search_kindergarden.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,12 +45,12 @@ class RegisterChildActivity : AppCompatActivity() {
 
         //유치원 찾기 버튼 클릭 시
         btn_search.setOnClickListener {
-            val intent = Intent(this@RegisterChildActivity, SearchKingergardenActivity::class.java)
+            val intent = Intent(this@RegisterChildActivity, com.example.workingparents.SearchKindergardenActivity::class.java)
             startActivity(intent)
         }
 
         edit_kg.setOnClickListener {
-            val intent = Intent(this@RegisterChildActivity, SearchKingergardenActivity::class.java)
+            val intent = Intent(this@RegisterChildActivity, com.example.workingparents.SearchKindergardenActivity::class.java)
             startActivity(intent)
         }
 

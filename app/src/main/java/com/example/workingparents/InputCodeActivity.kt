@@ -74,8 +74,9 @@ class InputCodeActivity : AppCompatActivity() {
                 if(response.isSuccessful){
                     Log.d(TAG, "onResponse: 부부등록 성공")
                     Toast.makeText(this@InputCodeActivity, "배우자와 연결되었어요!", Toast.LENGTH_SHORT).show()
-
+                    finish()
                     //다시 마이페이지로 돌아가거나 그냥 화면끊거나,,,,
+                    //+은아 여기 그냥 뒤로가기 누르면 네브바가 이상하게 돌아가서 finish() 넣어줬어요
 
                     if(!inputCode.isNullOrEmpty()) {
                         delCoupleCode(inputCode)
