@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
+        android:weightSum="10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,12 +25,14 @@
             android:layout_marginTop="40dp"
             android:layout_marginLeft="20dp"
             android:textColor="@color/dark_gray"
+            android:layout_weight="1"
             android:text="09/22" />
 
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="5.5"
             android:orientation="vertical">
 
 
@@ -37,7 +40,7 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:text="9월22일 알림장"
                 android:textColor="#4C4C4C"
@@ -50,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="20dp"
                 android:textColor="@color/dark_gray"
                 android:text="알림장 내용들어가는 곳 알림장 내용" />
 
@@ -60,7 +63,7 @@
             android:id="@+id/picture"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_weight="1"
+            android:layout_weight="3.5"
             tools:srcCompat="@tools:sample/avatars" />
 
     </LinearLayout>

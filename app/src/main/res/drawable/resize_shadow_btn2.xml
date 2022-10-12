@@ -1,6 +1,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:width="374dp"
+        android:width="365dp"
         android:height="115dp"
         android:drawable="@drawable/shadow_btn2" />
 </layer-list>
