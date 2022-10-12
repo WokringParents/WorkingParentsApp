@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.workingparents.BoardFragment.Companion.postings
 import kotlinx.android.synthetic.main.activity_join.*
+import kotlinx.android.synthetic.main.activity_search_kindergarden.*
 import kotlinx.android.synthetic.main.activity_write_posting.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,6 +26,11 @@ class WritePostingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write_posting)
+
+        //뒤로가기
+        writePosting_back.setOnClickListener{
+            onBackPressed()
+        }
 
         inputContent.addTextChangedListener(object : TextWatcher {
 

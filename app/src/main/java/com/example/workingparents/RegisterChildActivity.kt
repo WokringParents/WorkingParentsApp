@@ -4,23 +4,16 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.util.Log
 import android.widget.*
-import androidx.recyclerview.widget.RecyclerView
-import com.example.workingparents.RegisterChildActivity.Companion.kingdergarden
-import kotlinx.android.synthetic.main.activity_join.*
-import kotlinx.android.synthetic.main.activity_join2.*
+import com.example.workingparents.RegisterChildActivity.Companion.kindergarden
 import kotlinx.android.synthetic.main.activity_register_child.*
 import kotlinx.android.synthetic.main.activity_register_child.daySpinner
 import kotlinx.android.synthetic.main.activity_register_child.monthSpinner
 import kotlinx.android.synthetic.main.activity_register_child.yearSpinner
-import kotlinx.android.synthetic.main.activity_search_kingergarden.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.properties.Delegates
 
 private val TAG="Child"
 
@@ -28,7 +21,7 @@ class RegisterChildActivity : AppCompatActivity() {
 
     //전역변수
     companion object{
-        lateinit var kingdergarden:TextView
+        lateinit var kindergarden:TextView
         lateinit var sex:String
     }
 
@@ -44,12 +37,12 @@ class RegisterChildActivity : AppCompatActivity() {
 
         //유치원 찾기 버튼 클릭 시
         btn_search.setOnClickListener {
-            val intent = Intent(this@RegisterChildActivity, SearchKingergardenActivity::class.java)
+            val intent = Intent(this@RegisterChildActivity, SearchKindergardenActivity::class.java)
             startActivity(intent)
         }
 
         edit_kg.setOnClickListener {
-            val intent = Intent(this@RegisterChildActivity, SearchKingergardenActivity::class.java)
+            val intent = Intent(this@RegisterChildActivity, SearchKindergardenActivity::class.java)
             startActivity(intent)
         }
 
@@ -62,7 +55,7 @@ class RegisterChildActivity : AppCompatActivity() {
         var monthStrConvertList = monthList.map { it.toString() }
         var dateStrConvertList = dateList.map { it.toString() }
 
-        kingdergarden=findViewById(R.id.edit_kg)
+        kindergarden=findViewById(R.id.edit_kg)
 
 
         //wrapSelectorWheel : default 값은 true로 false시 picker의 범위가 시작 ~ 끝으로 고정됩니다. 아래 예제 년도는 false 값이고 월은 true 값입니다.
@@ -143,6 +136,6 @@ class RegisterChildActivity : AppCompatActivity() {
 
 fun selectkg(name : String)
 {
-    kingdergarden.setText(name)
-    kingdergarden.setTextColor(Color.parseColor("#000000"))
+    kindergarden.setText(name)
+    kindergarden.setTextColor(Color.parseColor("#000000"))
 }

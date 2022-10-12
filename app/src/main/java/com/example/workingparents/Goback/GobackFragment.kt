@@ -45,6 +45,7 @@ class GobackFragment : Fragment() {
         tab1  = GobackFragmentTab() //프레그먼트 GobackFragmentTab 객체화
         tab2 = GobackFragmentTab2()
 
+        /*
         tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab?.position){
@@ -61,6 +62,8 @@ class GobackFragment : Fragment() {
             }
 
         })
+
+         */
         return view
     }
 

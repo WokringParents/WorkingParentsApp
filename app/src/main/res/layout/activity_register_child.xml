@@ -59,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
+            android:weightSum="10"
             android:orientation="horizontal">
 
             <TextView
@@ -67,9 +68,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="8"
                 android:background="@drawable/border"
-                android:paddingTop="15dp"
                 android:text="유치원 찾기"
                 android:fontFamily="@font/notosans_regular"
+                android:paddingTop="14dp"
                 android:paddingLeft="10dp"
                 android:includeFontPadding="false"
                 android:textColor="#A4A4A4"

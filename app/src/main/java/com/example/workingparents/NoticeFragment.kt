@@ -1,20 +1,22 @@
 package com.example.workingparents.Notice
-
+import kotlinx.android.synthetic.main.fragment_notice.*
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.example.workingparents.R
-import com.example.workingparents.TeacherMainActivity
+import com.example.workingparents.*
 
 
 private lateinit var mContext: Activity
+private var TAG="Notice"
 
 class NoticeFragment : Fragment() {
 
@@ -32,29 +34,19 @@ class NoticeFragment : Fragment() {
 
     ): View? {
 
-
         var view =inflater.inflate(R.layout.fragment_notice, container, false)
-
+        val writenotice_btn = view.findViewById<ImageButton>(R.id.writenotice_btn)
+        writenotice_btn.setOnClickListener{
+            Log.d(TAG,"클릭됨")
+            val intent = Intent(mContext, WriteNoticeActivity::class.java)
+            mContext.startActivity(intent)
+        }
         return view
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
-
-
-
-
-
-
-
-
     }
 
-
-    fun getInstance(): NoticeFragment? {
-        return NoticeFragment()
-    }
 }

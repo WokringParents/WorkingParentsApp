@@ -15,7 +15,11 @@
         android:theme="@style/Theme.Workingparents"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".SearchKingergardenActivity"
+            android:name=".WriteNoticeActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="false" />
+        <activity
+            android:name=".SearchKindergardenActivity"
             android:exported="false" />
         <activity
             android:name=".TeacherMainActivity"
@@ -28,23 +32,26 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".CoupleConnectActivity" />
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CalendarActivity" />
         <activity android:name=".JoinActivity" />
+        <activity android:name=".PostingSearchActivity"
+            android:windowSoftInputMode="adjustNothing"
+            />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
-
-        <activity android:name=".JoinActivity2">
-        </activity>
-
+        <activity android:name=".JoinActivity2"></activity>
         <activity android:name=".SplashActivity" />
-        <activity android:name=".WritePostingActivity" />
-        <activity android:name=".PostingActivity" />
+        <activity android:name=".WritePostingActivity"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity android:name=".PostingActivity"
+            android:windowSoftInputMode="adjustNothing"
+            />
 
         <service
             android:name=".MyFirebaseMessagingService"

@@ -69,6 +69,7 @@ class PostingActivity : AppCompatActivity() {
         pccnt = intent.getStringExtra("rv_ccnt")?.toInt()!!
         pno = intent.getStringExtra("rv_pno")?.toInt()!!
         post_id = intent.getStringExtra("rv_pid")
+        position= intent.getStringExtra("rv_position")?.toInt()!!
 
         var post_time : String = intent.getStringExtra("rv_pdate")!!
         val stringBuilder = StringBuilder()
@@ -152,7 +153,6 @@ class PostingActivity : AppCompatActivity() {
     //뒤로가기시?
     override fun onBackPressed() {
         Toast.makeText(this,"뒤로가기", Toast.LENGTH_SHORT).show()
-        position= intent.getStringExtra("rv_position")?.toInt()!!
         Log.d(TAG,"몇번 째 위치인지"+ position.toString())
         positionAdapter(position)
         super.onBackPressed()
@@ -370,7 +370,6 @@ class PostingActivity : AppCompatActivity() {
                 }
 
                 StateSet.BoardMsg.MSG_SUCCESS_DEL_POSTING -> {
-
                     deleteAdapter(position)
                 }
 

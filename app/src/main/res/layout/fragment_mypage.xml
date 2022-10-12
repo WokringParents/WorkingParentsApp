@@ -194,9 +194,12 @@
                                         android:layout_weight="1" />
 
                                     <ImageView
-                                        android:layout_width="13dp"
-                                        android:layout_height="13dp"
-                                        android:src="@drawable/rightarrow" />
+                                        android:layout_width="10dp"
+                                        android:layout_height="10dp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="10dp"
+                                        android:scaleType="centerInside"
+                                        android:src="@drawable/gray_arrow"  />
 
                                 </LinearLayout>
                             </LinearLayout>
@@ -293,9 +296,13 @@
                                         android:layout_weight="1" />
 
                                     <ImageView
-                                        android:layout_width="13dp"
-                                        android:layout_height="13dp"
-                                        android:src="@drawable/rightarrow" />
+
+                                        android:layout_width="10dp"
+                                        android:layout_height="10dp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="10dp"
+                                        android:scaleType="centerInside"
+                                        android:src="@drawable/gray_arrow" />
 
                                 </LinearLayout>
                             </LinearLayout>

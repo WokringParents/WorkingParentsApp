@@ -5,17 +5,23 @@ import android.os.Bundle
 import android.view.View.*
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.transition.TransitionSet
-import kotlinx.android.synthetic.main.activity_search_kingergarden.*
 import androidx.transition.*
 import com.transitionseverywhere.extra.Scale
+import kotlinx.android.synthetic.main.activity_register_child.*
+import kotlinx.android.synthetic.main.activity_search_kindergarden.*
 
 
-class SearchKingergardenActivity : AppCompatActivity() {
+class SearchKindergardenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_kingergarden)
+        setContentView(R.layout.activity_search_kindergarden)
 
-        val set = TransitionSet().addTransition(Scale(0.5f)).addTransition(Fade())
+        //뒤로가기
+        searchkg_back.setOnClickListener{
+            onBackPressed()
+        }
+
+        val set = TransitionSet().addTransition(Scale(0.7f)).addTransition(Fade())
 
         cardview.visibility=INVISIBLE
         search_kg.setOnClickListener {

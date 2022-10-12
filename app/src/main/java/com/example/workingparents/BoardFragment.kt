@@ -23,11 +23,10 @@ import retrofit2.Response
 
 private var TAG="Board"
 
-
 class BoardFragment : Fragment(){
 
     companion object{
-        lateinit var mContext:Activity
+        private lateinit var mContext:Activity
         lateinit var postings : ArrayList<Posting>
         lateinit var Postingadapter: PostingAdapter
         lateinit var recyclerView: RecyclerView
@@ -89,8 +88,8 @@ class BoardFragment : Fragment(){
         }
 
         //검색창 클릭시
-        val PostingSearchBtn = view.findViewById<Button>(R.id.search_bar)
-        PostingSearchBtn.setOnClickListener{
+        val postingSearchBtn = view.findViewById<Button>(R.id.search_bar)
+        postingSearchBtn.setOnClickListener{
             Log.d(TAG,"클릭됨")
             val intent = Intent(mContext,PostingSearchActivity::class.java)
             mContext.startActivity(intent)
@@ -142,14 +141,14 @@ fun refreshAdapter(result : Posting){
 fun positionAdapter(position : Int){
     Postingadapter.notifyItemChanged(position)
     postings.get(position)
-    Postingadapter.notifyItemChanged(position, postings.size)
+    Postingadapter.notifyItemChanged(Postingadapter.itemCount, postings.size)
 }
 
 //삭제하고 refresh
 fun deleteAdapter(position : Int){
     Postingadapter.notifyItemRemoved(position)
     postings.removeAt(position)
-    Postingadapter.notifyItemChanged(position, postings.size)
+    Postingadapter.notifyItemChanged(Postingadapter.itemCount, postings.size)
 }
 
 
