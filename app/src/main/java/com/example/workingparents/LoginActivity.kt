@@ -19,7 +19,7 @@ import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
-    private val TAG="Login"
+    private val TAG="LoginTAG"
     lateinit var token : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,10 +147,15 @@ class LoginActivity : AppCompatActivity() {
 
                     if(result!=null){
                         if(UserData.sex=="M") {
-                            UserData.setCoupleInfo(result.couplenum,result.mid,result.spouseName) //사용자가 남자일때, 배우자에는 엄마아이디
+                            UserData.setCoupleInfo(
+                                result.couplenum,
+                                result.mid,
+                                result.spouseName
+                            ) //사용자가 남자일때, 배우자에는 엄마아이디
                             checkChild(result.couplenum, intent)
-                        } else {
-                            UserData.setCoupleInfo(result.couplenum,result.did,result.spouseName)
+                        }
+                         else {
+                            UserData.setCoupleInfo(result.couplenum, result.did, result.spouseName)
                             checkChild(result.couplenum, intent)
                         }
                     }

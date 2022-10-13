@@ -102,22 +102,28 @@ class ChildCaringFragment : Fragment() {
 
                     Log.d(TAG,"내가 프래그먼트의 어느곳을 터치했음")
 
-                    if(isKeyboardShown(view.rootView)){
-                        //입력하던 와중 다른 곳을 선택한 경우  --> 입력이 취소되어야한다
-                        Log.d(TAG,"키보드 올라온 상태")
-
-                        val imm: InputMethodManager = mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        imm.hideSoftInputFromWindow(mContext.currentFocus?.windowToken, 0)
-
-                        if(dailyAdapter.todoData.get(dailyAdapter.itemCount -1).inputMode){
+                    if(dailyAdapter.itemCount!=0) {
+                        if (dailyAdapter.todoData.get(dailyAdapter.itemCount - 1).inputMode) {
                             dailyAdapter.todoData.removeLast()
                             dailyAdapter.notifyItemRemoved(dailyAdapter.itemCount)
                         }
+                    }
 
+                    if(todayAdapter.itemCount!=0) {
                         if(todayAdapter.todoData.get(todayAdapter.itemCount-1).inputMode){
                             todayAdapter.todoData.removeLast()
                             todayAdapter.notifyItemRemoved(dailyAdapter.itemCount)
                         }
+                    }
+
+                    if(isKeyboardShown(view.rootView)){
+                        //입력하던 와중 다른 곳을 선택한 경우  --> 입력이 취소되어야한다
+                        Log.d(TAG,"키보드 올라온 상태 dailyTodoData개수:"+ dailyAdapter.todoData.size + " "+ dailyAdapter.itemCount)
+                        Log.d(TAG,"키보드 올라온 상태 dailyTodoData개수:"+ todayAdapter.todoData.size + " "+ todayAdapter.itemCount)
+
+                        val imm: InputMethodManager = mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(mContext.currentFocus?.windowToken, 0)
+
                     }
                 }
                 return true
@@ -621,12 +627,18 @@ class ChildCaringFragment : Fragment() {
                 Log.d(TAG,"is Show")  //키보드 올라와있을 땐 아무것도 하지마라 제발
             }else{
                 Log.d(TAG,"is Hide")
+
+                Log.d(TAG,"플러스 버튼누름 dailyTodoData개수:"+ dailyAdapter.todoData.size + " "+ dailyAdapter.itemCount)
+
+
                 if(dailyAdapter.itemCount==0 ||!dailyAdapter.todoData.get(dailyAdapter.itemCount-1).inputMode){
 
+                    Log.d(TAG,"inputmode DailyTodoData추가")
                     dailyAdapter.todoData.add(SharingList(UserData.couplenum, getCorrectTimestamp(),"테스트", mdo=false, fdo= false, clickedDayOfWeek , inputMode = true, daily=true))
                     dailyAdapter.notifyItemInserted(dailyAdapter.itemCount)
 
                 }else{
+                    Log.d(TAG,"이건언제지")
                     dailyAdapter.todoData.removeLast()
                     dailyAdapter.notifyItemRemoved(dailyAdapter.itemCount)
                 }
@@ -640,8 +652,11 @@ class ChildCaringFragment : Fragment() {
             } else {
 
                 Log.d(TAG, "is Hide")
+                Log.d(TAG,"플러스 버튼누름 dailyTodoData개수:"+ todayAdapter.todoData.size + " "+ todayAdapter.itemCount)
 
                 if (todayAdapter.itemCount == 0 || !todayAdapter.todoData.get(todayAdapter.itemCount - 1).inputMode) {
+
+                    Log.d(TAG,"inputmode TodayodoData추가")
                     todayAdapter.todoData.add(SharingList(UserData.couplenum,getCorrectTimestamp(), "테스트", mdo = false, fdo = false, clickedDayOfWeek, inputMode = true, daily = false))
                     todayAdapter.notifyItemInserted(todayAdapter.itemCount)
                 } else {
