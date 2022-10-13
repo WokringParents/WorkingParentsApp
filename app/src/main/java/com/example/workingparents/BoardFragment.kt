@@ -141,14 +141,14 @@ fun refreshAdapter(result : Posting){
 fun positionAdapter(position : Int){
     Postingadapter.notifyItemChanged(position)
     postings.get(position)
-    Postingadapter.notifyItemChanged(Postingadapter.itemCount, postings.size)
+    Postingadapter.notifyItemChanged(position, postings.size)
 }
 
 //삭제하고 refresh
 fun deleteAdapter(position : Int){
     Postingadapter.notifyItemRemoved(position)
     postings.removeAt(position)
-    Postingadapter.notifyItemChanged(Postingadapter.itemCount, postings.size)
+    Postingadapter.notifyItemChanged(position, postings.size)
 }
 
 

@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.workingparents">
 
+    <!--카메라-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--카메라 기능 확인-->
+    <uses-permission android:name="android.hardware.camera2  " />
+
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -14,10 +22,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Workingparents"
         android:usesCleartextTraffic="true">
+
+        <activity
+            android:name=".BaseActivity"/>
         <activity
             android:name=".WriteNoticeActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".SearchKindergardenActivity"
             android:exported="false" />
@@ -38,20 +49,20 @@
         <activity android:name=".CoupleConnectActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".JoinActivity" />
-        <activity android:name=".PostingSearchActivity"
-            android:windowSoftInputMode="adjustNothing"
-            />
+        <activity
+            android:name=".PostingSearchActivity"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".JoinActivity2"></activity>
         <activity android:name=".SplashActivity" />
-        <activity android:name=".WritePostingActivity"
-            android:windowSoftInputMode="adjustNothing"
-            />
-        <activity android:name=".PostingActivity"
-            android:windowSoftInputMode="adjustNothing"
-            />
+        <activity
+            android:name=".WritePostingActivity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".PostingActivity"
+            android:windowSoftInputMode="adjustNothing" />
 
         <service
             android:name=".MyFirebaseMessagingService"

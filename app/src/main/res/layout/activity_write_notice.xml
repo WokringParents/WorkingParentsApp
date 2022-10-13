@@ -86,12 +86,22 @@
             android:orientation="horizontal">
 
 
+            <ImageView
+                android:id="@+id/imagePreview"
+                android:layout_width="100dp"
+                android:layout_height="match_parent">
+
+            </ImageView>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/imagerecyclerView"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp" />
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                />
 
             <LinearLayout
+                android:id="@+id/buttonCamera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -115,7 +125,6 @@
                     android:textSize="13sp"
                     android:textAlignment="center"
                     />
-
 
             </LinearLayout>
 
