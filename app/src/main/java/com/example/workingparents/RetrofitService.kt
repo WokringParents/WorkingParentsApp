@@ -59,8 +59,9 @@ interface RetrofitService {
     @POST("couple")
     fun postCouple(
         @Field("mid") mid: String,
-        @Field("did") did: String
-    ): Call<Int>
+        @Field("did") did: String,
+        @Field("sex") sex: String
+    ): Call<Couple>
 
     @GET("couple/{id}")
     fun getCouplebyID(@Path("id")id: String):Call<Couple>

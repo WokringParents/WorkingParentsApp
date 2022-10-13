@@ -37,7 +37,6 @@ class InputCodeActivity : AppCompatActivity() {
                             Log.d(TAG, "onResponse: 부부연결을 위한 배우자아이디 불러오기 성공: "+spouseID.toString())
                             connectCouple(spouseID!!, UserData!!.id, UserData.sex)
 
-
                         }else{
                             // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
                             Log.d(TAG, "onResponse: 부부연결을 위한 배우자아이디 불러오기 실패")
@@ -69,14 +68,19 @@ class InputCodeActivity : AppCompatActivity() {
             did=spouseID
         }
 
-        RetrofitBuilder.api.postCouple(mid,did).enqueue(object:Callback<Int>{
-            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+        RetrofitBuilder.api.postCouple(mid,did,loginSex).enqueue(object:Callback<Couple>{
+            override fun onResponse(call: Call<Couple>, response: Response<Couple>) {
                 if(response.isSuccessful){
+
+                    var result: Couple? = response.body()
                     Log.d(TAG, "onResponse: 부부등록 성공")
+                    Log.d(TAG,"배우자이름:"+result!!.spouseName+"아빠ID"+result.did+"엄마ID:"+result.mid)
                     Toast.makeText(this@InputCodeActivity, "배우자와 연결되었어요!", Toast.LENGTH_SHORT).show()
                     finish()
                     //다시 마이페이지로 돌아가거나 그냥 화면끊거나,,,,
                     //+은아 여기 그냥 뒤로가기 누르면 네브바가 이상하게 돌아가서 finish() 넣어줬어요
+
+                    UserData.setCoupleInfo(result.couplenum,spouseID,result.spouseName)
 
                     if(!inputCode.isNullOrEmpty()) {
                         delCoupleCode(inputCode)
@@ -87,7 +91,7 @@ class InputCodeActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<Int>, t: Throwable) {
+            override fun onFailure(call: Call<Couple>, t: Throwable) {
 
                 Log.d(TAG, "onFailure 부부등록 실패에러: " + t.message.toString())
                 Toast.makeText(this@InputCodeActivity, "부부연결 실패, 네트워크를 확인하세요", Toast.LENGTH_SHORT).show()

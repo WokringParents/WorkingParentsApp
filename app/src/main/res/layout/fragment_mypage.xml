@@ -40,6 +40,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/profile_picture"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:background="@drawable/round2"
@@ -120,7 +121,6 @@
                     android:orientation="vertical"
                     android:paddingLeft="20dp"
                     android:paddingTop="10dp"
-                    android:paddingRight="20dp"
                     android:paddingBottom="10dp"
                     >
 
@@ -200,7 +200,7 @@
                                         />
 
                                     <ImageView
-                                        android:layout_marginRight="10dp"
+                                        android:layout_marginRight="40dp"
                                         android:layout_width="13dp"
                                         android:layout_height="13dp"
                                         android:src="@drawable/rightarrow" />
@@ -225,7 +225,6 @@
                     android:background="@drawable/resize_shadow_btn"
                     android:orientation="vertical"
                     android:paddingTop="10dp"
-                    android:paddingRight="10dp"
                     android:layout_marginStart="-5dp"
                     android:paddingLeft="20dp"
                     android:paddingBottom="10dp"
@@ -308,7 +307,7 @@
                                         />
 
                                     <ImageView
-                                        android:layout_marginRight="10dp"
+                                        android:layout_marginRight="40dp"
                                         android:layout_width="13dp"
                                         android:layout_height="13dp"
                                         android:src="@drawable/rightarrow" />

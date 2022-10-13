@@ -130,8 +130,10 @@ class RegisterChildActivity : AppCompatActivity() {
                     UserData.setChildInfo(name) //이걸 넣어둬야 아이등록했을 때 이름이 뜸
                     //물론 다자녀따윈 고려하지 않는다.
                     finish()
+
                 } else {
                     // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                    Log.d(TAG,"커플넘:"+couplenum+"유치원이름"+kname+"아이이름:"+name+"성별"+sex)
                     Toast.makeText(this@RegisterChildActivity, "아이등록 실패", Toast.LENGTH_SHORT).show()
                 }
             }

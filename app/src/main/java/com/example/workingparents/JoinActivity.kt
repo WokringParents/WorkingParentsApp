@@ -142,7 +142,6 @@ class JoinActivity : AppCompatActivity() {
 
         })
 
-
         btn_joinFinish.setOnClickListener(View.OnClickListener {
 
             var id = edit_joinID.text.toString()
