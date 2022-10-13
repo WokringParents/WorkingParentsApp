@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_alarm_loading.*
+import kotlinx.android.synthetic.main.activity_write_posting.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,6 +17,7 @@ class AlarmLoadingActivity : AppCompatActivity() {
 
     val TAG="PushAlarm"
     lateinit var content: String
+
     var pushSum :Int=0
     var pushCnt :Int =0
 
@@ -23,10 +25,13 @@ class AlarmLoadingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_loading)
 
-        val intent: Intent = getIntent()
+        val intent: Intent = intent
         content= intent.getStringExtra("content").toString()
-
+        var wordCnt= intent.getStringExtra("wordCnt").toString()
+        Log.d(TAG,wordCnt)
         inputContent2.setText(content)
+        NotifyWordCnt2.setText(wordCnt)
+
 
          circularProgressBar.apply{
 
@@ -36,7 +41,6 @@ class AlarmLoadingActivity : AppCompatActivity() {
             backgroundProgressBarWidth=10f
             progressBarColor= Color.parseColor("#FF9769")
         }
-
 
         RetrofitBuilder.api.getTokenListByVillage(UserData.village).enqueue(object: Callback<List<String>>{
             override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
@@ -55,12 +59,16 @@ class AlarmLoadingActivity : AppCompatActivity() {
                            }
                         }
 
+                    }else{
+                        Log.d(TAG,"결과가 없음")
                     }
+                }else{
+                    Log.d(TAG,"동네등록안함")
                 }
             }
 
             override fun onFailure(call: Call<List<String>>, t: Throwable) {
-
+                Log.d(TAG,"실패3"+t.message)
             }
 
 

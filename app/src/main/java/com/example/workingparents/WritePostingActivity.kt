@@ -68,6 +68,7 @@ class WritePostingActivity : AppCompatActivity() {
 
         var pid=UserData.id
         var content=inputContent.text.toString()
+        var wordCnt=NotifyWordCnt.text.toString()
         var village=UserData.village
         checkGoback=false
         when(radio_group_goback.checkedRadioButtonId){
@@ -84,6 +85,7 @@ class WritePostingActivity : AppCompatActivity() {
         Log.d(TAG,pid)
         Log.d(TAG,content)
         Log.d(TAG,village)
+        Log.d(TAG,wordCnt)
 
         if(checkGoback) //등하원 체크했나 확인
         {
@@ -93,11 +95,17 @@ class WritePostingActivity : AppCompatActivity() {
                         var result: Posting? = response.body()
                         //Toast.makeText(applicationContext, "새로고침을 해주세요", Toast.LENGTH_SHORT).show()
 
-                        //이거 알람 로딩 화면에 쓰이는거
-                        val intent = Intent(this@WritePostingActivity, AlarmLoadingActivity::class.java)
-                        intent.putExtra("content",content)
-                        startActivity(intent)
-                        overridePendingTransition(R.anim.none, R.anim.none)
+                        if(UserData.village!=""){
+
+                            //이거 알람 로딩 화면에 쓰이는거
+                            val intent = Intent(this@WritePostingActivity, AlarmLoadingActivity::class.java)
+                            intent.putExtra("content",content)
+                            intent.putExtra("wordCnt",wordCnt)
+                            startActivity(intent)
+                            overridePendingTransition(R.anim.none, R.anim.none)
+
+                        }
+
 
                         Log.d(TAG, result.toString())
                         //boardFragment 갱신

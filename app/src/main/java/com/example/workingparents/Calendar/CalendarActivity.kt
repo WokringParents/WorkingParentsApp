@@ -27,9 +27,9 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workingparents.Calendar.CalendarFragment
+//import com.example.workingparents.Calendar.CalendarFragment
 import com.example.workingparents.Calendar.CalendarMode
-import com.example.workingparents.databinding.ActivityMainBinding
+//import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -93,10 +93,10 @@ class CalendarActivity : AppCompatActivity(){
 
 
                 Log.d(TAG,"Main- OnCreate()")
-        bottom_menu.setOnNavigationItemSelectedListener(onBottomNavigationSelectedListener)
+       // bottom_menu.setOnNavigationItemSelectedListener(onBottomNavigationSelectedListener)
 
-        calendarFragment = CalendarFragment.newInstance()
-        supportFragmentManager.beginTransaction().add(R.id.fifth_tab, calendarFragment).commit()
+       // calendarFragment = CalendarFragment.newInstance()
+      //  supportFragmentManager.beginTransaction().add(R.id.fifth_tab, calendarFragment).commit()
 
         var contextMain: Context = this@CalendarActivity
         var calendar: MaterialCalendarView = findViewById(R.id.calendar)
@@ -988,7 +988,7 @@ class CalendarActivity : AppCompatActivity(){
         when(it.itemId){
             R.id.fifth_tab -> {
                 Log.d(TAG,"Main- 캘린더버튼 클릭")
-                calendarFragment = CalendarFragment.newInstance()
+            //    calendarFragment = CalendarFragment.newInstance()
                 supportFragmentManager.beginTransaction().replace(R.id.fifth_tab, calendarFragment).commit()
             }
         }

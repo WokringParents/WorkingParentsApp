@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.workingparents.Calendar.CalendarFragment
 import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private var boardFragment: BoardFragment? = null
     private var infoFragment: InfoFragment? = null
     private var mypageFragment: MypageFragment? = null
+    private var calendarFragment: CalendarFragment?=null
     //  private var calendarFragment:CalendarFragment?=null  은아언니가 프래그먼트로 바꿀시 쓸거임
 
     private val TAG = "MainActivity"
@@ -115,7 +117,6 @@ class MainActivity : AppCompatActivity() {
 
         }
       */
-
     }
 
 
@@ -123,12 +124,6 @@ class MainActivity : AppCompatActivity() {
 
         var menu = bottomNavi.menu
         //바텀바 아이템 꾹누르면 이름 떴던거 없앰
-        val longClickListener = View.OnLongClickListener { true }
-        findViewById<View>(R.id.first_tab).setOnLongClickListener(longClickListener)
-        findViewById<View>(R.id.second_tab).setOnLongClickListener(longClickListener)
-        findViewById<View>(R.id.third_tab).setOnLongClickListener(longClickListener)
-        findViewById<View>(R.id.fourth_tab).setOnLongClickListener(longClickListener)
-        findViewById<View>(R.id.fifth_tab).setOnLongClickListener(longClickListener)
 
         // 최초로 보이는 프래그먼트
         childCaringFragment = ChildCaringFragment()
@@ -153,7 +148,7 @@ class MainActivity : AppCompatActivity() {
                             fragmentManager.beginTransaction().add(R.id.container, childCaringFragment!!).commit()
                         }
                         if (childCaringFragment != null) fragmentManager.beginTransaction().show(childCaringFragment!!).commit()
-                        //  if(calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
+                        if (calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
                         if (boardFragment != null) fragmentManager.beginTransaction().hide(boardFragment!!).commit()
                         if (infoFragment != null) fragmentManager.beginTransaction().hide(infoFragment!!).commit()
                         if (mypageFragment != null) fragmentManager.beginTransaction().hide(mypageFragment!!).commit()
@@ -173,7 +168,7 @@ class MainActivity : AppCompatActivity() {
                                 .add(R.id.container, boardFragment!!).commit()
                         }
                         if (childCaringFragment != null) fragmentManager.beginTransaction().hide(childCaringFragment!!).commit()
-                        //  if(calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
+                        if(calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
                         if (boardFragment != null) fragmentManager.beginTransaction().show(boardFragment!!).commit()
                         if (infoFragment != null) fragmentManager.beginTransaction().hide(infoFragment!!).commit()
                         if (mypageFragment != null) fragmentManager.beginTransaction().hide(mypageFragment!!).commit()
@@ -191,7 +186,7 @@ class MainActivity : AppCompatActivity() {
                                 .add(R.id.container, infoFragment!!).commit()
                         }
                         if (childCaringFragment != null) fragmentManager.beginTransaction().hide(childCaringFragment!!).commit()
-                        //  if(calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
+                        if (calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
                         if (boardFragment != null) fragmentManager.beginTransaction().hide(boardFragment!!).commit()
                         if (infoFragment != null) fragmentManager.beginTransaction().show(infoFragment!!).commit()
                         if (mypageFragment != null) fragmentManager.beginTransaction().hide(mypageFragment!!).commit()
@@ -210,7 +205,7 @@ class MainActivity : AppCompatActivity() {
                             .add(R.id.container, mypageFragment!!).commit()
 
                         if (childCaringFragment != null) fragmentManager.beginTransaction().hide(childCaringFragment!!).commit()
-                        //  if(calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
+                        if (calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
                         if (boardFragment != null) fragmentManager.beginTransaction().hide(boardFragment!!).commit()
                         if (infoFragment != null) fragmentManager.beginTransaction().hide(infoFragment!!).commit()
                         if (mypageFragment != null) fragmentManager.beginTransaction().show(mypageFragment!!).commit()
@@ -226,6 +221,18 @@ class MainActivity : AppCompatActivity() {
 
 
                     R.id.fifth_tab->{
+
+                        if (calendarFragment == null) {
+                            calendarFragment = CalendarFragment()
+                            fragmentManager.beginTransaction()
+                                .add(R.id.container, calendarFragment!!).commit()
+                        }
+                        if (childCaringFragment != null) fragmentManager.beginTransaction().hide(childCaringFragment!!).commit()
+                        if (calendarFragment != null) fragmentManager.beginTransaction().show(calendarFragment!!).commit()
+                        if (boardFragment != null) fragmentManager.beginTransaction().hide(boardFragment!!).commit()
+                        if (infoFragment != null) fragmentManager.beginTransaction().hide(infoFragment!!).commit()
+                        if (mypageFragment != null) fragmentManager.beginTransaction().hide(mypageFragment!!).commit()
+
 
                         it.setIcon(R.drawable.bottom_calendar2)
                         menu.findItem(R.id.first_tab).setIcon(R.drawable.bottom_main)

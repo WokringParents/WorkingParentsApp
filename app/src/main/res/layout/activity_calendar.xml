@@ -102,44 +102,9 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/schedule_female" />
 
-            <Button
-                android:id="@+id/menu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent" />
-
         </LinearLayout>
 
     </LinearLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/parent_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Calendar.CalendarActivity">
-
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="598dp"
-            android:layout_above="@+id/bottom_menu"
-            android:layout_marginBottom="4dp">
-
-        </FrameLayout>
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_menu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/white"
-            app:labelVisibilityMode="unlabeled"
-            app:menu="@menu/bottom_menu" />
-    </RelativeLayout>
-
-
-
 
 
 
