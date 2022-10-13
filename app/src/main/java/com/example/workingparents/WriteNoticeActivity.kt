@@ -1,27 +1,42 @@
 package com.example.workingparents
 
 import android.Manifest
+import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View.VISIBLE
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
-import com.example.workingparents.databinding.ActivityMainBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.workingparents.databinding.ActivityWriteNoticeBinding
 import kotlinx.android.synthetic.main.activity_write_notice.*
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
+import kotlin.properties.Delegates
 
 private val TAG="Notice"
 
+
+var list = ArrayList<Uri>()
+var imageAdapter: MultiImageAdapter? = null
+
 //1. BaseAcitivty를 상속받고
 class WriteNoticeActivity : BaseActivity() {
+
 
     //3. 권한 확인 두개, 카메라 요청 하나, 바인딩 생성
     val PERM_STORAGE=9
@@ -30,8 +45,17 @@ class WriteNoticeActivity : BaseActivity() {
     val REQ_GALLERY=12
     val binding by lazy { ActivityWriteNoticeBinding.inflate(layoutInflater) }
 
+
+    //val adapter = MultiImageAdapter(list, this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        imageAdapter= MultiImageAdapter(list,this)
+        val layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        binding.imagerecyclerView.layoutManager = layoutManager
+        binding.imagerecyclerView.adapter = imageAdapter
+
         //4.setContentView에 바인딩 전달
         setContentView(binding.root)
 
@@ -54,7 +78,7 @@ class WriteNoticeActivity : BaseActivity() {
         }
 
         //갤러리 버튼이 클릭 되면 갤러리를 연다
-        binding.btnNoticeFinish.setOnClickListener {
+        binding.buttonGallery.setOnClickListener {
             openGallery()
         }
     }
@@ -77,8 +101,10 @@ class WriteNoticeActivity : BaseActivity() {
     }
 
     fun openGallery(){
-        val intent=Intent(Intent.ACTION_PICK)
-        intent.type=MediaStore.Images.Media.CONTENT_TYPE
+        var intent = Intent(Intent.ACTION_PICK)
+        intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(intent, REQ_GALLERY)
     }
 
@@ -153,30 +179,83 @@ class WriteNoticeActivity : BaseActivity() {
     //data는 미리보기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode== RESULT_OK)
-        {
-            when(requestCode){
-                REQ_CAMERA->{
-                    Log.d(TAG,"이미지 가져오기")
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                REQ_CAMERA -> {
+                    Log.d(TAG, "이미지 가져오기")
                     //val bitmap=data?.extras?.get("data") as Bitmap 미리보기 이미지가 들어감. 가져올 때 Bitmap으로 변환
                     //binding.imagePreview.setImageBitmap(bitmap) 비트맵 가져오기
                     //reaulUri가 null이 아닐때
-                    realUri?.let { uri->
-                        Log.d(TAG,uri.toString())
-                        val bitmap=loadBitmap(uri)
+                    realUri?.let { uri ->
+                        Log.d(TAG, uri.toString())
+
+                        /*
+                        val bitmap = loadBitmap(uri)
                         binding.imagePreview.setImageBitmap(bitmap)
                         //다 쓰고 나서 null로
-                        realUri=null
+                        realUri = null
+                         */
+
+                        if (uri != null && list.size<10) {
+                            list.add(uri)
+                            binding.imagerecyclerView.visibility=VISIBLE
+                            imageAdapter?.notifyDataSetChanged()
+                            Log.d(TAG,"사진 촬영")
+                            Log.d(TAG,"사진 촬영 후 사이즈 = "+list.size.toString())
+                        }
                     }
                 }
-                REQ_GALLERY->{
+                REQ_GALLERY -> {
                     //data로 넘어옴. Uri 형태로 담겨있음
-                    data?.data?.let { uri ->
-                        Log.d(TAG,"여기가 uri"+uri.toString())
-                        binding.imagePreview.setImageURI(uri)
+                    if (data?.clipData != null) {
+                        Log.d(TAG,"사진 여러개 선택하고 값보냄")
+                        // 사진 여러개 선택한 경우
+                        val count = data.clipData!!.itemCount
+                        Log.d(TAG,"사진 개수"+count.toString())
+                        if (count > 10) {
+                            Toast.makeText(this@WriteNoticeActivity, "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG)
+                            return
+                        }
+                        for (i in 0 until count) {
+                            val imageUri = data.clipData!!.getItemAt(i).uri
+                            if(list.size<10) { list.add(imageUri)
+                            Log.d(TAG,i.toString()+"번째 Uri"+imageUri.toString())
+                            }
+                        }
+                        Log.d(TAG,"갤러리 다중 선택 후 사이즈 = "+list.size.toString())
+                    } else { // 단일 선택
+                        data?.data?.let { uri ->
+                            val imageUri : Uri? = data?.data
+                            if (imageUri != null && list.size<10) {
+                                list.add(imageUri)
+                            }
+                        }
+                        Log.d(TAG,"갤러리 단일 선택 후 사이즈 = "+list.size.toString())
                     }
+                    binding.imagerecyclerView.visibility=VISIBLE
+                    imageAdapter?.notifyDataSetChanged()
                 }
-           }
+            }
         }
+    }
+
+    fun deleteImageAdapter(position : Int){
+        binding.imagerecyclerView.adapter?.notifyItemRemoved(position)
+        list.removeAt(position)
+        binding.imagerecyclerView.adapter?.notifyItemChanged(position, list.size)
+        Log.d(TAG,"갤러리 삭제 후 사이즈 = "+list.size.toString())
+        for (i in 0 until list.size) {
+                Log.d(TAG,i.toString()+"번째 Uri"+list.get(i).toString())
+        }
+    }
+}
+
+fun deleteImageAdapter(position : Int){
+    imageAdapter?.notifyItemRemoved(position)
+    list.removeAt(position)
+    imageAdapter?.notifyItemChanged(position, list.size)
+    Log.d(TAG,"갤러리 삭제 후 사이즈 = "+list.size.toString())
+    for (i in 0 until list.size) {
+        Log.d(TAG,i.toString()+"번째 Uri"+list.get(i).toString())
     }
 }

@@ -83,10 +83,12 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:weightSum="10"
             android:orientation="horizontal">
 
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/imagePreview"
                 android:layout_width="100dp"
                 android:layout_height="match_parent">
@@ -95,22 +97,55 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/imagerecyclerView"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_weight="9.5"
                 />
+
 
             <LinearLayout
                 android:id="@+id/buttonCamera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.25"
                 android:orientation="vertical"
                 >
 
                 <ImageButton
-                    android:id="@+id/addimage_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:id="@+id/cameraimage"
+                    android:layout_width="35dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round"
+                    android:backgroundTint="@color/white"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/camera" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="사진 촬영하기
+                    (최대 10장)"
+                    android:textSize="10sp"
+                    android:textAlignment="center"
+                    />
+            </LinearLayout>
+
+                <LinearLayout
+                android:id="@+id/buttonGallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:layout_gravity="center"
+                android:orientation="vertical"
+                >
+
+                <ImageButton
+                    android:id="@+id/multi_image"
+                    android:layout_width="37dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:background="@drawable/round"
                     android:backgroundTint="@color/white"
@@ -118,13 +153,14 @@
                     android:src="@drawable/addimage" />
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="사진 첨부하기
                     (최대 10장)"
-                    android:textSize="13sp"
+                    android:textSize="10sp"
                     android:textAlignment="center"
                     />
+
 
             </LinearLayout>
 

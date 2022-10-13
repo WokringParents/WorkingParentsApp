@@ -284,6 +284,21 @@ interface RetrofitService {
     @GET("childHaving/{couplenum}")
     fun getChildbyCoupleNum(@Path("couplenum") couplenum: Int): Call<Child>
 
+
+    //-------------------------------Notice------------------------------//
+
+    @FormUrlEncoded
+    @POST("notice/{tid}")
+    fun postNotice(
+
+        @Path("tid") tid: Int,
+        @Field("ntitle") ntitle: String,
+        @Field("ncontent") ncontent: String,
+        @Field("image") image: String
+
+    ): Call<Int>
+
+
 // @GET("posts/{page}")
     // fun getUserPage(@Path("page") page: String): Call<User>
 

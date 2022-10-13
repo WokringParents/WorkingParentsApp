@@ -59,8 +59,7 @@
             android:name=".WritePostingActivity"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".PostingActivity"
-            android:windowSoftInputMode="adjustNothing" />
+            android:name=".PostingActivity"/>
 
         <service
             android:name=".MyFirebaseMessagingService"
