@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    >
+    tools:context=".TeacherMyPageFragment">
 
 
     <LinearLayout
@@ -46,7 +46,7 @@
                     android:layout_height="70dp"
                     android:background="@drawable/round2"
                     android:padding="6dp"
-                    android:paddingLeft="2dp"
+                    android:paddingLeft="4dp"
                     android:paddingBottom="2dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/teacher_right" />
@@ -122,7 +122,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="10dp">
+                    android:paddingTop="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingBottom="20dp">
 
 
                     <TextView
@@ -173,7 +175,6 @@
                                     android:id="@+id/kg_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/notosans_regular"
                                     android:layout_gravity="center"
                                     android:text="별빛 유치원 햇님반"
                                     android:textColor="@color/black"

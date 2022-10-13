@@ -16,14 +16,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 //MainActivity.kt
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
     private val fragmentManager = supportFragmentManager
     private var childCaringFragment: ChildCaringFragment? = null
     private var boardFragment: BoardFragment? = null
     private var infoFragment: InfoFragment? = null
     private var mypageFragment: MypageFragment? = null
     private var calendarFragment: CalendarFragment?=null
-    //  private var calendarFragment:CalendarFragment?=null  은아언니가 프래그먼트로 바꿀시 쓸거임
 
     private val TAG = "MainActivity"
 
@@ -123,7 +121,6 @@ class MainActivity : AppCompatActivity() {
     private fun initBottomNavigation(bottomNavi: BottomNavigationView) {
 
         var menu = bottomNavi.menu
-        //바텀바 아이템 꾹누르면 이름 떴던거 없앰
 
         // 최초로 보이는 프래그먼트
         childCaringFragment = ChildCaringFragment()
