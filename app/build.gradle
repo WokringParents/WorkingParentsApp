@@ -103,4 +103,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
 
+    //뷰 접었다 펼치기
+    implementation "com.github.skydoves:expandablelayout:1.0.7"
 }

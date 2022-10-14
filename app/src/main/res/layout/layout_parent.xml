@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_cover"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rect_gray_border_top_radius_20dp"
+   >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="급식 유형을 선택해주세요."
+        android:textSize="15sp"
+        android:textColor="#a4a4a4"
+        android:textAlignment="viewStart"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="11dp"
+        android:fontFamily="@font/notosans_regular"
+        android:includeFontPadding="false"/>
+
+</LinearLayout>
+

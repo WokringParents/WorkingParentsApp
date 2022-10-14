@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.workingparents.Calendar.CalendarFragment
 import com.example.workingparents.Goback.GobackFragment
+import com.example.workingparents.NoticeFragment
 import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
