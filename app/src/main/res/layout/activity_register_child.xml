@@ -118,7 +118,10 @@
                 android:background="@drawable/border"
                 android:hint="아이 이름을 등록해주세요"
                 android:fontFamily="@font/notosans_regular"
+                android:inputType="text"
+                android:maxLines="1"
                 android:paddingLeft="10dp"
+                android:theme="@style/EditTheme"
                 android:includeFontPadding="false"
                 android:textSize="13dp" />
 

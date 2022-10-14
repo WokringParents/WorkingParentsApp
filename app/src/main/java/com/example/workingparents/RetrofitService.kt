@@ -1,6 +1,7 @@
 package com.example.workingparents
 
 import com.example.workingparents.Calendar.CalendarData
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -306,6 +307,8 @@ interface RetrofitService {
         @Field("ncontent") ncontent: String,
         @Field("image") image: String
     ): Call<Int>
+
+
 
 
 // @GET("posts/{page}")

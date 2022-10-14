@@ -25,6 +25,7 @@
         android:textSize="13dp"
         android:visibility="visible"
         android:inputType="text"
+        android:theme="@style/EditTheme"
         android:includeFontPadding="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.473"

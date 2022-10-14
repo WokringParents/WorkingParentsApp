@@ -44,6 +44,7 @@ class WriteNoticeActivity : BaseActivity() {
     val REQ_GALLERY=12
     val binding by lazy { ActivityWriteNoticeBinding.inflate(layoutInflater) }
 
+    lateinit var path: String
 
     //val adapter = MultiImageAdapter(list, this)
 
@@ -293,6 +294,13 @@ class WriteNoticeActivity : BaseActivity() {
                             if (imageUri != null && list.size<10) {
                                 list.add(imageUri)
                             }
+
+                            path=RealPathUtil.getRealPath(this,imageUri)
+                            val bitmap= BitmapFactory.decodeFile(path)
+                            binding.imagePreview.setImageBitmap(bitmap)
+
+
+
                         }
                         Log.d(TAG,"갤러리 단일 선택 후 사이즈 = "+list.size.toString())
                     }
