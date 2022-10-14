@@ -1,38 +1,37 @@
 package com.example.workingparents
 
 import android.Manifest
-import android.app.Activity
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View.VISIBLE
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workingparents.databinding.ActivityWriteNoticeBinding
 import kotlinx.android.synthetic.main.activity_write_notice.*
-import java.io.ByteArrayOutputStream
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
+import java.io.InputStream
 import java.text.SimpleDateFormat
-import kotlin.properties.Delegates
+
 
 private val TAG="Notice"
 
 
 var list = ArrayList<Uri>()
 var imageAdapter: MultiImageAdapter? = null
+lateinit var notices : ArrayList<Notice>
+
 
 //1. BaseAcitivty를 상속받고
 class WriteNoticeActivity : BaseActivity() {
@@ -55,7 +54,6 @@ class WriteNoticeActivity : BaseActivity() {
         val layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         binding.imagerecyclerView.layoutManager = layoutManager
         binding.imagerecyclerView.adapter = imageAdapter
-
         //4.setContentView에 바인딩 전달
         setContentView(binding.root)
 
@@ -63,11 +61,77 @@ class WriteNoticeActivity : BaseActivity() {
         // 이 처리는 BaseAcitivty에서
         requirPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERM_STORAGE)
 
+        RetrofitBuilder.api.getNotice().enqueue(object : Callback<List<Notice>> {
+            override fun onResponse(call: Call<List<Notice>>, response: Response<List<Notice>>) {
+                if (response.isSuccessful) {
+                    notices = response.body() as ArrayList<Notice>
+                    //맨 최근 것 부터 담김
+                    Log.d(TAG, notices.toString())
+                    var i : Uri = Uri.parse(notices.get(1).image)
+//                    val bitmap = loadBitmap(i)
+//                    binding.imagePreview.setImageBitmap(bitmap)
+                    Log.d(TAG, "확인용"+notices.get(1).image.toString())
+
+//                    val test: InputStream? = contentResolver.openInputStream(i)
+//                    val bitmap = BitmapFactory.decodeStream(test)
+//                    binding.imagePreview.setImageBitmap(bitmap)
+
+                } else {
+                    Log.d(TAG, "onResponse 후 실패 에러: ")
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                }
+            }
+            override fun onFailure(call: Call<List<Notice>>, t: Throwable) {
+                Log.d(TAG, "onFailure 연결 실패 에러 테스트: " + t.message.toString())
+            }
+
+        })
+
+
         //뒤로가기
         binding.writeNoticeBack.setOnClickListener{
             onBackPressed()
         }
 
+        binding.btnNoticeFinish.setOnClickListener{
+
+            Log.d(TAG,"타이틀"+binding.noticeTitle.text.toString())
+            Log.d(TAG,"내용"+binding.noticeContent.text.toString())
+            //입력된 제목이 없다면
+            if(binding.noticeTitle.text.toString()==""||binding.noticeContent.text.toString()=="") {
+                Log.d(TAG, "제목과 내용을 모두 작성했는지 확인해주세요")
+                Toast.makeText(this, "제목과 내용을 모두 작성했는지 확인해주세요", Toast.LENGTH_LONG)
+            }else if(binding.noticeTitle.text.toString()!=""&&binding.noticeContent.text.toString()!="")
+            {
+                if(list.size>0) {
+                    insertNotice(1,binding.noticeTitle.text.toString(),binding.noticeContent.text.toString(), list.get(0).toString()) }
+                else{
+                    insertNotice(1,binding.noticeTitle.text.toString(),binding.noticeContent.text.toString(), "")}
+            }
+
+        }
+
+    }
+
+    fun insertNotice(tid:Int, ntitle:String, ncontent:String, image:String){
+        RetrofitBuilder.api.postNotice(tid,ntitle,ncontent,image).enqueue(object :
+            Callback<Int> {
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                if (response.isSuccessful) {
+                    var result: Int? = response.body()
+                    Log.d(TAG, result.toString())
+                    Log.d(TAG, "onResponse: Notice 성공")
+                } else {
+                    Log.d(TAG, "onResponse: Notice 실패")
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                }
+            }
+
+            override fun onFailure(call: Call<Int>, t: Throwable) {
+                Log.d(TAG, "onFailure Notice 실패 에러: " + t.message.toString())
+
+            }
+        })
     }
 
     fun initViews(){
@@ -213,7 +277,7 @@ class WriteNoticeActivity : BaseActivity() {
                         val count = data.clipData!!.itemCount
                         Log.d(TAG,"사진 개수"+count.toString())
                         if (count > 10) {
-                            Toast.makeText(this@WriteNoticeActivity, "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG)
+                            Toast.makeText(this, "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG)
                             return
                         }
                         for (i in 0 until count) {
@@ -239,15 +303,6 @@ class WriteNoticeActivity : BaseActivity() {
         }
     }
 
-    fun deleteImageAdapter(position : Int){
-        binding.imagerecyclerView.adapter?.notifyItemRemoved(position)
-        list.removeAt(position)
-        binding.imagerecyclerView.adapter?.notifyItemChanged(position, list.size)
-        Log.d(TAG,"갤러리 삭제 후 사이즈 = "+list.size.toString())
-        for (i in 0 until list.size) {
-                Log.d(TAG,i.toString()+"번째 Uri"+list.get(i).toString())
-        }
-    }
 }
 
 fun deleteImageAdapter(position : Int){

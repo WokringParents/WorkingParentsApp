@@ -137,9 +137,6 @@ class JoinActivity : AppCompatActivity() {
             //이메일 체크하여 DB에 가입되어있지 않은 이메일인 경우 해당 메일로 인증번호 전송, 아닐경우 메세지 출력
 
 
-
-
-
         })
 
         btn_joinFinish.setOnClickListener(View.OnClickListener {

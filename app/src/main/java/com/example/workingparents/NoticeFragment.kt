@@ -1,5 +1,5 @@
-package com.example.workingparents.Notice
-import kotlinx.android.synthetic.main.fragment_notice.*
+package com.example.workingparents
+import kotlinx.android.synthetic.main.fragment_teacher_notice.*
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -34,7 +34,7 @@ class NoticeFragment : Fragment() {
 
     ): View? {
 
-        var view =inflater.inflate(R.layout.fragment_notice, container, false)
+        var view =inflater.inflate(R.layout.fragment_teacher_notice, container, false)
         val writenotice_btn = view.findViewById<ImageButton>(R.id.writenotice_btn)
         writenotice_btn.setOnClickListener{
             Log.d(TAG,"클릭됨")

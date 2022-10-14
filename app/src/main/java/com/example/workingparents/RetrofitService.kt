@@ -287,15 +287,24 @@ interface RetrofitService {
 
     //-------------------------------Notice------------------------------//
 
+
+    @GET("/notice/all")
+    fun getNotice():Call<List<Notice>>
+
+    @GET("notice/{nid}")
+    fun getNoticebyContent(
+        @Query("tid") tid: Int,
+        @Query("ndate") ndate: String,
+        @Query("ncontent") ncontent: String
+    ): Call<Int>
+
     @FormUrlEncoded
     @POST("notice/{tid}")
     fun postNotice(
-
         @Path("tid") tid: Int,
         @Field("ntitle") ntitle: String,
         @Field("ncontent") ncontent: String,
         @Field("image") image: String
-
     ): Call<Int>
 
 

@@ -88,7 +88,6 @@
 
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/imagePreview"
                 android:layout_width="100dp"
                 android:layout_height="match_parent">
@@ -114,7 +113,6 @@
                 >
 
                 <ImageButton
-                    android:id="@+id/cameraimage"
                     android:layout_width="35dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -134,16 +132,15 @@
             </LinearLayout>
 
                 <LinearLayout
-                android:id="@+id/buttonGallery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                    android:id="@+id/buttonGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.25"
                     android:layout_gravity="center"
-                android:orientation="vertical"
+                    android:orientation="vertical"
                 >
 
                 <ImageButton
-                    android:id="@+id/multi_image"
                     android:layout_width="37dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
