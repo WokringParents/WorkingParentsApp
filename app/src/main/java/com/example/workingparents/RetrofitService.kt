@@ -5,6 +5,7 @@ import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 
+
 interface RetrofitService {
 
 
@@ -288,7 +289,6 @@ interface RetrofitService {
 
     //-------------------------------Notice------------------------------//
 
-
     @GET("/notice/all")
     fun getNotice():Call<List<Notice>>
 
@@ -310,19 +310,13 @@ interface RetrofitService {
 
 
 
+    //-------------------------------Image File------------------------------//
+    @Multipart
+    @POST("/uploadFile")
+    fun uploadImageFile(@Part file: MultipartBody.Part): Call<FileUploadResponse>
 
-// @GET("posts/{page}")
-    // fun getUserPage(@Path("page") page: String): Call<User>
+    @Multipart
+    @POST("/uploadMultipleFiles")
+    fun uploadMultipleFiles(@Part files: List<MultipartBody.Part>): Call<List<FileUploadResponse>>
 
-
-//    @GET("posts/1")
-//    fun getStudent(@Query("school_id") schoolId: Int,
-//                   @Query("grade") grade: Int,
-//                   @Query("classroom") classroom: Int): Call<ExampleResponse>
-//
-//
-//    //POST 예제
-//    @FormUrlEncoded
-//    @POST("posts")
-//    fun getContactsObject(@Field("idx") idx: String): Call<JsonObject>
 }

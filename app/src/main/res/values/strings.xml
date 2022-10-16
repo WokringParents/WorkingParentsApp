@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">워킹패런츠</string>
     <string name="loginpw"><u>아이디/비밀번호 찾기</u></string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

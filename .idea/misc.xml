@@ -16,6 +16,8 @@
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/eyesize.xml" value="0.1225" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/halfclear.xml" value="0.1425" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/modifysize.xml" value="0.1215" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/orangeborder.xml" value="0.1205" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/orangeborder_slim.xml" value="0.1195" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/pastdatecircle.xml" value="0.239" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/rect_dark_gray_radius_10dp.xml" value="0.1225" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/rect_gray_border_bottom_radius_10dp.xml" value="0.255" />
@@ -48,7 +50,7 @@
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_search_kindergarden.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_test_main.xml" value="0.23489583333333333" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_write_cafeteria.xml" value="0.21754385964912282" />
-        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_write_notice.xml" value="0.1" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_write_notice.xml" value="0.2912621359223301" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_write_posting.xml" value="0.13229166666666667" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/bg_white_radius_8dp.xml" value="0.10833333333333334" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_board.xml" value="0.13229166666666667" />

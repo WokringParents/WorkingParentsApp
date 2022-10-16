@@ -54,7 +54,7 @@
             android:id="@+id/expandable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="21dp"
             app:expandable_animation="normal"
             app:expandable_duration="300"
             app:expandable_isExpanded="false"
@@ -67,7 +67,51 @@
             app:expandable_spinner_margin="16dp"
             app:expandable_spinner_size="32dp" />
 
+        <EditText
+            android:id="@+id/cafeteria_content"
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:layout_weight="400"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border"
+            android:hint="식단을 입력해주세요."
+            android:gravity="start"
+            android:fontFamily="@font/notosans_regular"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:includeFontPadding="false"
+            android:theme="@style/EditTheme"
+            android:textSize="13dp" />
 
+
+    <LinearLayout
+        android:id="@+id/btn_goGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="37dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/round"
+            android:backgroundTint="@color/white"
+            android:scaleType="fitCenter"
+            android:src="@drawable/addimage" />
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="사진 첨부하기
+                    (최대 10장)"
+            android:textSize="10sp"
+            android:textAlignment="center"
+            />
+
+    </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

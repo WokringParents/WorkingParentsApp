@@ -76,6 +76,19 @@
           android:textColor="@color/white"
           android:textSize="14sp"/>
 
+
+      <Button
+          android:id="@+id/btn_ssam"
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:layout_marginTop="10dp"
+          android:background="@drawable/orangeborder_slim"
+          android:fontFamily="@font/notosans_regular"
+          android:text="임시 선생님 자동로그인"
+          android:textColor="@color/main"
+          android:textSize="14sp"
+          android:textStyle="italic" />
+
       <Button
           android:id="@+id/btn_join"
           android:layout_width="match_parent"
@@ -86,7 +99,6 @@
           android:textColor="@color/black"
           android:textSize="14sp"
           android:fontFamily="@font/notosans_regular"/>
-
 
       <LinearLayout
           android:layout_width="match_parent"
@@ -178,7 +190,5 @@
              android:scaleType="centerInside"
              android:src="@drawable/naver" />
       </LinearLayout>
-
-
    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,6 +38,12 @@ class LoginActivity : AppCompatActivity() {
 
         })
 
+        btn_ssam.setOnClickListener{
+
+            val intent = Intent(this@LoginActivity, TeacherMainActivity::class.java)
+            startActivity(intent)
+
+        }
 
         btn_login.setOnClickListener{
 
@@ -49,10 +55,6 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this@LoginActivity, "아이디를 입력해주세요", Toast.LENGTH_SHORT).show()
             } else if (pw == "") {
                 Toast.makeText(this@LoginActivity, "비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
-            } else if(id=="ssam"&&pw=="pw00")
-            {
-                val intent = Intent(this@LoginActivity, TeacherMainActivity::class.java)
-                startActivity(intent)
             }
             else {
                 loginApplication(id, pw)

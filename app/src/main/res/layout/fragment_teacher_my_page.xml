@@ -78,7 +78,7 @@
                         android:id="@+id/teacher_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="workingparents1234"
+                        android:text="workingssam1234"
                         android:textColor="#797979"
                         android:textSize="12sp" />
 

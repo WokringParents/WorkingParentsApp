@@ -2,9 +2,9 @@ package com.example.workingparents
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -16,19 +16,23 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workingparents.databinding.ActivityWriteNoticeBinding
-import kotlinx.android.synthetic.main.activity_write_notice.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.text.SimpleDateFormat
 
 
-private val TAG="Notice"
+private val TAG="NoticeWrite"
 
 
-var list = ArrayList<Uri>()
+var selectedImageUri = ArrayList<Uri>()
 var imageAdapter: MultiImageAdapter? = null
 lateinit var notices : ArrayList<Notice>
 
@@ -44,14 +48,13 @@ class WriteNoticeActivity : BaseActivity() {
     val REQ_GALLERY=12
     val binding by lazy { ActivityWriteNoticeBinding.inflate(layoutInflater) }
 
-    lateinit var path: String
 
     //val adapter = MultiImageAdapter(list, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        imageAdapter= MultiImageAdapter(list,this)
+        imageAdapter= MultiImageAdapter(selectedImageUri,this)
         val layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         binding.imagerecyclerView.layoutManager = layoutManager
         binding.imagerecyclerView.adapter = imageAdapter
@@ -78,7 +81,7 @@ class WriteNoticeActivity : BaseActivity() {
 //                    binding.imagePreview.setImageBitmap(bitmap)
 
                 } else {
-                    Log.d(TAG, "onResponse 후 실패 에러: ")
+                    Log.d(TAG, "onResponse 후 Notice 실패 에러: ")
                     // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
                 }
             }
@@ -104,8 +107,8 @@ class WriteNoticeActivity : BaseActivity() {
                 Toast.makeText(this, "제목과 내용을 모두 작성했는지 확인해주세요", Toast.LENGTH_LONG)
             }else if(binding.noticeTitle.text.toString()!=""&&binding.noticeContent.text.toString()!="")
             {
-                if(list.size>0) {
-                    insertNotice(1,binding.noticeTitle.text.toString(),binding.noticeContent.text.toString(), list.get(0).toString()) }
+                if(selectedImageUri.size>0) {
+                    insertNotice(1,binding.noticeTitle.text.toString(),binding.noticeContent.text.toString(), selectedImageUri.get(0).toString()) }
                 else{
                     insertNotice(1,binding.noticeTitle.text.toString(),binding.noticeContent.text.toString(), "")}
             }
@@ -261,12 +264,12 @@ class WriteNoticeActivity : BaseActivity() {
                         realUri = null
                          */
 
-                        if (uri != null && list.size<10) {
-                            list.add(uri)
+                        if (uri != null && selectedImageUri.size<10) {
+                            selectedImageUri.add(uri)
                             binding.imagerecyclerView.visibility=VISIBLE
                             imageAdapter?.notifyDataSetChanged()
                             Log.d(TAG,"사진 촬영")
-                            Log.d(TAG,"사진 촬영 후 사이즈 = "+list.size.toString())
+                            Log.d(TAG,"사진 촬영 후 사이즈 = "+selectedImageUri.size.toString())
                         }
                     }
                 }
@@ -283,26 +286,58 @@ class WriteNoticeActivity : BaseActivity() {
                         }
                         for (i in 0 until count) {
                             val imageUri = data.clipData!!.getItemAt(i).uri
-                            if(list.size<10) { list.add(imageUri)
+                            if(selectedImageUri.size<10) { selectedImageUri.add(imageUri)
                             Log.d(TAG,i.toString()+"번째 Uri"+imageUri.toString())
                             }
                         }
-                        Log.d(TAG,"갤러리 다중 선택 후 사이즈 = "+list.size.toString())
+                        Log.d(TAG,"갤러리 다중 선택 후 사이즈 = "+selectedImageUri.size.toString())
+                        uploadMutiImage(this,selectedImageUri)
+
                     } else { // 단일 선택
                         data?.data?.let { uri ->
                             val imageUri : Uri? = data?.data
-                            if (imageUri != null && list.size<10) {
-                                list.add(imageUri)
+                            if (imageUri != null && selectedImageUri.size<10) {
+                                selectedImageUri.add(imageUri)
+
+                                val it = contentResolver.openInputStream(
+                                    data.data!!
+                                )
+
                             }
+                            val path :String =RealPathUtil.getRealPath(this@WriteNoticeActivity,imageUri)
+                            val file = File(path)
 
-                            path=RealPathUtil.getRealPath(this,imageUri)
-                            val bitmap= BitmapFactory.decodeFile(path)
-                            binding.imagePreview.setImageBitmap(bitmap)
+                            Log.d(TAG,file.name+"선택됨")
 
+                            //파일을 MediaType으로 만들고 이를 RequestBody로 생성
+                            val fileBody:RequestBody= RequestBody.create(MediaType.parse("image/jpeg"),file.absolutePath)
+                            //name: 서버자체의 key이름, 파일의 지칭명, 파일자체의 내용=RequestBody   --> 3가지 버무려서 만들어진 MulipartBody.body를 서버로 보낸다!
+                            val filePart: MultipartBody.Part = MultipartBody.Part.createFormData("file", file.name, fileBody)
 
+                            RetrofitBuilder.api.uploadImageFile(filePart).enqueue(object: Callback<FileUploadResponse>{
+
+                                override fun onResponse(call: Call<FileUploadResponse>, response: Response<FileUploadResponse>) {
+                                    if(response.isSuccessful){
+                                        val result: FileUploadResponse?= response.body()
+                                        if(result!=null){
+                                            Log.d(TAG, "onResponse: uploadImageFile 성공")
+                                            Log.d(TAG,result.toString())
+                                        }
+
+                                    }else{
+                                        Log.d(TAG, "onResponse: uploadImageFile 실패")
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
+                                    Log.d(TAG, "onFailure : uploadImageFile 에러: " + t.message.toString())
+                                }
+
+                            })
 
                         }
-                        Log.d(TAG,"갤러리 단일 선택 후 사이즈 = "+list.size.toString())
+                        Log.d(TAG,"갤러리 단일 선택 후 사이즈 = "+selectedImageUri.size.toString())
+
                     }
                     binding.imagerecyclerView.visibility=VISIBLE
                     imageAdapter?.notifyDataSetChanged()
@@ -315,10 +350,69 @@ class WriteNoticeActivity : BaseActivity() {
 
 fun deleteImageAdapter(position : Int){
     imageAdapter?.notifyItemRemoved(position)
-    list.removeAt(position)
-    imageAdapter?.notifyItemChanged(position, list.size)
-    Log.d(TAG,"갤러리 삭제 후 사이즈 = "+list.size.toString())
-    for (i in 0 until list.size) {
-        Log.d(TAG,i.toString()+"번째 Uri"+list.get(i).toString())
+    selectedImageUri.removeAt(position)
+    imageAdapter?.notifyItemChanged(position, selectedImageUri.size)
+    Log.d(TAG,"갤러리 삭제 후 사이즈 = "+selectedImageUri.size.toString())
+    for (i in 0 until selectedImageUri.size) {
+        Log.d(TAG,i.toString()+"번째 Uri"+selectedImageUri.get(i).toString())
     }
+}
+
+@Throws(IOException::class)
+fun getBytes(`is`: InputStream): ByteArray? {
+    val byteBuff = ByteArrayOutputStream()
+    val buffSize = 1024
+    val buff = ByteArray(buffSize)
+    var len = 0
+    while (`is`.read(buff).also { len = it } != -1) {
+        byteBuff.write(buff, 0, len)
+    }
+    return byteBuff.toByteArray()
+}
+
+fun uploadSingleImage(context: Context, imageUri: Uri){
+
+
+    //Uri로 이미지 경로 들고오기 ->   그 path로 파일만들기
+
+
+
+}
+
+fun uploadMutiImage(context: Context,imageUri: List<Uri>){
+
+    // 여러 file들을 담아줄 ArrayList
+    val filePartList = ArrayList<MultipartBody.Part>()
+    Log.d(TAG,"uploadMutiImage속 uri 리스트 개수"+imageUri.size.toString())
+
+    var i=0
+    for(uri: Uri in imageUri){
+        val path = RealPathUtil.getRealPath(context,uri)
+        val fileBody:RequestBody= RequestBody.create(MediaType.parse("image/jpeg"),path)
+        val filePart: MultipartBody.Part = MultipartBody.Part.createFormData("files", "test"+ (i++) +".jpg", fileBody)
+        filePartList.add(filePart)
+    }
+
+    RetrofitBuilder.api.uploadMultipleFiles(filePartList).enqueue(object: Callback<List<FileUploadResponse>>{
+
+        override fun onResponse(call: Call<List<FileUploadResponse>>, response: Response<List<FileUploadResponse>>) {
+            if(response.isSuccessful){
+                val result: List<FileUploadResponse>?= response.body()
+                if(result!=null){
+                    Log.d(TAG, "onResponse: uploadMultipleFiles 성공")
+                    Log.d(TAG,result.toString())
+                }else
+                    Log.d(TAG,"onResponse: uploadMultipleFiles nul날라옴")
+
+            }else{
+                Log.d(TAG, "onResponse: uploadMultipleFiles 실패")
+            }
+        }
+
+        override fun onFailure(call: Call<List<FileUploadResponse>>, t: Throwable) {
+            Log.d(TAG, "onFailure : uploadMultipleFiles 에러 " + t.message.toString())
+        }
+
+    })
+
 }

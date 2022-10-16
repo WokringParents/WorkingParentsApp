@@ -37,6 +37,10 @@ class JoinActivity : AppCompatActivity() {
         setContentView(R.layout.activity_join)
 
 
+        imageButton3.setOnClickListener(View.OnClickListener {
+            onBackPressed()
+        })
+
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(ContentValues.TAG, "Fetching FCM registration token failed", task.exception)

@@ -23,6 +23,9 @@ class JoinActivity2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join2)
 
+        imageButton4.setOnClickListener{
+            onBackPressed()
+        }
 
         val Join2Intent = intent
         val id = Join2Intent.getStringExtra("id")
