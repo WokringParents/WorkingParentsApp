@@ -56,7 +56,7 @@
             android:layout_height="50dp"
             android:layout_weight="50"
             android:layout_marginTop="20dp"
-            android:background="@drawable/border"
+            android:background="@drawable/rect_gray_border_radius_10dp"
             android:hint="제목을 입력해주세요"
             android:fontFamily="@font/notosans_regular"
             android:paddingLeft="10dp"
@@ -74,7 +74,7 @@
             android:layout_height="380dp"
             android:layout_weight="400"
             android:layout_marginTop="20dp"
-            android:background="@drawable/border"
+            android:background="@drawable/rect_gray_border_radius_10dp"
             android:hint="알림장 내용을 입력해주세요."
             android:gravity="start"
             android:fontFamily="@font/notosans_regular"
@@ -93,11 +93,10 @@
 
 
             <ImageView
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/imagePreview"
                 android:layout_width="100dp"
                 android:layout_height="match_parent">
-
             </ImageView>
 
             <androidx.recyclerview.widget.RecyclerView

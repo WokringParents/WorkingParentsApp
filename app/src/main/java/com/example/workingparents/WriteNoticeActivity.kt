@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -12,6 +13,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View.VISIBLE
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,13 +21,11 @@ import com.example.workingparents.databinding.ActivityWriteNoticeBinding
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.IOException
-import java.io.InputStream
+import java.io.*
 import java.text.SimpleDateFormat
 
 
@@ -35,7 +35,7 @@ private val TAG="NoticeWrite"
 var selectedImageUri = ArrayList<Uri>()
 var imageAdapter: MultiImageAdapter? = null
 lateinit var notices : ArrayList<Notice>
-
+lateinit var imagePreview: ImageView
 
 //1. BaseAcitivty를 상속받고
 class WriteNoticeActivity : BaseActivity() {
@@ -61,6 +61,9 @@ class WriteNoticeActivity : BaseActivity() {
         //4.setContentView에 바인딩 전달
         setContentView(binding.root)
 
+        imagePreview= binding.imagePreview
+
+
         //5.카메라를 위해선 저장소 권한이 필요하고 이를 거부할시 종료되는 코드. 공용 저장소 권한이 있는지 확인.
         // 이 처리는 BaseAcitivty에서
         requirPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERM_STORAGE)
@@ -71,15 +74,6 @@ class WriteNoticeActivity : BaseActivity() {
                     notices = response.body() as ArrayList<Notice>
                     //맨 최근 것 부터 담김
                     Log.d(TAG, notices.toString())
-                    var i : Uri = Uri.parse(notices.get(1).image)
-//                    val bitmap = loadBitmap(i)
-//                    binding.imagePreview.setImageBitmap(bitmap)
-                    Log.d(TAG, "확인용"+notices.get(1).image.toString())
-
-//                    val test: InputStream? = contentResolver.openInputStream(i)
-//                    val bitmap = BitmapFactory.decodeStream(test)
-//                    binding.imagePreview.setImageBitmap(bitmap)
-
                 } else {
                     Log.d(TAG, "onResponse 후 Notice 실패 에러: ")
                     // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
@@ -88,9 +82,7 @@ class WriteNoticeActivity : BaseActivity() {
             override fun onFailure(call: Call<List<Notice>>, t: Throwable) {
                 Log.d(TAG, "onFailure 연결 실패 에러 테스트: " + t.message.toString())
             }
-
         })
-
 
         //뒤로가기
         binding.writeNoticeBack.setOnClickListener{
@@ -298,43 +290,10 @@ class WriteNoticeActivity : BaseActivity() {
                             val imageUri : Uri? = data?.data
                             if (imageUri != null && selectedImageUri.size<10) {
                                 selectedImageUri.add(imageUri)
+                                uploadSingleImage(this,imageUri)
 
-                                val it = contentResolver.openInputStream(
-                                    data.data!!
-                                )
 
                             }
-                            val path :String =RealPathUtil.getRealPath(this@WriteNoticeActivity,imageUri)
-                            val file = File(path)
-
-                            Log.d(TAG,file.name+"선택됨")
-
-                            //파일을 MediaType으로 만들고 이를 RequestBody로 생성
-                            val fileBody:RequestBody= RequestBody.create(MediaType.parse("image/jpeg"),file.absolutePath)
-                            //name: 서버자체의 key이름, 파일의 지칭명, 파일자체의 내용=RequestBody   --> 3가지 버무려서 만들어진 MulipartBody.body를 서버로 보낸다!
-                            val filePart: MultipartBody.Part = MultipartBody.Part.createFormData("file", file.name, fileBody)
-
-                            RetrofitBuilder.api.uploadImageFile(filePart).enqueue(object: Callback<FileUploadResponse>{
-
-                                override fun onResponse(call: Call<FileUploadResponse>, response: Response<FileUploadResponse>) {
-                                    if(response.isSuccessful){
-                                        val result: FileUploadResponse?= response.body()
-                                        if(result!=null){
-                                            Log.d(TAG, "onResponse: uploadImageFile 성공")
-                                            Log.d(TAG,result.toString())
-                                        }
-
-                                    }else{
-                                        Log.d(TAG, "onResponse: uploadImageFile 실패")
-                                    }
-                                }
-
-                                override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
-                                    Log.d(TAG, "onFailure : uploadImageFile 에러: " + t.message.toString())
-                                }
-
-                            })
-
                         }
                         Log.d(TAG,"갤러리 단일 선택 후 사이즈 = "+selectedImageUri.size.toString())
 
@@ -345,8 +304,37 @@ class WriteNoticeActivity : BaseActivity() {
             }
         }
     }
+}
+
+fun temporalSetImgView(fileName: String){
+
+    RetrofitBuilder.api.loadFilebyName(fileName).enqueue(object:Callback<ResponseBody>{
+        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
+            if(response.isSuccessful){
+                val byteArray : ByteArray? = response.body()?.bytes()
+              //  val byteArray : ByteArray = result!!.toByteArray()
+               if(byteArray!=null){
+                   val bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+                   imagePreview.setImageBitmap(Bitmap.createScaledBitmap(bmp, imagePreview.width,
+                       imagePreview.height,false));
+
+                   Log.d(TAG, "onResponse: loadFilebyName 성공")
+               }
+            }
+        }
+
+        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            Log.d(TAG, "onFailure: loadFilebyName 실패"+ t.message)
+        }
+
+
+    })
+
+
 
 }
+
 
 fun deleteImageAdapter(position : Int){
     imageAdapter?.notifyItemRemoved(position)
@@ -358,42 +346,71 @@ fun deleteImageAdapter(position : Int){
     }
 }
 
-@Throws(IOException::class)
-fun getBytes(`is`: InputStream): ByteArray? {
-    val byteBuff = ByteArrayOutputStream()
-    val buffSize = 1024
-    val buff = ByteArray(buffSize)
-    var len = 0
-    while (`is`.read(buff).also { len = it } != -1) {
-        byteBuff.write(buff, 0, len)
-    }
-    return byteBuff.toByteArray()
+
+fun compressImage(context: Context,imageUri: Uri):ByteArray{
+
+    //이미지를 bitmap을 사용해서 20%로 압축해서 보냄
+    var inputStream : InputStream? =null;
+    try { inputStream = context.contentResolver.openInputStream(imageUri!!) }
+    catch(e:IOException){ e.printStackTrace(); }
+    var bitmap : Bitmap = BitmapFactory.decodeStream(inputStream);
+    var byteArrayOutputStream : ByteArrayOutputStream = ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream)
+
+
+    return byteArrayOutputStream.toByteArray()
 }
+
 
 fun uploadSingleImage(context: Context, imageUri: Uri){
 
+    val path :String =RealPathUtil.getRealPath(context,imageUri)
+    var file = File(path)
+    Log.d(TAG,file.name)
 
-    //Uri로 이미지 경로 들고오기 ->   그 path로 파일만들기
+    //파일을 MediaType으로 만들고 이를 RequestBody로 생성
+    //name: 서버자체의 key이름, 파일의 지칭명, 파일자체의 내용=RequestBody   --> 3가지 버무려서 만들어진 MulipartBody.body를 서버로 보낸다!
+    val requestBody : RequestBody = RequestBody.create(MediaType.parse("image/jpeg"), compressImage(context,imageUri))
+    val uploadFile : MultipartBody.Part  = MultipartBody.Part.createFormData("file", file.name ,requestBody);
 
 
+    RetrofitBuilder.api.uploadImageFile(uploadFile).enqueue(object: Callback<FileUploadResponse>{
+
+        override fun onResponse(call: Call<FileUploadResponse>, response: Response<FileUploadResponse>) {
+            if(response.isSuccessful){
+                val result: FileUploadResponse?= response.body()
+                if(result!=null){
+                    Log.d(TAG, "onResponse: uploadImageFile 성공")
+                    Log.d(TAG,result.toString())
+
+                    temporalSetImgView(file.name)
+                }
+
+            }else{
+                Log.d(TAG, "onResponse: uploadImageFile 실패")
+            }
+        }
+
+        override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
+            Log.d(TAG, "onFailure : uploadImageFile 에러: " + t.message.toString())
+        }
+    })
 
 }
 
 fun uploadMutiImage(context: Context,imageUri: List<Uri>){
 
     // 여러 file들을 담아줄 ArrayList
-    val filePartList = ArrayList<MultipartBody.Part>()
-    Log.d(TAG,"uploadMutiImage속 uri 리스트 개수"+imageUri.size.toString())
+    val uploadFileList = ArrayList<MultipartBody.Part>()
 
-    var i=0
     for(uri: Uri in imageUri){
         val path = RealPathUtil.getRealPath(context,uri)
-        val fileBody:RequestBody= RequestBody.create(MediaType.parse("image/jpeg"),path)
-        val filePart: MultipartBody.Part = MultipartBody.Part.createFormData("files", "test"+ (i++) +".jpg", fileBody)
-        filePartList.add(filePart)
+        val requestBody:RequestBody= RequestBody.create(MediaType.parse("image/jpeg"),compressImage(context,uri))
+        val uploadFile: MultipartBody.Part = MultipartBody.Part.createFormData("files", File(path).name, requestBody)
+        uploadFileList.add(uploadFile)
     }
 
-    RetrofitBuilder.api.uploadMultipleFiles(filePartList).enqueue(object: Callback<List<FileUploadResponse>>{
+    RetrofitBuilder.api.uploadMultipleFiles(uploadFileList).enqueue(object: Callback<List<FileUploadResponse>>{
 
         override fun onResponse(call: Call<List<FileUploadResponse>>, response: Response<List<FileUploadResponse>>) {
             if(response.isSuccessful){
@@ -416,3 +433,5 @@ fun uploadMutiImage(context: Context,imageUri: List<Uri>){
     })
 
 }
+
+

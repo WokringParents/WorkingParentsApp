@@ -2,6 +2,7 @@ package com.example.workingparents
 
 import com.example.workingparents.Calendar.CalendarData
 import okhttp3.MultipartBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -318,5 +319,8 @@ interface RetrofitService {
     @Multipart
     @POST("/uploadMultipleFiles")
     fun uploadMultipleFiles(@Part files: List<MultipartBody.Part>): Call<List<FileUploadResponse>>
+
+    @GET("/loadFile/{fileName}")
+    fun loadFilebyName( @Path("fileName") fileName: String): Call<ResponseBody>
 
 }
