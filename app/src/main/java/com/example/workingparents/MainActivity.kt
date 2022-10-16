@@ -197,9 +197,11 @@ class MainActivity : AppCompatActivity() {
                     }
                     R.id.fourth_tab -> {
 
-                        mypageFragment = MypageFragment()
-                        fragmentManager.beginTransaction()
-                            .add(R.id.container, mypageFragment!!).commit()
+                        if(mypageFragment == null) {
+                            mypageFragment = MypageFragment()
+                            fragmentManager.beginTransaction()
+                                .add(R.id.container, mypageFragment!!).commit()
+                        }
 
                         if (childCaringFragment != null) fragmentManager.beginTransaction().hide(childCaringFragment!!).commit()
                         if (calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()

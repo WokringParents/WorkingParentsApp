@@ -2,26 +2,24 @@ package com.example.workingparents
 
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.util.Log
 import android.widget.*
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.workingparents.RegisterChildActivity.Companion.kingdergarden
-import com.example.workingparents.UserData.connectedChild
 import kotlinx.android.synthetic.main.activity_join.*
 import kotlinx.android.synthetic.main.activity_join2.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_register_child.*
 import kotlinx.android.synthetic.main.activity_register_child.daySpinner
 import kotlinx.android.synthetic.main.activity_register_child.monthSpinner
 import kotlinx.android.synthetic.main.activity_register_child.yearSpinner
 import kotlinx.android.synthetic.main.activity_search_kindergarden.*
+import kotlinx.android.synthetic.main.fragment_mypage.*
+import kotlinx.android.synthetic.main.fragment_mypage.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.properties.Delegates
 
 private val TAG="Child"
 
@@ -36,7 +34,6 @@ class RegisterChildActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_child)
-
 
         //뒤로가기
         registerchild_back.setOnClickListener{
@@ -128,8 +125,9 @@ class RegisterChildActivity : AppCompatActivity() {
                     Log.d(TAG, "onResponse: 아이등록성공" + result?.toString())
                     Toast.makeText(this@RegisterChildActivity, "아이등록 완료", Toast.LENGTH_SHORT).show()
                     UserData.setChildInfo(name) //이걸 넣어둬야 아이등록했을 때 이름이 뜸
-                    //물론 다자녀따윈 고려하지 않는다.
+
                     finish()
+
 
                 } else {
                     // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
@@ -142,8 +140,10 @@ class RegisterChildActivity : AppCompatActivity() {
                 Toast.makeText(this@RegisterChildActivity, "아이등록 실패, 네트워크를 확인하세요", Toast.LENGTH_SHORT).show()
 
             }
+
         })
     }
+
 }
 
 fun selectkg(name : String)

@@ -9,6 +9,7 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.text.format.DateFormat.is24HourFormat
 import android.text.style.ForegroundColorSpan
 import android.text.style.LineBackgroundSpan
 import android.text.style.RelativeSizeSpan
@@ -21,12 +22,16 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContentProviderCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workingparents.*
 import com.example.workingparents.R
+import com.google.android.material.datepicker.MaterialCalendar.newInstance
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.prolificinteractive.materialcalendarview.*
-import com.prolificinteractive.materialcalendarview.spans.DotSpan
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -83,7 +88,6 @@ class CalendarFragment : Fragment() {
     ): View? {
 
         var view=inflater.inflate(R.layout.activity_calendar, container, false)
-
         calendar = view.findViewById<MaterialCalendarView>(R.id.calendar)
         var recyclerDay =view.findViewById<TextView>(R.id.recyclerDay)
         var button =view.findViewById<ImageButton>(R.id.button)
@@ -144,7 +148,7 @@ class CalendarFragment : Fragment() {
 
                         var dialog = CustomDialog(mContext)
                         //다이얼로그 부르기
-                        dialog.myDig(mContext)
+                        dialog.myDig(mContext, childFragmentManager)
                         dialog.setOnClickedListener(object : CustomDialog.ButtonClickListener {
                             @RequiresApi(Build.VERSION_CODES.O)
                             override fun onClicked(ctitle: String, ccontent: String) {
@@ -637,7 +641,7 @@ class CalendarFragment : Fragment() {
             content: String,
             adapter: CalendarAdapter,
             list: ArrayList<CalendarRecyclerData>,
-            pos: Int,
+            pos: Int
         ) {
 
             //일정 수정 및 삭제를 위한 다이얼로그를 생성하는 함수
@@ -729,7 +733,7 @@ class CalendarFragment : Fragment() {
         }
 
 
-        fun myDig(context: Context) {
+        fun myDig(context: Context, childFragmentManager: FragmentManager) {
             //일정 생성을 위한 다이얼로그를 생성하는 함수
 
             dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog_create)
@@ -752,7 +756,7 @@ class CalendarFragment : Fragment() {
                 //시작버튼 눌렀을 때
 
 
-                dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog_starttime)
+/*                dialog.setContentView(com.example.workingparents.R.layout.calendar_dialog_starttime)
                 dialog.window!!.setLayout(
                     WindowManager.LayoutParams.WRAP_CONTENT,
                     WindowManager.LayoutParams.WRAP_CONTENT)
@@ -767,6 +771,36 @@ class CalendarFragment : Fragment() {
                         timePicker, hourOfDay, minutes ->
                     btn_start.text = "${hourOfDay}시 ${minutes}분"
                     Log.d("TIme", "${hourOfDay}시 ${minutes}분")
+                }*/
+
+/*
+                val isSystem24Hour = is24HourFormat(requireContext())
+                val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+
+                val picker= MaterialTimePicker.Builder()
+                    .setTitleText(clockFormat)
+                    .setHour(12)
+                    .setMinute(0)
+                    .setTitleText("타이틀")
+                    .build()
+                picker.show(childFragmentManager, "TAG")
+
+            }*/
+
+                val builder = MaterialTimePicker.Builder()
+                    .setTimeFormat(TimeFormat.CLOCK_24H)
+                    .setHour(12)
+                    .setMinute(0)
+                    .setTitleText("타이틀")
+                .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+
+                val myTimePicker = builder.build()
+                myTimePicker.show(childFragmentManager, myTimePicker.tag)
+
+                myTimePicker.addOnPositiveButtonClickListener {
+                    val h = myTimePicker.hour
+                    val min = myTimePicker.minute
+                    println("Chosen time: $h hours and $min minutes.")
                 }
 
             }

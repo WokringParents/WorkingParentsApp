@@ -4,9 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_couple_connect.*
+import kotlinx.android.synthetic.main.activity_couple_connect.view.*
+import kotlinx.android.synthetic.main.fragment_child_caring.*
+import kotlinx.android.synthetic.main.fragment_mypage.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,6 +29,7 @@ class CoupleConnectActivity : AppCompatActivity() {
    //     val intent: Intent = getIntent()
    //     val loginUser= intent.getParcelableExtra<User>("LoginUser")
 
+        basicText2.setText(UserData.name)
 
         createCodeBtn.setOnClickListener(View.OnClickListener {
 

@@ -57,6 +57,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".JoinActivity2" />
         <activity android:name=".SplashActivity" />
+
         <activity
             android:name=".WritePostingActivity"
             android:windowSoftInputMode="adjustNothing" />
