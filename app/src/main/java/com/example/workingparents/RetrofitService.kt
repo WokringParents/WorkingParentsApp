@@ -298,7 +298,7 @@ interface RetrofitService {
         @Query("tid") tid: Int,
         @Query("ndate") ndate: String,
         @Query("ncontent") ncontent: String
-    ): Call<Int>
+    ): Call<Notice>
 
     @FormUrlEncoded
     @POST("notice/{tid}")
@@ -307,7 +307,7 @@ interface RetrofitService {
         @Field("ntitle") ntitle: String,
         @Field("ncontent") ncontent: String,
         @Field("image") image: String
-    ): Call<Int>
+    ): Call<Notice>
 
 
 

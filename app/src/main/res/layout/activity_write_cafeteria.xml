@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".WriteCafeteriaActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:id="@+id/container3">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,13 +85,14 @@
             android:textSize="13dp" />
 
        <androidx.constraintlayout.widget.ConstraintLayout
+           android:id="@+id/showImageLayout"
            android:layout_width="match_parent"
            android:layout_height="match_parent"
            android:layout_weight="0.25"
            android:layout_marginHorizontal="10dp"
            android:layout_marginVertical="25dp"
            android:layout_gravity="center_horizontal"
-             >
+           android:visibility="gone">
 
            <ImageView
                android:id="@+id/cafeteria_image"
@@ -99,6 +101,7 @@
                android:layout_marginHorizontal="10dp"
                android:layout_marginVertical="10dp"
                android:clipToOutline="true"
+               android:padding="10dp"
                android:src="@drawable/fullheart"
                android:background="@drawable/rect_dark_gray_border_radius_10dp"
                app:layout_constraintBottom_toBottomOf="parent"
@@ -121,14 +124,14 @@
        </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/photoBtnLayout"
+        android:id="@+id/selectImageLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
         android:gravity="center_vertical"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         >
 
         <LinearLayout
