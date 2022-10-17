@@ -152,7 +152,6 @@ class PostingActivity : AppCompatActivity() {
 
     //뒤로가기시?
     override fun onBackPressed() {
-        Toast.makeText(this,"뒤로가기", Toast.LENGTH_SHORT).show()
         Log.d(TAG,"몇번 째 위치인지"+ position.toString())
         positionAdapter(position)
         super.onBackPressed()

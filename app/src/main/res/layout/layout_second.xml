@@ -12,11 +12,11 @@
         android:layout_height="wrap_content"
         android:text="오전간식"
         android:textAlignment="viewStart"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="11dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="11dp"
         android:textColor="@color/black"
-        android:textSize="15sp"/>
+        android:textSize="13dp"/>
 
     <View
         android:layout_width="match_parent"
@@ -29,11 +29,11 @@
         android:layout_height="wrap_content"
         android:text="점심"
         android:textAlignment="viewStart"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="11dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="11dp"
         android:textColor="@color/black"
-        android:textSize="15sp"/>
+        android:textSize="13dp"/>
 
     <View
         android:layout_width="match_parent"
@@ -48,11 +48,11 @@
         android:layout_height="wrap_content"
         android:text="오후간식"
         android:textAlignment="viewStart"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="11dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="11dp"
         android:textColor="@color/black"
-        android:textSize="15sp"/>
+        android:textSize="13dp"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -64,11 +64,11 @@
         android:layout_height="wrap_content"
         android:text="저녁"
         android:textAlignment="viewStart"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="11dp"
         android:layout_marginLeft="10dp"
         android:textColor="@color/black"
         android:layout_marginBottom="2dp"
-        android:textSize="15sp"
+        android:textSize="13dp"
         />
 
     <ImageView

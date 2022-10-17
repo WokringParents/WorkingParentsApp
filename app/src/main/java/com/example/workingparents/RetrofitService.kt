@@ -323,4 +323,9 @@ interface RetrofitService {
     @GET("/loadFile/{fileName}")
     fun loadFilebyName( @Path("fileName") fileName: String): Call<ResponseBody>
 
+   /* @GET("/loadFiles")
+    @Streaming
+    fun loadFiles():Call<InputStream>
+*/
+
 }

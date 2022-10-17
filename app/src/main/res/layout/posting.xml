@@ -8,10 +8,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/white"
-        android:paddingTop="20dp"
+        android:paddingTop="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingBottom="10dp"
+        android:paddingBottom="8dp"
         >
 
         <LinearLayout
@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/post_user"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/user"
                 />
 
@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="1dp"
                     android:layout_marginRight="10dp"
                     android:text="5분"
                     android:fontFamily="@font/notosans_regular"
@@ -64,8 +64,8 @@
                 />
 
             <ImageButton
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:src="@drawable/more"
                 android:background="@drawable/round"
                 android:backgroundTint="@color/white"
@@ -78,16 +78,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             >
 
             <TextView
                 android:id="@+id/village"
-                android:layout_width="51dp"
-                android:layout_height="22dp"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
                 android:text="월성동"
                 android:textColor="@color/white"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:gravity="center"
                 android:textAlignment="center"
                 android:background="@drawable/orangeborder2"
@@ -96,12 +96,12 @@
 
             <TextView
                 android:id="@+id/goback"
-                android:layout_width="51dp"
-                android:layout_height="22dp"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
                 android:text="등원"
                 android:layout_marginLeft="3dp"
                 android:textColor="@color/white"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:background="@drawable/orangeborder2"
@@ -114,16 +114,17 @@
             android:id="@+id/pcontent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="10dp"
             android:text="혹시 월요일 하원 부탁드려도 괜찮으신 분 계실까요?"
             android:textColor="@color/black"
             android:textSize="13dp"
+            android:maxLines="5"
             android:fontFamily="@font/notosans_regular"
             android:includeFontPadding="false"
             />
 
         <View
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#dbdbdb"
@@ -133,7 +134,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             >
 
             <View

@@ -107,4 +107,5 @@ dependencies {
 
     //뷰 접었다 펼치기
     implementation "com.github.skydoves:expandablelayout:1.0.7"
+
 }
