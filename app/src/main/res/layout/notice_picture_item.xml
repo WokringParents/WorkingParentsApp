@@ -3,70 +3,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:weightSum="10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    >
 
 
         <TextView
             android:id="@+id/date"
-            android:layout_width="wrap_content"
+            android:layout_width="45dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:layout_marginLeft="20dp"
             android:textColor="@color/dark_gray"
             android:layout_weight="1"
-            android:text="09/22" />
+            android:text="09/22"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/linearLayout2"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/date"
+        app:layout_constraintStart_toEndOf="@+id/date"
+        app:layout_constraintTop_toTopOf="@+id/date">
+
+
+        <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="5.5"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="9월22일 알림장"
+            android:textColor="#4C4C4C"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="9월22일 알림장"
-                android:textColor="#4C4C4C"
-                android:textSize="17dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/content"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/dark_gray"
-                android:text="알림장 내용들어가는 곳 알림장 내용" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/picture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_weight="3.5"
-            tools:srcCompat="@tools:sample/avatars" />
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="알림장 내용"
+            android:textColor="@color/dark_gray" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+        tools:layout_editor_absoluteY="10dp"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

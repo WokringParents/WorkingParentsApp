@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingBottom="10dp"
+            android:paddingBottom="15dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="15dp">
@@ -54,7 +54,7 @@
                 android:id="@+id/search_notice"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/whiteborder"
                 android:backgroundTint="#f2f2f2"
                 android:paddingStart="10dp"
@@ -70,7 +70,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_notice"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             />
 
 

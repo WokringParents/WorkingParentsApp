@@ -5,6 +5,7 @@ import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
+import javax.mail.Quota
 
 
 interface RetrofitService {
@@ -307,7 +308,7 @@ interface RetrofitService {
         @Field("ntitle") ntitle: String,
         @Field("ncontent") ncontent: String,
         @Field("image") image: String
-    ): Call<Int>
+    ): Call<Notice>
 
 
 
@@ -323,4 +324,8 @@ interface RetrofitService {
     @GET("/loadFile/{fileName}")
     fun loadFilebyName( @Path("fileName") fileName: String): Call<ResponseBody>
 
+
+
+    @GET("/multiloadFile")
+    fun loadMultiFilebyName(@Field("files") files: List<String>): Call<List<ResponseBody>>
 }
