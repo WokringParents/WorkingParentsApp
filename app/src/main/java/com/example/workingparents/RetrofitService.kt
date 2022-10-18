@@ -307,7 +307,7 @@ interface RetrofitService {
         @Field("ntitle") ntitle: String,
         @Field("ncontent") ncontent: String,
         @Field("image") image: String
-    ): Call<Notice>
+    ): Call<Int>
 
 
 

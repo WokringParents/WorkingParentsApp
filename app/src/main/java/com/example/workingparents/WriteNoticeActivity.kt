@@ -62,6 +62,8 @@ class WriteNoticeActivity : BaseActivity() {
         setContentView(binding.root)
 
         imagePreview= binding.imagePreview
+        imagePreview2= binding.imagePreview2
+
 
 
         //5.카메라를 위해선 저장소 권한이 필요하고 이를 거부할시 종료되는 코드. 공용 저장소 권한이 있는지 확인.
@@ -110,10 +112,11 @@ class WriteNoticeActivity : BaseActivity() {
     }
 
     fun insertNotice(tid:Int, ntitle:String, ncontent:String, image:String){
-        RetrofitBuilder.api.postNotice(tid,ntitle,ncontent,image).enqueue(object : Callback<Notice> {
-            override fun onResponse(call: Call<Notice>, response: Response<Notice>) {
+        RetrofitBuilder.api.postNotice(tid,ntitle,ncontent,image).enqueue(object :
+            Callback<Int> {
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
                 if (response.isSuccessful) {
-                    var result: Notice? = response.body()
+                    var result: Int? = response.body()
                     Log.d(TAG, result.toString())
                     Log.d(TAG, "onResponse: Notice 성공")
                 } else {
@@ -122,7 +125,7 @@ class WriteNoticeActivity : BaseActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<Notice>, t: Throwable) {
+            override fun onFailure(call: Call<Int>, t: Throwable) {
                 Log.d(TAG, "onFailure Notice 실패 에러: " + t.message.toString())
 
             }
