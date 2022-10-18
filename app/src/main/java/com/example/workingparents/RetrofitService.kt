@@ -301,15 +301,13 @@ interface RetrofitService {
     ): Call<Notice>
 
     @FormUrlEncoded
-    @POST("notice/{tid}")
+    @POST("/notice/{tid}")
     fun postNotice(
         @Path("tid") tid: Int,
         @Field("ntitle") ntitle: String,
         @Field("ncontent") ncontent: String,
         @Field("image") image: String
-    ): Call<Int>
-
-
+    ): Call<Notice>
 
     //-------------------------------Image File------------------------------//
     @Multipart

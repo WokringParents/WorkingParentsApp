@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
+    android:paddingRight="10dp"
     >
 
 
@@ -35,7 +36,7 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:text="9월22일 알림장"
@@ -45,9 +46,9 @@
 
         <TextView
             android:id="@+id/content"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
+            android:maxLines="2"
             android:text="알림장 내용"
             android:textColor="@color/dark_gray" />
 
