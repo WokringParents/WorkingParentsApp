@@ -93,7 +93,7 @@
 
 
             <ImageView
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/imagePreview"
                 android:layout_width="100dp"
                 android:layout_height="match_parent">
