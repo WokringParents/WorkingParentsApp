@@ -295,13 +295,6 @@ interface RetrofitService {
     @GET("/notice/all")
     fun getNotice():Call<List<Notice>>
 
-    @GET("notice/{nid}")
-    fun getNoticebyContent(
-        @Query("tid") tid: Int,
-        @Query("ndate") ndate: String,
-        @Query("ncontent") ncontent: String
-    ): Call<Notice>
-
     @FormUrlEncoded
     @POST("/notice/{tid}")
     fun postNotice(
@@ -310,6 +303,11 @@ interface RetrofitService {
         @Field("ncontent") ncontent: String,
         @Field("image") image: String
     ): Call<Notice>
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "/notice/delete", hasBody = true)
+    fun deleteNotice(@Field("nid") nid: Int): Call<Int>
+
 
     //-------------------------------Image File------------------------------//
 
@@ -328,5 +326,21 @@ interface RetrofitService {
     @Streaming
     fun loadFiles():Call<InputStream>
 */
+
+    //-------------------------------Image DB------------------------------//
+
+    @GET("/getimage/{nid}")
+    fun getImagebynid(
+        @Path("nid") tid: Int,
+    ): Call<List<Image>>
+
+    @FormUrlEncoded
+    @POST("/postimage/{nid}")
+    fun postImage(
+        @Path("nid") nid: Int,
+        @Field("image") image: String
+    ): Call<Int>
+
+
 
 }

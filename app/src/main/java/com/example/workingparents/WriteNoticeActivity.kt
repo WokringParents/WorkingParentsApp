@@ -53,12 +53,13 @@ class WriteNoticeActivity : BaseActivity() {
     val binding by lazy { ActivityWriteNoticeBinding.inflate(layoutInflater) }
     lateinit var mContext: Context
 
+    // 뒤로가기 버튼 클릭
     override fun onBackPressed() {
-        // 뒤로가기 버튼 클릭
         selectedImageUri.clear()
         filename.clear()
         super.onBackPressed()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -74,7 +75,6 @@ class WriteNoticeActivity : BaseActivity() {
         imagePreview2= binding.imagePreview2
 
 
-
         //5.카메라를 위해선 저장소 권한이 필요하고 이를 거부할시 종료되는 코드. 공용 저장소 권한이 있는지 확인.
         // 이 처리는 BaseAcitivty에서
         requirPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERM_STORAGE)
@@ -86,8 +86,6 @@ class WriteNoticeActivity : BaseActivity() {
             onBackPressed()
         }
 
-
-
         binding.btnNoticeFinish.setOnClickListener{
 
             Log.d(TAG,"타이틀"+binding.noticeTitle.text.toString())
@@ -95,7 +93,7 @@ class WriteNoticeActivity : BaseActivity() {
             //입력된 제목이 없다면
             if(binding.noticeTitle.text.toString()==""||binding.noticeContent.text.toString()=="") {
                 Log.d(TAG, "제목과 내용을 모두 작성했는지 확인해주세요")
-                Toast.makeText(this, "제목과 내용을 모두 작성했는지 확인해주세요", Toast.LENGTH_LONG)
+                Toast.makeText(this, "제목과 내용을 모두 작성했는지 확인해주세요", Toast.LENGTH_LONG).show()
             }else if(binding.noticeTitle.text.toString()!=""&&binding.noticeContent.text.toString()!="")
             {
                 if(selectedImageUri.size==0) {
@@ -106,9 +104,12 @@ class WriteNoticeActivity : BaseActivity() {
                     insertNotice(1,binding.noticeTitle.text.toString(),binding.noticeContent.text.toString(), filename.get(0))
                 }
                 else{
+                    //파일 이름을 알기 위해선 upload 함수부터 돌려야함
                     uploadMutiImage(this,selectedImageUri)
                     insertNotice(1,binding.noticeTitle.text.toString(),binding.noticeContent.text.toString(), filename.get(0))
                 }
+                selectedImageUri.clear()
+                //filename.clear()
                 finish()
             }
 
@@ -123,9 +124,14 @@ class WriteNoticeActivity : BaseActivity() {
                     var result: Notice? = response.body()
                     Log.d(TAG, result.toString())
                     Log.d(TAG, "onResponse: insertNotice 성공")
-                    //refreshNotice(result!!)
-                    notices.add(result!!)
-                    //NoticeFragment.noticeAdapter.updateList(notices as List<Notice>)
+
+                    //noticeadapter 재정비하려는 코드
+                    notices.add(0,result!!)
+                    NoticeFragment.noticeAdapter.setData(notices as List<Notice>)
+
+                    //image 파일 이름 DB에 넣기
+                    insertImage(result.nid, filename)
+
                 } else {
                     Log.d(TAG, "onResponse: insertNotice 실패")
                     // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
@@ -138,6 +144,37 @@ class WriteNoticeActivity : BaseActivity() {
             }
         })
     }
+
+
+    fun insertImage(nid:Int, image : List<String>){
+
+        Log.d(TAG, "onResponse: insertImage 진입 성공")
+        for(i in 0 until image.size)
+        {
+            RetrofitBuilder.api.postImage(nid, image.get(i)).enqueue(object : Callback<Int> {
+                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                    if (response.isSuccessful) {
+                        var result: Int? = response.body()
+                        Log.d(TAG, result.toString())
+                        Log.d(TAG, "onResponse: insertImage 성공")
+                    } else {
+                        Log.d(TAG, "onResponse: insertImage 실패")
+                        // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                    }
+                }
+
+                override fun onFailure(call: Call<Int>, t: Throwable) {
+                    Log.d(TAG, "onFailure insertImage 실패 에러: " + t.message.toString())
+
+                }
+            })
+        }
+        //다 끝나고 남지 않게 clear
+        filename.clear()
+    }
+
+
+
 
     fun initViews(){
         //6. 카메라 요청 시 권한을 먼저 체크하고 승인되었으면 카메라를 연다.
@@ -258,13 +295,6 @@ class WriteNoticeActivity : BaseActivity() {
                     realUri?.let { uri ->
                         Log.d(TAG, uri.toString())
 
-                        /*
-                        val bitmap = loadBitmap(uri)
-                        binding.imagePreview.setImageBitmap(bitmap)
-                        //다 쓰고 나서 null로
-                        realUri = null
-                         */
-
                         if (uri != null && selectedImageUri.size<10) {
                             selectedImageUri.add(uri)
                             binding.imagerecyclerView.visibility=VISIBLE
@@ -380,15 +410,13 @@ fun uploadSingleImage(context: Context, imageUri: Uri){
     val path :String =RealPathUtil.getRealPath(context,imageUri)
     var file = File(path)
     filename.add(file.name)
-
     Log.d(TAG,file.name)
 
     //파일을 MediaType으로 만들고 이를 RequestBody로 생성
     //name: 서버자체의 key이름, 파일의 지칭명, 파일자체의 내용=RequestBody   --> 3가지 버무려서 만들어진 MulipartBody.body를 서버로 보낸다!
     val requestBody : RequestBody = RequestBody.create(MediaType.parse("image/jpeg"), compressImage(context,imageUri))
     val uploadFile : MultipartBody.Part  = MultipartBody.Part.createFormData("file", file.name ,requestBody);
-
-
+    
     RetrofitBuilder.api.uploadImageFile(uploadFile,type).enqueue(object: Callback<FileUploadResponse>{
 
         override fun onResponse(call: Call<FileUploadResponse>, response: Response<FileUploadResponse>) {
@@ -419,6 +447,9 @@ fun uploadMutiImage(context: Context,imageUri: List<Uri>){
         val uploadFile: MultipartBody.Part = MultipartBody.Part.createFormData("files", File(path).name, requestBody)
         uploadFileList.add(uploadFile)
         filename.add(File(path).name)
+
+
+
     }
 
     RetrofitBuilder.api.uploadMultipleFiles(uploadFileList).enqueue(object: Callback<List<FileUploadResponse>>{

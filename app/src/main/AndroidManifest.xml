@@ -19,7 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Workingparents"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".NoticeActivity"
+            android:exported="false" />
         <activity
             android:name=".WriteCafeteriaActivity"
             android:exported="false" />
@@ -57,7 +59,6 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".JoinActivity2" />
         <activity android:name=".SplashActivity" />
-
         <activity
             android:name=".WritePostingActivity"
             android:windowSoftInputMode="adjustNothing" />

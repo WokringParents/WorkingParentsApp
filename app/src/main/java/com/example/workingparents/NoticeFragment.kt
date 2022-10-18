@@ -85,11 +85,3 @@ class NoticeFragment : Fragment() {
 
     }
 }
-
-//게시글 작성시 adapter을 refresh하는 함수
-fun refreshNotice(result : Notice){
-    notices.add(result)
-    NoticeAdapter(notices,mContext)
-    Log.d(TAG,"refreshNotice 호출됨")
-    noticeAdapter.notifyDataSetChanged()
-}

@@ -16,7 +16,6 @@ class MultiImageAdapter(private val items:ArrayList<Uri>, val context: Context) 
 
     override fun getItemCount(): Int = items.size
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflateView = LayoutInflater.from(parent.context).inflate(R.layout.notice_image,parent,false)
         return ViewHolder(inflateView)
