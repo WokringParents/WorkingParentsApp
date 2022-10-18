@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.text.method.TextKeyListener
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.compose.runtime.currentComposer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import okhttp3.ResponseBody
@@ -25,9 +27,12 @@ import kotlin.collections.ArrayList
 
 private val TAG="NoticeAdapter"
 
-class NoticeAdapter(val noticeList: ArrayList<Notice>, val context: Context) : RecyclerView.Adapter<NoticeAdapter.CustomViewHolder>(){
+class NoticeAdapter(val noticeList: List<Notice>, val context: Context) : RecyclerView.Adapter<NoticeAdapter.CustomViewHolder>(){
 
-    var noticeDataList : ArrayList<Notice>? = noticeList
+    private var noticeDataList : List<Notice>? = noticeList
+    private var oldDataList = emptyList<Notice?>()
+
+    val type : String="Notice"
 
     class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val date = itemView.findViewById<TextView>(R.id.date)
@@ -51,7 +56,7 @@ class NoticeAdapter(val noticeList: ArrayList<Notice>, val context: Context) : R
         holder.title.text=noticeDataList!!.get(position).ntitle
         holder.content.text=noticeDataList!!.get(position).ncontent
 
-        RetrofitBuilder.api.loadFilebyName(noticeDataList!!.get(position).image).enqueue(object: Callback<ResponseBody> {
+        RetrofitBuilder.api.loadFilebyName(type,noticeDataList!!.get(position).image).enqueue(object: Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
                 if(response.isSuccessful){
@@ -63,10 +68,14 @@ class NoticeAdapter(val noticeList: ArrayList<Notice>, val context: Context) : R
 //                        if (bmp.height < bmp.width) {
 //                            holder.picture.setImageBitmap(Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, matrix,true));
 //                        }else {holder.picture.setImageBitmap(bmp)}
-//                        Log.d(TAG, "onResponse: loadFilebyName 성공")
+                        Log.d(TAG, "onResponse: loadFilebyName 성공")
                         Glide.with(context).load(bmp)
                             .override(400,300)
                             .into(holder.picture)
+                        Log.d(TAG, "onFailure: loadFilebyName 성공")
+                    }else{
+                        holder.picture.visibility=GONE
+                        holder.content.width=255
                     }
                 }
             }
@@ -84,5 +93,12 @@ class NoticeAdapter(val noticeList: ArrayList<Notice>, val context: Context) : R
 
     }
 
+
+    fun updateList(newitems: List<Notice>?) {
+        val diffUtil = DiffUtilCallback(oldDataList as List<Notice>, newitems!!)
+        val diffResult = DiffUtil.calculateDiff(diffUtil)
+        oldDataList=newitems
+        diffResult.dispatchUpdatesTo(this@NoticeAdapter)
+    }
 }
 

@@ -27,15 +27,19 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
 import java.text.SimpleDateFormat
+import kotlin.collections.ArrayList
 
 
 private val TAG="NoticeWrite"
 
 
+val type="Notice"
+
 var selectedImageUri = ArrayList<Uri>()
 var imageAdapter: MultiImageAdapter? = null
-lateinit var notices : ArrayList<Notice>
 lateinit var imagePreview: ImageView
+lateinit var imagePreview2: ImageView
+val filename = ArrayList<String>()
 
 //1. BaseAcitivty를 상속받고
 class WriteNoticeActivity : BaseActivity() {
@@ -47,10 +51,14 @@ class WriteNoticeActivity : BaseActivity() {
     val REQ_CAMERA=11
     val REQ_GALLERY=12
     val binding by lazy { ActivityWriteNoticeBinding.inflate(layoutInflater) }
+    lateinit var mContext: Context
 
-
-    //val adapter = MultiImageAdapter(list, this)
-
+    override fun onBackPressed() {
+        // 뒤로가기 버튼 클릭
+        selectedImageUri.clear()
+        filename.clear()
+        super.onBackPressed()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,6 +68,7 @@ class WriteNoticeActivity : BaseActivity() {
         binding.imagerecyclerView.adapter = imageAdapter
         //4.setContentView에 바인딩 전달
         setContentView(binding.root)
+        mContext = this
 
         imagePreview= binding.imagePreview
         imagePreview2= binding.imagePreview2
@@ -70,26 +79,14 @@ class WriteNoticeActivity : BaseActivity() {
         // 이 처리는 BaseAcitivty에서
         requirPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERM_STORAGE)
 
-        RetrofitBuilder.api.getNotice().enqueue(object : Callback<List<Notice>> {
-            override fun onResponse(call: Call<List<Notice>>, response: Response<List<Notice>>) {
-                if (response.isSuccessful) {
-                    notices = response.body() as ArrayList<Notice>
-                    //맨 최근 것 부터 담김
-                    Log.d(TAG, notices.toString())
-                } else {
-                    Log.d(TAG, "onResponse 후 Notice 실패 에러: ")
-                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-                }
-            }
-            override fun onFailure(call: Call<List<Notice>>, t: Throwable) {
-                Log.d(TAG, "onFailure 연결 실패 에러 테스트: " + t.message.toString())
-            }
-        })
-
         //뒤로가기
         binding.writeNoticeBack.setOnClickListener{
+            selectedImageUri.clear()
+            filename.clear()
             onBackPressed()
         }
+
+
 
         binding.btnNoticeFinish.setOnClickListener{
 
@@ -101,10 +98,18 @@ class WriteNoticeActivity : BaseActivity() {
                 Toast.makeText(this, "제목과 내용을 모두 작성했는지 확인해주세요", Toast.LENGTH_LONG)
             }else if(binding.noticeTitle.text.toString()!=""&&binding.noticeContent.text.toString()!="")
             {
-                if(selectedImageUri.size>0) {
-                    insertNotice(1,binding.noticeTitle.text.toString(),binding.noticeContent.text.toString(), selectedImageUri.get(0).toString()) }
+                if(selectedImageUri.size==0) {
+                    insertNotice(1,binding.noticeTitle.text.toString(),binding.noticeContent.text.toString(), "")
+                }
+                else if(selectedImageUri.size==1){
+                    uploadSingleImage(this, selectedImageUri.get(0))
+                    insertNotice(1,binding.noticeTitle.text.toString(),binding.noticeContent.text.toString(), filename.get(0))
+                }
                 else{
-                    insertNotice(1,binding.noticeTitle.text.toString(),binding.noticeContent.text.toString(), "")}
+                    uploadMutiImage(this,selectedImageUri)
+                    insertNotice(1,binding.noticeTitle.text.toString(),binding.noticeContent.text.toString(), filename.get(0))
+                }
+                finish()
             }
 
         }
@@ -112,21 +117,23 @@ class WriteNoticeActivity : BaseActivity() {
     }
 
     fun insertNotice(tid:Int, ntitle:String, ncontent:String, image:String){
-        RetrofitBuilder.api.postNotice(tid,ntitle,ncontent,image).enqueue(object :
-            Callback<Int> {
-            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+        RetrofitBuilder.api.postNotice(tid,ntitle,ncontent,image).enqueue(object : Callback<Notice> {
+            override fun onResponse(call: Call<Notice>, response: Response<Notice>) {
                 if (response.isSuccessful) {
-                    var result: Int? = response.body()
+                    var result: Notice? = response.body()
                     Log.d(TAG, result.toString())
-                    Log.d(TAG, "onResponse: Notice 성공")
+                    Log.d(TAG, "onResponse: insertNotice 성공")
+                    //refreshNotice(result!!)
+                    notices.add(result!!)
+                    //NoticeFragment.noticeAdapter.updateList(notices as List<Notice>)
                 } else {
-                    Log.d(TAG, "onResponse: Notice 실패")
+                    Log.d(TAG, "onResponse: insertNotice 실패")
                     // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
                 }
             }
 
-            override fun onFailure(call: Call<Int>, t: Throwable) {
-                Log.d(TAG, "onFailure Notice 실패 에러: " + t.message.toString())
+            override fun onFailure(call: Call<Notice>, t: Throwable) {
+                Log.d(TAG, "onFailure insertNotice 실패 에러: " + t.message.toString())
 
             }
         })
@@ -197,12 +204,12 @@ class WriteNoticeActivity : BaseActivity() {
 
         //예외처리가 발생할 수 있어서
         try{
-             image=if(Build.VERSION.SDK_INT>27){
-                 val source=ImageDecoder.createSource(contentResolver,photoUri)
-                 ImageDecoder.decodeBitmap(source)
-             }else{
-                 MediaStore.Images.Media.getBitmap(contentResolver,photoUri)
-             }
+            image=if(Build.VERSION.SDK_INT>27){
+                val source=ImageDecoder.createSource(contentResolver,photoUri)
+                ImageDecoder.decodeBitmap(source)
+            }else{
+                MediaStore.Images.Media.getBitmap(contentResolver,photoUri)
+            }
         }catch(e:IOException){
             e.printStackTrace()
         }
@@ -275,26 +282,23 @@ class WriteNoticeActivity : BaseActivity() {
                         val count = data.clipData!!.itemCount
                         Log.d(TAG,"사진 개수"+count.toString())
                         if (count > 10) {
-                            Toast.makeText(this, "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG)
+                            Toast.makeText(this, "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG).show()
                             return
                         }
                         for (i in 0 until count) {
                             val imageUri = data.clipData!!.getItemAt(i).uri
                             if(selectedImageUri.size<10) { selectedImageUri.add(imageUri)
-                            Log.d(TAG,i.toString()+"번째 Uri"+imageUri.toString())
+                                Log.d(TAG,i.toString()+"번째 Uri"+imageUri.toString())
                             }
                         }
                         Log.d(TAG,"갤러리 다중 선택 후 사이즈 = "+selectedImageUri.size.toString())
-                        uploadMutiImage(this,selectedImageUri)
+                        //uploadTestMultiImage(this, selectedImageUri)
 
                     } else { // 단일 선택
                         data?.data?.let { uri ->
                             val imageUri : Uri? = data?.data
                             if (imageUri != null && selectedImageUri.size<10) {
                                 selectedImageUri.add(imageUri)
-                                uploadSingleImage(this,imageUri)
-
-
                             }
                         }
                         Log.d(TAG,"갤러리 단일 선택 후 사이즈 = "+selectedImageUri.size.toString())
@@ -308,34 +312,43 @@ class WriteNoticeActivity : BaseActivity() {
     }
 }
 
-fun temporalSetImgView(fileName: String){
 
-    RetrofitBuilder.api.loadFilebyName(fileName).enqueue(object:Callback<ResponseBody>{
-        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
-            if(response.isSuccessful){
-                val byteArray : ByteArray? = response.body()?.bytes()
-              //  val byteArray : ByteArray = result!!.toByteArray()
-               if(byteArray!=null){
-                   val bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-                   imagePreview.setImageBitmap(Bitmap.createScaledBitmap(bmp, imagePreview.width,
-                       imagePreview.height,false));
 
-                   Log.d(TAG, "onResponse: loadFilebyName 성공")
-               }
+fun temporalSetImgView2(fileName: List<String>){
+    for(i in 0 until fileName.size)
+    {
+        RetrofitBuilder.api.loadFilebyName(type,fileName.get(i)).enqueue(object:Callback<ResponseBody>{
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
+                if(response.isSuccessful){
+                    val byteArray : ByteArray? = response.body()?.bytes()
+                    //  val byteArray : ByteArray = result!!.toByteArray()
+                    if(byteArray!=null){
+                        if(i==0)
+                        {
+                            val bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+                            imagePreview.setImageBitmap(bmp)
+
+                        }
+                        if(i==1)
+                        {
+                            val bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+                            imagePreview2.setImageBitmap(bmp)
+                        }
+
+                        Log.d(TAG, "onResponse: loadFilebyName 성공")
+                    }
+                }
             }
-        }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d(TAG, "onFailure: loadFilebyName 실패"+ t.message)
+            }
 
-        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-            Log.d(TAG, "onFailure: loadFilebyName 실패"+ t.message)
-        }
-
-
-    })
-
-
-
+        })
+    }
 }
+
 
 
 fun deleteImageAdapter(position : Int){
@@ -349,17 +362,15 @@ fun deleteImageAdapter(position : Int){
 }
 
 
+//이미지를 bitmap을 사용해서 20%로 압축해서 보냄
 fun compressImage(context: Context,imageUri: Uri):ByteArray{
 
-    //이미지를 bitmap을 사용해서 20%로 압축해서 보냄
     var inputStream : InputStream? =null;
     try { inputStream = context.contentResolver.openInputStream(imageUri!!) }
     catch(e:IOException){ e.printStackTrace(); }
     var bitmap : Bitmap = BitmapFactory.decodeStream(inputStream);
     var byteArrayOutputStream : ByteArrayOutputStream = ByteArrayOutputStream()
     bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream)
-
-
     return byteArrayOutputStream.toByteArray()
 }
 
@@ -368,6 +379,8 @@ fun uploadSingleImage(context: Context, imageUri: Uri){
 
     val path :String =RealPathUtil.getRealPath(context,imageUri)
     var file = File(path)
+    filename.add(file.name)
+
     Log.d(TAG,file.name)
 
     //파일을 MediaType으로 만들고 이를 RequestBody로 생성
@@ -376,7 +389,7 @@ fun uploadSingleImage(context: Context, imageUri: Uri){
     val uploadFile : MultipartBody.Part  = MultipartBody.Part.createFormData("file", file.name ,requestBody);
 
 
-    RetrofitBuilder.api.uploadImageFile(uploadFile).enqueue(object: Callback<FileUploadResponse>{
+    RetrofitBuilder.api.uploadImageFile(uploadFile,type).enqueue(object: Callback<FileUploadResponse>{
 
         override fun onResponse(call: Call<FileUploadResponse>, response: Response<FileUploadResponse>) {
             if(response.isSuccessful){
@@ -384,22 +397,17 @@ fun uploadSingleImage(context: Context, imageUri: Uri){
                 if(result!=null){
                     Log.d(TAG, "onResponse: uploadImageFile 성공")
                     Log.d(TAG,result.toString())
-
-                    temporalSetImgView(file.name)
                 }
-
             }else{
                 Log.d(TAG, "onResponse: uploadImageFile 실패")
             }
         }
-
         override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
             Log.d(TAG, "onFailure : uploadImageFile 에러: " + t.message.toString())
         }
     })
 
 }
-
 fun uploadMutiImage(context: Context,imageUri: List<Uri>){
 
     // 여러 file들을 담아줄 ArrayList
@@ -410,6 +418,7 @@ fun uploadMutiImage(context: Context,imageUri: List<Uri>){
         val requestBody:RequestBody= RequestBody.create(MediaType.parse("image/jpeg"),compressImage(context,uri))
         val uploadFile: MultipartBody.Part = MultipartBody.Part.createFormData("files", File(path).name, requestBody)
         uploadFileList.add(uploadFile)
+        filename.add(File(path).name)
     }
 
     RetrofitBuilder.api.uploadMultipleFiles(uploadFileList).enqueue(object: Callback<List<FileUploadResponse>>{
@@ -431,9 +440,6 @@ fun uploadMutiImage(context: Context,imageUri: List<Uri>){
         override fun onFailure(call: Call<List<FileUploadResponse>>, t: Throwable) {
             Log.d(TAG, "onFailure : uploadMultipleFiles 에러 " + t.message.toString())
         }
-
     })
 
 }
-
-

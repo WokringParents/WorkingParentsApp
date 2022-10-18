@@ -301,27 +301,26 @@ interface RetrofitService {
     ): Call<Notice>
 
     @FormUrlEncoded
-    @POST("notice/{tid}")
+    @POST("/notice/{tid}")
     fun postNotice(
         @Path("tid") tid: Int,
         @Field("ntitle") ntitle: String,
         @Field("ncontent") ncontent: String,
         @Field("image") image: String
-    ): Call<Int>
-
-
+    ): Call<Notice>
 
     //-------------------------------Image File------------------------------//
+
     @Multipart
-    @POST("/uploadFile")
-    fun uploadImageFile(@Part file: MultipartBody.Part): Call<FileUploadResponse>
+    @POST("/uploadFile/{type}")
+    fun uploadImageFile(@Part file: MultipartBody.Part, @Path("type") type: String): Call<FileUploadResponse>
 
     @Multipart
     @POST("/uploadMultipleFiles")
     fun uploadMultipleFiles(@Part files: List<MultipartBody.Part>): Call<List<FileUploadResponse>>
 
-    @GET("/loadFile/{fileName}")
-    fun loadFilebyName( @Path("fileName") fileName: String): Call<ResponseBody>
+    @GET("/loadFile/{type}/{fileName}")
+    fun loadFilebyName( @Path("type") type: String, @Path("fileName") fileName: String): Call<ResponseBody>
 
    /* @GET("/loadFiles")
     @Streaming
