@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workingparents.R
 import kotlinx.android.synthetic.main.calendar_dialog_update_delete.view.*
+import kotlinx.android.synthetic.main.calendar_female.view.*
 import kotlinx.android.synthetic.main.schedule_male.view.*
+import kotlinx.android.synthetic.main.schedule_male.view.calendarcontent
+import kotlinx.android.synthetic.main.schedule_male.view.startTime
 
 /*
 캘린더 리사이클러뷰 전체로직
@@ -102,8 +105,8 @@ class CalendarAdapter(private val context: Context, private val items: ArrayList
         //각 항목의 뷰를 재활용하기 위해 보관하는 클래스
         private var view: View = v
         fun bind(listener: View.OnClickListener, item: CalendarRecyclerData) {
-            view.calendartitle.text = item.title
-            view.calendarcontent.text = item.content
+            view.startTime.text = item.startTime
+            view.calendarcontent.text = item.ccontent
             //뷰에 있는 아이템이랑 데이터클래스에 있는 변수랑 바인딩해줌
             view.setOnClickListener(listener)
         }

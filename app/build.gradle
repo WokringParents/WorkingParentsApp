@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'org.jetbrains.kotlin.android'
-
     id 'kotlin-android-extensions'
     id 'com.google.gms.google-services'
 }
@@ -34,6 +33,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
 
     //캘린더 시간선택 TimePicker 관련
-    implementation 'com.google.android.material:material:1.3.0-alpha03'
+    //implementation 'com.google.android.material:material:1.5.0'
 
     //리싸이클러뷰 관련
     implementation 'androidx.recyclerview:recyclerview:1.1.0'

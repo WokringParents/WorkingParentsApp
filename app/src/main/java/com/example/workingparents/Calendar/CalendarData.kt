@@ -9,8 +9,10 @@ data class CalendarData (
     var couplenum: Int,
     @SerializedName("cdate")
     val cdate: String,
-    @SerializedName("ctitle")
-    val ctitle: String,
+    @SerializedName("startTime")
+    val startTime: String,
+    @SerializedName("endTime")
+    val endTime: String,
     @SerializedName("ccontent")
     val ccontent: String,
     @SerializedName("csex")

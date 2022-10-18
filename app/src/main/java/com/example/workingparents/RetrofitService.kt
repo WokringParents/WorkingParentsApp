@@ -192,10 +192,11 @@ interface RetrofitService {
     @POST("calendar/{couplenum}")
     fun postCalender(
         @Path("couplenum") couplenum: Int,
-        @Field("cdate") cdate:String,
-        @Field("ctitle") ctitle:String,
-        @Field("ccontent") ccontent:String,
-        @Field("csex") csex: String?
+        @Field("cdate") cdate: String,
+        @Field("startTime") startHour: String,
+        @Field("endTime") endHour: String,
+        @Field("ccontent") ccontent: String,
+        @Field("csex") csex: String
     ): Call<Int>
 
     @FormUrlEncoded
@@ -203,7 +204,8 @@ interface RetrofitService {
     fun putCalender(
         @Path("couplenum") couplenum: Int,
         @Field("cdate") cdate: String,
-        @Field("ctitle") ctitle:String,
+        @Field("startTime") startTime:String,
+        @Field("endTime") endTime:String,
         @Field("ccontent") ccontent:String
     ): Call<Int>
 

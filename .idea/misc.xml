@@ -91,7 +91,7 @@
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_dialog.xml" value="0.20606884057971014" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_dialog_create.xml" value="0.264" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_dialog_starttime.xml" value="0.2526041666666667" />
-        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_dialog_update_delete.xml" value="0.12604166666666666" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_dialog_update_delete.xml" value="0.264" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_female.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_male.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/ccomment.xml" value="0.25364583333333335" />
@@ -107,12 +107,16 @@
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_mypage.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_notice.xml" value="0.264" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_teacher_my_page.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_teacher_notice.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/gobackfragmenttab1.xml" value="0.1" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/gobackfragmenttab2.xml" value="0.1" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/material_clock_period_toggle.xml" value="0.1" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_item.xml" value="0.264" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_nopicture_item.xml" value="0.25" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_picture_item.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notification.xml" value="0.12487335359675786" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/schedule_female.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/schedule_male.xml" value="0.264" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/sharing_list.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/spinner_dropdown_item.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/spinner_item.xml" value="0.25364583333333335" />
