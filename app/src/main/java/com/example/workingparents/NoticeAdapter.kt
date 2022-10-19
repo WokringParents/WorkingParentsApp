@@ -20,7 +20,6 @@ import retrofit2.Response
 import java.util.*
 
 private val TAG="NoticeAdapter"
-private lateinit var context: Context
 
 class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : RecyclerView.Adapter<NoticeAdapter.CustomViewHolder>(){
 
@@ -57,12 +56,13 @@ class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : Recycl
                 val curPos : Int = adapterPosition
                 val notice : Notice = noticeDataList!!.get(curPos)
                 Log.d(TAG, notice.toString())
+                Log.d(TAG, notice.nid.toString())
                 context=parent.context
                 val intent = Intent(context, NoticeActivity::class.java)
                 intent.putExtra("rv_date",notice.ndate.toString())
                 intent.putExtra("rv_title",notice.ntitle) //intent로 값 넘겨주기
                 intent.putExtra("rv_content",notice.ncontent)
-                intent.putExtra("rv_nid",notice.nid)
+                intent.putExtra("rv_nid",notice.nid.toString())
                 intent.putExtra("rv_position",curPos.toString())
                 context.startActivity(intent)
             }
@@ -82,7 +82,8 @@ class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : Recycl
                         val bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
                         Log.d(TAG, "onResponse: loadFilebyName 성공")
                         Glide.with(context).load(bmp)
-                            .override(400,300)
+                            .override(holder.picture.width,holder.picture.height)
+                            .centerCrop()
                             .into(holder.picture)
                         Log.d(TAG, "onFailure: loadFilebyName 성공")
                     }else{

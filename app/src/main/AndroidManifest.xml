@@ -49,7 +49,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".CoupleConnectActivity" />
-        <activity android:name=".CalendarActivity" />
         <activity android:name=".JoinActivity" />
         <activity
             android:name=".PostingSearchActivity"

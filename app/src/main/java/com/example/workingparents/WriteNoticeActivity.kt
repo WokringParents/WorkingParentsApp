@@ -170,7 +170,6 @@ class WriteNoticeActivity : BaseActivity() {
             })
         }
         //다 끝나고 남지 않게 clear
-        filename.clear()
     }
 
 
@@ -295,7 +294,7 @@ class WriteNoticeActivity : BaseActivity() {
                     realUri?.let { uri ->
                         Log.d(TAG, uri.toString())
 
-                        if (uri != null && selectedImageUri.size<10) {
+                        if (uri != null && selectedImageUri.size<5) {
                             selectedImageUri.add(uri)
                             binding.imagerecyclerView.visibility=VISIBLE
                             imageAdapter?.notifyDataSetChanged()
@@ -312,12 +311,12 @@ class WriteNoticeActivity : BaseActivity() {
                         val count = data.clipData!!.itemCount
                         Log.d(TAG,"사진 개수"+count.toString())
                         if (count > 10) {
-                            Toast.makeText(this, "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "사진은 5장까지 선택 가능합니다.", Toast.LENGTH_LONG).show()
                             return
                         }
                         for (i in 0 until count) {
                             val imageUri = data.clipData!!.getItemAt(i).uri
-                            if(selectedImageUri.size<10) { selectedImageUri.add(imageUri)
+                            if(selectedImageUri.size<5) { selectedImageUri.add(imageUri)
                                 Log.d(TAG,i.toString()+"번째 Uri"+imageUri.toString())
                             }
                         }
@@ -407,6 +406,7 @@ fun compressImage(context: Context,imageUri: Uri):ByteArray{
 
 fun uploadSingleImage(context: Context, imageUri: Uri){
 
+    filename.clear()
     val path :String =RealPathUtil.getRealPath(context,imageUri)
     var file = File(path)
     filename.add(file.name)
@@ -440,16 +440,13 @@ fun uploadMutiImage(context: Context,imageUri: List<Uri>){
 
     // 여러 file들을 담아줄 ArrayList
     val uploadFileList = ArrayList<MultipartBody.Part>()
-
+    filename.clear()
     for(uri: Uri in imageUri){
         val path = RealPathUtil.getRealPath(context,uri)
         val requestBody:RequestBody= RequestBody.create(MediaType.parse("image/jpeg"),compressImage(context,uri))
         val uploadFile: MultipartBody.Part = MultipartBody.Part.createFormData("files", File(path).name, requestBody)
         uploadFileList.add(uploadFile)
         filename.add(File(path).name)
-
-
-
     }
 
     RetrofitBuilder.api.uploadMultipleFiles(uploadFileList,TYPE).enqueue(object: Callback<List<FileUploadResponse>>{
