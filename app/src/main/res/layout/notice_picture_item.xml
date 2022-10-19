@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
+    android:paddingRight="20dp"
     >
-
 
     <TextView
         android:id="@+id/date"
@@ -28,7 +28,6 @@
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/date"
         app:layout_constraintStart_toEndOf="@+id/date"
@@ -46,8 +45,18 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/content"
-            android:layout_width="180dp"
+            android:id="@+id/content_image"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="알림장 내용"
+            android:textColor="@color/dark_gray" />
+
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/content_noimage"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:text="알림장 내용"
@@ -60,9 +69,9 @@
         android:id="@+id/cardView_adapter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="15dp"
         app:cardUseCompatPadding="true"
         android:adjustViewBounds="true"
+        android:layout_marginRight="-5dp"
         android:clipToPadding="false"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"

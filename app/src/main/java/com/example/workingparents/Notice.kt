@@ -22,4 +22,4 @@ data class Notice(
 
     @SerializedName("image")
     var image: String
-)
+    )

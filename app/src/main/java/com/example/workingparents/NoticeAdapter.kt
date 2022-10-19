@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -45,7 +45,8 @@ class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : Recycl
     class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val date = itemView.findViewById<TextView>(R.id.date)
         val title = itemView.findViewById<TextView>(R.id.title)
-        val content = itemView.findViewById<TextView>(R.id.content)
+        val contentimage = itemView.findViewById<TextView>(R.id.content_image)
+        val contentnoimage = itemView.findViewById<TextView>(R.id.content_noimage)
         val picture = itemView.findViewById<ImageView>(R.id.picture)
         val cardview = itemView.findViewById<CardView>(R.id.cardView_adapter)
 
@@ -73,7 +74,7 @@ class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : Recycl
 
     override fun onBindViewHolder(holder: NoticeAdapter.CustomViewHolder, position: Int) {
         holder.title.text=noticeDataList!!.get(position).ntitle
-        holder.content.text=noticeDataList!!.get(position).ncontent
+        var ncontent = noticeDataList!!.get(position).ncontent
 
         RetrofitBuilder.api.loadFilebyName(type,noticeDataList!!.get(position).image).enqueue(object: Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -87,14 +88,21 @@ class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : Recycl
                             .override(holder.picture.width,holder.picture.height)
                             .centerCrop()
                             .into(holder.picture)
+
                     }
+                    holder.contentnoimage.visibility= GONE
+                    holder.contentimage.visibility= VISIBLE
+                    holder.contentimage.text=ncontent
                 }
                 else{
                     Log.d(TAG, "onFailure: loadFilebyName 실패")
                     Log.d(TAG, "사진 없음!!!")
-                    holder.picture.visibility=GONE
-                    holder.cardview.visibility=GONE
-                    holder.content.width=255
+                    holder.picture.visibility=INVISIBLE
+                    holder.cardview.visibility=INVISIBLE
+                    holder.contentimage.visibility= GONE
+                    holder.contentnoimage.visibility= VISIBLE
+                    holder.contentnoimage.text=ncontent
+
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
