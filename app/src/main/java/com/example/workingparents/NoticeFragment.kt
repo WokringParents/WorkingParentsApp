@@ -85,3 +85,11 @@ class NoticeFragment : Fragment() {
 
     }
 }
+
+fun refreshNotice(result : Notice){
+    notices.add(0,result)
+    NoticeAdapter(notices, mContext)
+    Log.d(TAG,"호출됨")
+    noticeAdapter.notifyItemInserted(0)
+    NoticeFragment.noticerecyclerView.smoothScrollToPosition(0)
+}

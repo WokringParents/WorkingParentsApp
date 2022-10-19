@@ -24,7 +24,7 @@ private val TAG="NoticeAdapter"
 
 class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : RecyclerView.Adapter<NoticeAdapter.CustomViewHolder>(){
 
-    private var noticeDataList : List<Notice>? = noticeList
+    private var noticeDataList = noticeList
 
     val type : String="Notice"
 
@@ -120,13 +120,13 @@ class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : Recycl
     }
 
     //변경하기전 뷰 홀더 위치와 변경한 후의 뷰홀더 위치를 받아온다. 받아오고 그것을 반영한 새로운 데이터를 생성
-    fun setData(newNoticeList : List<Notice>){
+    fun setData(newNoticeList : List<Notice> ){
         Log.d(TAG, "setData 불러짐")
         val diffUtil = DiffUtilCallback(noticeDataList!!, newNoticeList)
         //이 함수에서 areItemsTheSame을 먼저 비교하고, 결과에 따라 아이템 변경 사항을 처리
         val diffResults = DiffUtil.calculateDiff(diffUtil)
         noticeDataList=newNoticeList
-        diffResults.dispatchUpdatesTo(NoticeFragment.noticeAdapter)
+        diffResults.dispatchUpdatesTo(this)
     }
 
 }

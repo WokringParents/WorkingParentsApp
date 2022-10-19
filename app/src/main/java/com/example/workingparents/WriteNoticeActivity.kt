@@ -17,6 +17,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.workingparents.NoticeFragment.Companion.noticeAdapter
 import com.example.workingparents.databinding.ActivityWriteNoticeBinding
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -126,8 +127,9 @@ class WriteNoticeActivity : BaseActivity() {
                     Log.d(TAG, "onResponse: insertNotice 성공")
 
                     //noticeadapter 재정비하려는 코드
-                    notices.add(0,result!!)
-                    NoticeFragment.noticeAdapter.setData(notices as List<Notice>)
+                    //notices.add(0,result!!)
+                    //noticeAdapter.setData(notices as List<Notice>)
+                    refreshNotice(result!!)
 
                     //image 파일 이름 DB에 넣기
                     insertImage(result.nid, filename)
