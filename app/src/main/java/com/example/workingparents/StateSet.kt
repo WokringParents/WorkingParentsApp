@@ -32,7 +32,7 @@ class StateSet {
         const val MSG_FAIL = 0
         const val MSG_SUCCESS_GET_FIRST = 1
         const val MSG_SEARCH_NO_WORD = 2
-        const val MSG_NO_POSTINGS = 3
+        const val MSG_SUCCESS_GET_NOTICES = 3
         const val MSG_SUCCESS_SEARCH = 4
         const val MSG_NEED_TO_CCMENTS = 10
         const val MSG_SUCCESS_GET_ALLCMENTS = 11
@@ -41,6 +41,7 @@ class StateSet {
         const val MSG_SUCCESS_DEL_POSTING = 7
         const val MSG_SUCCESS_HEARTPRESS = 8
         const val MSG_SUCCESS_INSERT_CMENT = 9
+        const val SUCCESS_INSERT_NOTICE=12
     }
 
     object ViewType {

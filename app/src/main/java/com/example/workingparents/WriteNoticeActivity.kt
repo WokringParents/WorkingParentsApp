@@ -1,8 +1,10 @@
 package com.example.workingparents
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -17,6 +19,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.workingparents.NoticeFragment.Companion.noticeAdapter
 import com.example.workingparents.databinding.ActivityWriteNoticeBinding
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -115,6 +118,8 @@ class WriteNoticeActivity : BaseActivity() {
 
         }
 
+
+
     }
 
     fun insertNotice(tid:Int, ntitle:String, ncontent:String, image:String){
@@ -126,8 +131,9 @@ class WriteNoticeActivity : BaseActivity() {
                     Log.d(TAG, "onResponse: insertNotice 성공")
 
                     //noticeadapter 재정비하려는 코드
-                    notices.add(0,result!!)
-                    NoticeFragment.noticeAdapter.setData(notices as List<Notice>)
+                    //notices.add(0,result!!)
+                    //noticeAdapter.setData(notices as List<Notice>)
+                    refreshNotice(result!!)
 
                     //image 파일 이름 DB에 넣기
                     insertImage(result.nid, filename)
@@ -170,7 +176,6 @@ class WriteNoticeActivity : BaseActivity() {
             })
         }
         //다 끝나고 남지 않게 clear
-        filename.clear()
     }
 
 
@@ -295,7 +300,7 @@ class WriteNoticeActivity : BaseActivity() {
                     realUri?.let { uri ->
                         Log.d(TAG, uri.toString())
 
-                        if (uri != null && selectedImageUri.size<10) {
+                        if (uri != null && selectedImageUri.size<5) {
                             selectedImageUri.add(uri)
                             binding.imagerecyclerView.visibility=VISIBLE
                             imageAdapter?.notifyDataSetChanged()
@@ -312,12 +317,12 @@ class WriteNoticeActivity : BaseActivity() {
                         val count = data.clipData!!.itemCount
                         Log.d(TAG,"사진 개수"+count.toString())
                         if (count > 10) {
-                            Toast.makeText(this, "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "사진은 5장까지 선택 가능합니다.", Toast.LENGTH_LONG).show()
                             return
                         }
                         for (i in 0 until count) {
                             val imageUri = data.clipData!!.getItemAt(i).uri
-                            if(selectedImageUri.size<10) { selectedImageUri.add(imageUri)
+                            if(selectedImageUri.size<5) { selectedImageUri.add(imageUri)
                                 Log.d(TAG,i.toString()+"번째 Uri"+imageUri.toString())
                             }
                         }
@@ -407,6 +412,7 @@ fun compressImage(context: Context,imageUri: Uri):ByteArray{
 
 fun uploadSingleImage(context: Context, imageUri: Uri){
 
+    filename.clear()
     val path :String =RealPathUtil.getRealPath(context,imageUri)
     var file = File(path)
     filename.add(file.name)
@@ -440,16 +446,13 @@ fun uploadMutiImage(context: Context,imageUri: List<Uri>){
 
     // 여러 file들을 담아줄 ArrayList
     val uploadFileList = ArrayList<MultipartBody.Part>()
-
+    filename.clear()
     for(uri: Uri in imageUri){
         val path = RealPathUtil.getRealPath(context,uri)
         val requestBody:RequestBody= RequestBody.create(MediaType.parse("image/jpeg"),compressImage(context,uri))
         val uploadFile: MultipartBody.Part = MultipartBody.Part.createFormData("files", File(path).name, requestBody)
         uploadFileList.add(uploadFile)
         filename.add(File(path).name)
-
-
-
     }
 
     RetrofitBuilder.api.uploadMultipleFiles(uploadFileList,TYPE).enqueue(object: Callback<List<FileUploadResponse>>{

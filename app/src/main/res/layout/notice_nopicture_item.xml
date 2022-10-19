@@ -29,29 +29,26 @@
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
-
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:maxLines="1"
                 android:text="9월22일 알림장"
                 android:textColor="#4C4C4C"
-                android:textSize="17dp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <TextView
+
                 android:id="@+id/content"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:maxLines="2"
                 android:textColor="@color/dark_gray"
                 android:text="알림장 내용들어가는 곳 알림장 내용 알림장 내용들어가는 곳" />
 

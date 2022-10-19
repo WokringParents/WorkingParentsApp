@@ -3,19 +3,21 @@ package com.example.workingparents
 import android.app.Person
 import android.text.method.TextKeyListener
 import android.text.method.TextKeyListener.clear
+import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import java.util.*
 import java.util.Collections.addAll
 import kotlin.collections.ArrayList
 
+private val TAG = "Diff"
+
 class DiffUtilCallback(
-    private  val oldList : List<Notice>,
+    private val oldList : List<Notice>,
     private val newList : List<Notice>
 
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {return oldList.size}
     override fun getNewListSize(): Int {return newList.size}
-
 
 
     //두 항목의 데이터가 같은지 확인한다.
@@ -30,6 +32,7 @@ class DiffUtilCallback(
     // false라면 리스트 갱신 시 화면이 깜빡거리는 현상이 발생할 수 있습니다.
     // 즉, areItemsTheSame을 잘못 정의한다면 다시 새로 만들게 되어서 notifyDataSerChanged()와 다를 바 없이 집니다.
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        Log.d(TAG, "areContentsTheSame 불러짐")
         return when{
             oldList[oldItemPosition].nid!=newList[newItemPosition].nid->{false}
             oldList[oldItemPosition].tid!=newList[newItemPosition].tid->{false}
