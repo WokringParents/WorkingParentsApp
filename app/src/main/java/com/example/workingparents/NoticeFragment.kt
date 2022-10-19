@@ -29,8 +29,6 @@ class NoticeFragment : Fragment() {
     companion object{
         lateinit var noticeAdapter: NoticeAdapter
         lateinit var noticerecyclerView: RecyclerView
-        lateinit var handler: Handler
-        lateinit var msg : Message
     }
 
     override fun onAttach(context: Context) {
