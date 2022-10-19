@@ -1,42 +1,27 @@
 package com.example.workingparents.Goback
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ClipDrawable.VERTICAL
 import android.net.Uri
-import com.example.workingparents.Goback.*
 import android.os.Bundle
+import android.telephony.SmsManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-import android.app.Dialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.window.Dialog
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workingparents.*
-import com.example.workingparents.Calendar.CalendarAdapter
-import com.example.workingparents.Calendar.CalendarRecyclerData
 import com.example.workingparents.WriteCafeteriaActivity.Companion.mContext
-import com.google.android.material.tabs.TabLayout
-import com.prolificinteractive.materialcalendarview.CalendarDay
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import kotlinx.android.synthetic.main.fragment_goback.*
-import kotlinx.android.synthetic.main.fragment_goback.view.*
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
-import kotlin.collections.ArrayList
 
 class GobackFragment : Fragment() {
 
@@ -132,73 +117,148 @@ class GobackFragment : Fragment() {
             recyclerEmergency.layoutManager =
                 LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
 
+            adapter.setOnItemClickListener(
+                object : EmergencyAdapter.OnItemClickListener {
+                    override fun onItemClick(data: EmergencyData, pos: Int) {
 
-            adapter.setOnItemClickListener(object : EmergencyAdapter.OnItemClickListener {
-                override fun onItemClick(data: EmergencyData, pos: Int) {
 
+                        RetrofitBuilder.api.getPnumberForGoback(data.emergency_couplenum)
+                            .enqueue(object : Callback<List<String>> {
+                                override fun onResponse(
+                                    call: Call<List<String>>,
+                                    response: Response<List<String>>
+                                ) {
+                                    if (response.isSuccessful) {
+                                        var result: List<String>? = response.body()
+                                        if (result != null) {
 
-                    RetrofitBuilder.api.getPnumberForGoback(data.emergency_couplenum)
-                        .enqueue(object : Callback<List<String>> {
-                            override fun onResponse(
-                                call: Call<List<String>>,
-                                response: Response<List<String>>
-                            ) {
-                                if (response.isSuccessful) {
-                                    var result: List<String>? = response.body()
-                                    if (result != null) {
+                                            val dialog = CustomDialog(mContext)
+                                            dialog.myDig()
 
-                                        val dialog = CustomDialog(mContext)
-                                        dialog.myDig()
+                                            dialog.setOnClickedListener(object :
+                                                CustomDialog.ButtonClickListener {
+                                                override fun onClicked(
+                                                    valiMomBtn: Boolean,
+                                                    valiDadBtn: Boolean
+                                                ) {
+                                                    if (valiMomBtn == true) {
+                                                        // 어디에 전화를 걸건지 text 정보 받기
+                                                        val input = result.get(0)
+                                                        // Uri를 이용해서 정보 저장
+                                                        val myUri = Uri.parse("tel:${input}")
+                                                        // 전환할 정보 설정 - ACTION_DIAL
+                                                        val myIntent =
+                                                            Intent(Intent.ACTION_DIAL, myUri)
+                                                        // 이동
+                                                        startActivity(myIntent)
 
-                                        dialog.setOnClickedListener(object: CustomDialog.ButtonClickListener {
-                                            override fun onClicked(
-                                                valiMomBtn: Boolean,
-                                                valiDadBtn: Boolean
-                                            ) {
-                                                if (valiMomBtn == true) {
-                                                    // 어디에 전화를 걸건지 text 정보 받기
-                                                    val input = result.get(0)
-                                                    // Uri를 이용해서 정보 저장
-                                                    val myUri = Uri.parse("tel:${input}")
-                                                    // 전환할 정보 설정 - ACTION_DIAL
-                                                    val myIntent = Intent(Intent.ACTION_DIAL, myUri)
-                                                    // 이동
-                                                    startActivity(myIntent)
+                                                    }
 
+                                                    if (valiDadBtn == true) {
+                                                        // 어디에 전화를 걸건지 text 정보 받기
+                                                        val input = result.get(1)
+                                                        // Uri를 이용해서 정보 저장
+                                                        val myUri = Uri.parse("tel:${input}")
+                                                        // 전환할 정보 설정 - ACTION_DIAL
+                                                        val myIntent =
+                                                            Intent(Intent.ACTION_DIAL, myUri)
+                                                        // 이동
+                                                        startActivity(myIntent)
+
+                                                    }
                                                 }
 
-                                                if (valiDadBtn == true) {
-                                                    // 어디에 전화를 걸건지 text 정보 받기
-                                                    val input = result.get(1)
-                                                    // Uri를 이용해서 정보 저장
-                                                    val myUri = Uri.parse("tel:${input}")
-                                                    // 전환할 정보 설정 - ACTION_DIAL
-                                                    val myIntent = Intent(Intent.ACTION_DIAL, myUri)
-                                                    // 이동
-                                                    startActivity(myIntent)
-
-                                                }
-                                            }
-
-                                        })
+                                            })
 
 
+                                        }
+                                    } else {
+                                        Log.d(TAG, "onResponse 후 실패 에러: ")
+                                        // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
                                     }
-                                } else {
-                                    Log.d(TAG, "onResponse 후 실패 에러: ")
-                                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+
                                 }
 
-                            }
+                                override fun onFailure(call: Call<List<String>>, t: Throwable) {
+                                    Log.d(TAG, "onFailure 연결 실패 에러 테스트: " + t.message.toString())
+                                }
 
-                            override fun onFailure(call: Call<List<String>>, t: Throwable) {
-                                Log.d(TAG, "onFailure 연결 실패 에러 테스트: " + t.message.toString())
-                            }
+                            })
 
-                        })
+                    }
+                },
+            )
 
-                }
-            })
+            adapter.setOnItemClickListener2(
+                object : EmergencyAdapter.OnItemClickListener2 {
+                    override fun onItemClick(data: EmergencyData, pos: Int) {
+
+
+                        RetrofitBuilder.api.getPnumberForGoback(data.emergency_couplenum)
+                            .enqueue(object : Callback<List<String>> {
+                                override fun onResponse(
+                                    call: Call<List<String>>,
+                                    response: Response<List<String>>
+                                ) {
+                                    if (response.isSuccessful) {
+                                        var result: List<String>? = response.body()
+                                        if (result != null) {
+
+                                            val dialog = CustomDialog2(mContext)
+                                            dialog.myDig()
+
+                                            dialog.setOnClickedListener(object :
+                                                CustomDialog2.ButtonClickListener {
+                                                override fun onClicked(
+                                                    valiMomBtn: Boolean,
+                                                    valiDadBtn: Boolean
+                                                ) {
+                                                    if (valiMomBtn == true) {
+
+                                                        // 어디에 문자를 보낼건지 text 정보 받기
+                                                        var input = result.get(1)
+                                                        var smsUri:Uri = Uri.parse("tel:" + input)
+                                                        var intent:Intent = Intent(Intent.ACTION_VIEW, smsUri) // 보내는 화면이 팝업됨
+                                                        intent.putExtra("address", input) // 받는 번호
+                                                        intent.putExtra("sms_body", "긴급 문자 보냅니다.") // 보낼 문자내용
+                                                        intent.setType("vnd.android-dir/mms-sms");startActivity(intent)
+
+                                                    }
+
+                                                    if (valiDadBtn == true) {
+                                                        // 어디에 문자를 보낼건지 text 정보 받기
+                                                        var input = result.get(1)
+                                                        var smsUri:Uri = Uri.parse("tel:" + input)
+                                                        var intent:Intent = Intent(Intent.ACTION_VIEW, smsUri) // 보내는 화면이 팝업됨
+                                                        intent.putExtra("address", input) // 받는 번호
+                                                        intent.putExtra("sms_body", "긴급 문자 보냅니다.") // 보낼 문자내용
+                                                        intent.setType("vnd.android-dir/mms-sms");startActivity(intent)
+
+
+                                                    }
+                                                }
+
+                                            })
+
+
+                                        }
+                                    } else {
+                                        Log.d(TAG, "onResponse 후 실패 에러: ")
+                                        // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                                    }
+
+                                }
+
+                                override fun onFailure(call: Call<List<String>>, t: Throwable) {
+                                    Log.d(TAG, "onFailure 연결 실패 에러 테스트: " + t.message.toString())
+                                }
+
+                            })
+
+                    }
+                },
+            )
+
             recyclerEmergency.adapter = adapter
             Log.d(TAG, "5번")
 
@@ -207,6 +267,59 @@ class GobackFragment : Fragment() {
 
 
         return view
+    }
+
+    class CustomDialog2(val context: Context) {
+
+        private val dialog = Dialog(context)
+
+        interface ButtonClickListener {
+            //버튼클릭 인터페이스
+            fun onClicked(
+                valiMomBtn: Boolean,
+                valiDadBtn: Boolean
+            )
+        }
+        private lateinit var onClickedListener: ButtonClickListener
+
+
+        fun setOnClickedListener(listener: ButtonClickListener) {
+            onClickedListener = listener
+        }
+
+
+        fun myDig() {
+            //일정 수정 및 삭제를 위한 다이얼로그를 생성하는 함수
+
+            dialog.setContentView(com.example.workingparents.R.layout.emergency_dialog_sms)
+
+            dialog.window!!.setLayout(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
+            dialog.window!!.setBackgroundDrawableResource(com.example.workingparents.R.drawable.orangeborder)
+            dialog.setCanceledOnTouchOutside(true)
+            dialog.setCancelable(true)
+
+            dialog.show()
+
+            val CallMomBtn =
+                dialog.findViewById<Button>(com.example.workingparents.R.id.CallMomBtn)
+            val CallDadyBtn = dialog.findViewById<Button>(R.id.CallDadyBtn)
+
+            CallMomBtn.setOnClickListener() {
+
+                onClickedListener.onClicked(true,false)
+
+            }
+
+            CallDadyBtn.setOnClickListener() {
+
+                onClickedListener.onClicked(false,true)
+
+            }
+
+        }
     }
 
     class CustomDialog(val context: Context) {

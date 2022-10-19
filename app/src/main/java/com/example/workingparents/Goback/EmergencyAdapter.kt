@@ -1,14 +1,8 @@
 package com.example.workingparents.Goback
 
-import android.content.ContentValues.TAG
-import android.content.Intent
-import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workingparents.FCMRetrofitBuilder
 import com.example.workingparents.R
@@ -29,13 +23,23 @@ class EmergencyAdapter(private val items: ArrayList<EmergencyData>) : RecyclerVi
 
     interface OnItemClickListener{
         fun onItemClick(data: EmergencyData, pos : Int)
+
+    }
+
+    interface OnItemClickListener2{
+        fun onItemClick(data: EmergencyData, pos : Int)
+
     }
     private var listener : OnItemClickListener? = null
+    private var listener2 : OnItemClickListener2? = null
 
     fun setOnItemClickListener(listener : OnItemClickListener) {
         this.listener = listener
     }
 
+    fun setOnItemClickListener2(listener2 : OnItemClickListener2) {
+        this.listener2 = listener2
+    }
 
     override fun getItemCount(): Int = items.size
 
@@ -49,8 +53,15 @@ class EmergencyAdapter(private val items: ArrayList<EmergencyData>) : RecyclerVi
             }
         }
 
+        val listener2 = View.OnClickListener { it ->
+            if(position!= RecyclerView.NO_POSITION)
+            {
+                listener2?.onItemClick(item,position)
+            }
+        }
+
         holder.apply {
-            bind(listener, item)
+            bind(listener, listener2, item)
             itemView.tag = item
         }
     }
@@ -63,18 +74,16 @@ class EmergencyAdapter(private val items: ArrayList<EmergencyData>) : RecyclerVi
     // 각 항목에 필요한 기능을 구현
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View = v
-        fun bind(listener: View.OnClickListener, item: EmergencyData) {
+        fun bind(listener: View.OnClickListener, listener2: View.OnClickListener, item: EmergencyData) {
             view.emergency_childName.text = item.emergency_childName
 
             //버튼 클릭 시
             view.emergency_btnCall.setOnClickListener(listener)
 
-            view.emergency_btnMsg.setOnClickListener{
+            view.emergency_btnMsg.setOnClickListener(listener2)
 
             }
 
             }
 
         }
-
-    }

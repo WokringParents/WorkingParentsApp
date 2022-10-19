@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rect_gray_border_radius_10dp"
+    android:gravity="center"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+
+<TextView
+    android:id="@+id/confirmTextView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:minHeight="40dp"
+    android:text="긴급문자"
+    android:textStyle="bold"
+    android:textSize="14sp" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/CallMomBtn"
+        android:background="@drawable/orangeborder2"
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="7dp"
+        android:layout_weight="1"
+        android:text="어머님께 문자"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/CallDadyBtn"
+        android:background="@drawable/orangeborder"
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:text="아버님께 문자"
+        android:textColor="@color/main"
+        android:textSize="14sp" />
+
+</LinearLayout>
+
+</LinearLayout>
