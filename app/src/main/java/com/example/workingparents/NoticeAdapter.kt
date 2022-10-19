@@ -22,12 +22,11 @@ import java.util.*
 
 private val TAG="NoticeAdapter"
 
-class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : RecyclerView.Adapter<NoticeAdapter.CustomViewHolder>(){
+class NoticeAdapter(val noticeList: ArrayList<Notice>, var context: Context) : RecyclerView.Adapter<NoticeAdapter.CustomViewHolder>(){
 
     private var noticeDataList = noticeList
 
     val type : String="Notice"
-
 
     /*
     어뎁터 내에 상속된 두 메서드는 DiffUtill을 사용 시에 보통 비교를 통한 상태변화이기 때문에, 정확히 비교가 되지 않고, 중복될 가능성으로 인해
@@ -66,6 +65,7 @@ class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : Recycl
                 intent.putExtra("rv_title",notice.ntitle) //intent로 값 넘겨주기
                 intent.putExtra("rv_content",notice.ncontent)
                 intent.putExtra("rv_nid",notice.nid.toString())
+                intent.putExtra("rv_tid",notice.tid.toString())
                 intent.putExtra("rv_position",curPos.toString())
                 context.startActivity(intent)
             }
@@ -78,7 +78,6 @@ class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : Recycl
 
         RetrofitBuilder.api.loadFilebyName(type,noticeDataList!!.get(position).image).enqueue(object: Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-
                 if(response.isSuccessful){
                     val byteArray : ByteArray? = response.body()?.bytes()
                     if(byteArray!=null){
@@ -88,7 +87,6 @@ class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : Recycl
                             .override(holder.picture.width,holder.picture.height)
                             .centerCrop()
                             .into(holder.picture)
-
                     }
                     holder.contentnoimage.visibility= GONE
                     holder.contentimage.visibility= VISIBLE
@@ -125,7 +123,7 @@ class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : Recycl
         val diffUtil = DiffUtilCallback(noticeDataList!!, newNoticeList)
         //이 함수에서 areItemsTheSame을 먼저 비교하고, 결과에 따라 아이템 변경 사항을 처리
         val diffResults = DiffUtil.calculateDiff(diffUtil)
-        noticeDataList=newNoticeList
+        //noticeDataList=newNoticeList
         diffResults.dispatchUpdatesTo(this)
     }
 

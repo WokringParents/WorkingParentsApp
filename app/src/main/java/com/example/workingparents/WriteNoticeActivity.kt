@@ -1,8 +1,10 @@
 package com.example.workingparents
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -115,6 +117,8 @@ class WriteNoticeActivity : BaseActivity() {
             }
 
         }
+
+
 
     }
 

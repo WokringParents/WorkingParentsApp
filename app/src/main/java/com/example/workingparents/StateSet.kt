@@ -41,6 +41,7 @@ class StateSet {
         const val MSG_SUCCESS_DEL_POSTING = 7
         const val MSG_SUCCESS_HEARTPRESS = 8
         const val MSG_SUCCESS_INSERT_CMENT = 9
+        const val SUCCESS_INSERT_NOTICE=12
     }
 
     object ViewType {

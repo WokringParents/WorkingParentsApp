@@ -1,18 +1,22 @@
 package com.example.workingparents
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_notice.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 private val noticeData = ArrayList<NoticeData>()
 private val TAG = "NoticeActivity"
@@ -27,6 +31,7 @@ class NoticeActivity : AppCompatActivity() {
         lateinit var context : Context
         lateinit var handler: Handler
         lateinit var msg : Message
+        var position by Delegates.notNull<Int>()
     }
 
 
@@ -55,8 +60,14 @@ class NoticeActivity : AppCompatActivity() {
         noticeData.add(dataitem)
 
         var nid : Int = intent.getStringExtra("rv_nid")!!.toInt()
+        var tid : Int = intent.getStringExtra("rv_tid")!!.toInt()
+        position = intent.getStringExtra("rv_position")!!.toInt()
         Log.d(TAG,"nid"+nid)
 
+
+        noticeActivity_back.setOnClickListener{
+            onBackPressed()
+        }
 
         RetrofitBuilder.api.getImagebynid(nid)
             .enqueue(object : Callback<List<Image>> {
@@ -85,6 +96,26 @@ class NoticeActivity : AppCompatActivity() {
                     Log.d(TAG, "onFailure 다중 이미지 불러오기 실패 : " + t.message.toString())
                 }
             })
+
+
+        nbtn.setOnClickListener {
+            if(tid.equals(1))
+            {
+                Log.d(TAG,"삭제 버튼 진입")
+                val builder = AlertDialog.Builder(this)
+                    .setMessage("알림장을 삭제하시겠습니까?")
+                    .setPositiveButton("확인",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            deleteNotice(nid)
+                            finish()
+                        })
+                    .setNegativeButton("취소",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show()
+                        })
+                builder.show()
+            }
+        }
     }
 
 
@@ -103,10 +134,28 @@ class NoticeActivity : AppCompatActivity() {
                     noticedetailrv.adapter= noticedetailAdapter//adapter 선언
                     Log.d(TAG,"333333333333333333")
                 }
-
-
             }
         }
+    }
+
+    fun deleteNotice(nid : Int){
+        RetrofitBuilder.api.deleteNotice(nid!!).enqueue(object : Callback<Int> {
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                if (response.isSuccessful) {
+
+                    var result: Int? = response.body()
+                    deleteNoticeAdapter(position)
+
+                } else {
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                }
+            }
+
+            override fun onFailure(call: Call<Int>, t: Throwable) {
+                Log.d(TAG, "onFailure 대댓글 실패 : " + t.message.toString())
+            }
+
+        })
     }
 
 }
