@@ -6,20 +6,41 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/cafe_item_image"
         android:layout_width="131dp"
         android:layout_height="137dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/rect_dark_gray_border_radius_10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/cafe_item_ctype"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="오전간식"
-        app:layout_constraintEnd_toEndOf="@+id/imageView5"
-        app:layout_constraintStart_toStartOf="@+id/imageView5"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/cafe_item_image"
+        app:layout_constraintStart_toStartOf="@+id/cafe_item_image"
+        app:layout_constraintTop_toBottomOf="@+id/cafe_item_image" />
+
+    <TextView
+        android:id="@+id/cafe_item_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/notosans_regular"
+        android:includeFontPadding="false"
+        android:maxLines="2"
+        android:text="시리얼과 우유"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/cafe_item_image"
+        app:layout_constraintStart_toStartOf="@+id/cafe_item_image"
+        app:layout_constraintTop_toBottomOf="@+id/cafe_item_ctype" />
+
+    />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

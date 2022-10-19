@@ -6,19 +6,19 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/cafe_dateTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="2022 년 9월 22일"
         android:textColor="@color/black"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
+        app:layout_constraintBottom_toBottomOf="@+id/cafe_moreBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageButton" />
+        app:layout_constraintTop_toTopOf="@+id/cafe_moreBtn" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/cafe_moreBtn"
         android:layout_width="19dp"
         android:layout_height="25dp"
         android:layout_marginTop="20dp"
@@ -39,7 +39,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/cafe_moreBtn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
