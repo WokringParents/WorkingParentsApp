@@ -71,7 +71,7 @@
         <EditText
             android:id="@+id/notice_content"
             android:layout_width="match_parent"
-            android:layout_height="380dp"
+            android:layout_height="350dp"
             android:layout_weight="400"
             android:layout_marginTop="20dp"
             android:background="@drawable/rect_gray_border_radius_10dp"
@@ -143,11 +143,11 @@
                     android:src="@drawable/camera" />
 
                 <TextView
-                    android:layout_width="60dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="사진 촬영하기
-                    (최대 5장)"
+                    android:text="사진 촬영하기\n(최대 5장)"
                     android:textSize="10sp"
+                    android:layout_gravity="center"
                     android:textAlignment="center"
                     />
             </LinearLayout>
@@ -171,10 +171,10 @@
                     android:src="@drawable/addimage" />
 
                 <TextView
-                    android:layout_width="60dp"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
-                    android:text="사진 첨부하기
-                    (최대 5장)"
+                    android:text="사진 첨부하기\n(최대 5장)"
                     android:textSize="10sp"
                     android:textAlignment="center"
                     />
@@ -184,16 +184,21 @@
 
 
         </LinearLayout>
-        <Button
-            android:id="@+id/btn_noticeFinish"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/border"
-            android:backgroundTint="#FF9769"
-            android:text="작성하기"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
 
     </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_noticeFinish"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/border"
+        android:backgroundTint="#FF9769"
+        android:text="작성하기"
+        android:textColor="@color/white"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

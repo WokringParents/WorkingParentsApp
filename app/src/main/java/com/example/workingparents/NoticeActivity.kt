@@ -111,7 +111,6 @@ class NoticeActivity : AppCompatActivity() {
                         })
                     .setNegativeButton("취소",
                         DialogInterface.OnClickListener { dialog, which ->
-                            Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show()
                         })
                 builder.show()
             }

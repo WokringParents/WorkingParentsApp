@@ -261,20 +261,20 @@
             android:theme="@style/EditTheme"
             android:maxLines="1"
             />
-
-
-
-        <Button
-            android:id="@+id/btn_joinFinish"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="121dp"
-            android:background="@drawable/border"
-            android:backgroundTint="#FF9769"
-            android:text="다음"
-            android:textSize="16sp"
-            android:textColor="@color/white" />
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_joinFinish"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/border"
+        android:backgroundTint="#FF9769"
+        android:text="다음"
+        android:textColor="@color/white"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

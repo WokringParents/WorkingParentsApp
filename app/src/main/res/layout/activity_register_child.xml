@@ -8,6 +8,7 @@
     android:background="@color/white">
 
     <LinearLayout
+        android:id="@+id/linearLayout8"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -23,11 +24,11 @@
                 android:id="@+id/registerchild_back"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:scaleType="fitStart"
-                android:padding="0dp"
                 android:background="@color/white"
                 android:backgroundTint="@color/white"
-                android:src="@drawable/backarrow"  />
+                android:padding="0dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/backarrow" />
 
 
             <TextView
@@ -50,8 +51,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:text="유치원 등록"
             android:fontFamily="@font/notosans_regular"
+            android:text="유치원 등록"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -59,8 +60,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
-            android:weightSum="10"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="10">
 
             <TextView
                 android:id="@+id/edit_kg"
@@ -68,11 +69,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="8"
                 android:background="@drawable/border"
-                android:text="유치원 찾기"
                 android:fontFamily="@font/notosans_regular"
-                android:paddingTop="14dp"
-                android:paddingLeft="10dp"
                 android:includeFontPadding="false"
+                android:paddingLeft="10dp"
+                android:paddingTop="14dp"
+                android:text="유치원 찾기"
                 android:textColor="#A4A4A4"
                 android:textSize="13dp" />
 
@@ -98,8 +99,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="이름"
             android:fontFamily="@font/notosans_regular"
+            android:text="이름"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -116,14 +117,14 @@
                 android:layout_height="50dp"
                 android:layout_weight="8"
                 android:background="@drawable/border"
-                android:hint="아이 이름을 등록해주세요"
                 android:fontFamily="@font/notosans_regular"
+                android:hint="아이 이름을 등록해주세요"
+                android:includeFontPadding="false"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingLeft="10dp"
-                android:theme="@style/EditTheme"
-                android:includeFontPadding="false"
-                android:textSize="13dp" />
+                android:textSize="13dp"
+                android:theme="@style/EditTheme" />
 
 
         </LinearLayout>
@@ -148,19 +149,19 @@
             <NumberPicker
                 android:id="@+id/yearSpinner"
                 android:layout_width="wrap_content"
-                android:theme="@style/AppTheme.NumberPicker"
-                android:descendantFocusability="blocksDescendants"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                android:descendantFocusability="blocksDescendants"
+                android:theme="@style/AppTheme.NumberPicker" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:textAlignment="center"
                 android:layout_gravity="center"
-                android:text="년"
+                android:layout_marginLeft="10dp"
                 android:fontFamily="@font/notosans_regular"
+                android:text="년"
+                android:textAlignment="center"
                 android:textColor="@color/dark_gray"
                 android:textSize="14sp" />
 
@@ -173,21 +174,20 @@
             <NumberPicker
                 android:id="@+id/monthSpinner"
                 android:layout_width="wrap_content"
-                android:theme="@style/AppTheme.NumberPicker"
+                android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants"
-                android:layout_height="wrap_content" />
+                android:theme="@style/AppTheme.NumberPicker" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:textAlignment="center"
                 android:layout_gravity="center"
-                android:text="월"
+                android:layout_marginLeft="10dp"
                 android:fontFamily="@font/notosans_regular"
+                android:text="월"
+                android:textAlignment="center"
                 android:textColor="@color/dark_gray"
                 android:textSize="14sp" />
-
 
 
             <View
@@ -198,18 +198,18 @@
             <NumberPicker
                 android:id="@+id/daySpinner"
                 android:layout_width="wrap_content"
-                android:theme="@style/AppTheme.NumberPicker"
+                android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants"
-                android:layout_height="wrap_content" />
+                android:theme="@style/AppTheme.NumberPicker" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:textAlignment="center"
                 android:layout_gravity="center"
-                android:text="일"
+                android:layout_marginLeft="10dp"
                 android:fontFamily="@font/notosans_regular"
+                android:text="일"
+                android:textAlignment="center"
                 android:textColor="@color/dark_gray"
                 android:textSize="14sp" />
 
@@ -284,10 +284,10 @@
 
 
             <RadioGroup
-                android:layout_marginLeft="10dp"
                 android:id="@+id/radio_group_child"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
 
@@ -317,17 +317,21 @@
             </RadioGroup>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_childFinish"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="115dp"
-            android:background="@drawable/border"
-            android:backgroundTint="#FF9769"
-            android:text="등록하기"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
     </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_childFinish"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/border"
+        android:backgroundTint="#FF9769"
+        android:text="등록하기"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

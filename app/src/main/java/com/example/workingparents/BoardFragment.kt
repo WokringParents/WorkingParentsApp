@@ -139,6 +139,7 @@ fun refreshAdapter(result : Posting){
 
 //뒤로 가기시 바로 갱신을 해주고 싶은데 좀 이상함
 fun positionAdapter(position : Int){
+    PostingAdapter(postings)
     Postingadapter.notifyItemChanged(position)
     postings.get(position)
     Postingadapter.notifyItemChanged(position, postings.size)

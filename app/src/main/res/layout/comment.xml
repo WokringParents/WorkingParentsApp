@@ -37,6 +37,7 @@
 
             <ImageView
                 android:id="@+id/user"
+                android:layout_gravity="center"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/user" />
@@ -92,7 +93,7 @@
             android:id="@+id/ccontent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:text="혹시 월요일 하원 부탁드려도 괜찮으신 분 계실까요?"
             android:fontFamily="@font/notosans_regular"
             android:includeFontPadding="false"

@@ -18,7 +18,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingTop="15dp">
+            android:paddingTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
                 android:text="알림장"
                 android:gravity="center"
                 android:textColor="@color/main"
-                android:textSize="18dp" />
+                android:textSize="17dp" />
 
             <Button
                 android:id="@+id/search_notice"
@@ -54,11 +54,11 @@
 
     <ImageButton
         android:id="@+id/writenotice_btn"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="57dp"
+        android:layout_height="57dp"
         android:layout_gravity="right|bottom"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
         android:background="@drawable/round"
         android:scaleType="fitCenter"
         android:src="@drawable/posting" />

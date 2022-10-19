@@ -9,60 +9,67 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout9"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:padding="30dp"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="49dp"
-        android:padding="30dp">
+        tools:layout_editor_absoluteY="49dp">
 
 
         <TextView
             android:id="@+id/text_logo"
-            android:layout_marginTop="100dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="100dp"
             android:text="워킹부부가 함께 만드는 삶"
             android:textColor="@color/white"
-            android:textSize="15dp"/>
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/text_logo2"
-            android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/titlegothic5"
             android:text="워킹패런츠"
             android:textColor="@color/white"
-            android:textSize="27dp"
-            android:fontFamily="@font/titlegothic5"
-            />
+            android:textSize="27dp" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_marginTop="10dp"
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:src="@drawable/wps" />
 
-        <TextView
-            android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="250dp"
-            android:text="Loading"
-            android:textColor="@color/white"
-            android:textSize="15dp"/>
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:progressTint="@color/white"
-            />
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loading"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:paddingLeft="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintStart_toStartOf="@+id/progressBar" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressTint="@color/white"
+        android:paddingBottom="30dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout9" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
