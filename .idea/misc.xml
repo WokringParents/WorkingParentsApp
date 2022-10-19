@@ -23,7 +23,6 @@
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/rect_dark_gray_radius_10dp.xml" value="0.1225" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/rect_gray_border_bottom_radius_10dp.xml" value="0.255" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/rect_gray_border_bottom_radius_20dp.xml" value="0.254" />
-        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/rect_gray_border_radius_10dp.xml" value="0.1205" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/rect_gray_border_top_radius_20dp.xml" value="0.254" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/rect_gray_radius_10dp.xml" value="0.1215" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/rect_light_gray_radius_10dp.xml" value="0.1215" />
@@ -55,13 +54,11 @@
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_write_notice.xml" value="0.2912621359223301" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_write_posting.xml" value="0.13229166666666667" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/bg_white_radius_8dp.xml" value="0.10833333333333334" />
-        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/cafeteria_content_item.xml" value="0.1" />
-        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/cafeteria_date_item.xml" value="0.1" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_board.xml" value="0.13229166666666667" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_cafeteria.xml" value="0.21965579710144928" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_child_caring.xml" value="0.25028968713789107" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_main.xml" value="0.2210144927536232" />
-        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_teacher_cafeteria.xml" value="0.2" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_teacher_cafeteria.xml" value="0.264" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_teacher_my_page.xml" value="0.1" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_teacher_notice.xml" value="0.1" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/gobackfragmenttab1.xml" value="0.21965579710144928" />
@@ -69,10 +66,8 @@
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/layout_parent.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/layout_second.xml" value="0.36774193548387096" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_image.xml" value="0.24947916666666667" />
-        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_nopicture_item.xml" value="0.10625" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_picture_item.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notification.xml" value="0.2210144927536232" />
-        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/posting.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/sharing_list.xml" value="0.264" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/sharing_list_more.xml" value="0.29987129987129985" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/spinner_item.xml" value="0.1" />
@@ -96,34 +91,43 @@
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_dialog.xml" value="0.20606884057971014" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_dialog_create.xml" value="0.264" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_dialog_starttime.xml" value="0.2526041666666667" />
-        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_dialog_update_delete.xml" value="0.12604166666666666" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_dialog_update_delete.xml" value="0.264" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_female.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/calendar_male.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/ccomment.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/cment_more.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/comment.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/emergency_dialog_call.xml" value="0.264" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/emergency_item.xml" value="0.23007246376811594" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_board.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_bottom_sheet_cment.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_bottom_sheet_priority.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_calendar.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_child_caring.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_goback.xml" value="0.23007246376811594" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_info.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_mypage.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_notice.xml" value="0.264" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_teacher_my_page.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_teacher_notice.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/goback_item.xml" value="0.2" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/gobackfragmenttab1.xml" value="0.1" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/gobackfragmenttab2.xml" value="0.1" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/material_clock_period_toggle.xml" value="0.1" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_item.xml" value="0.264" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_nopicture_item.xml" value="0.25" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_picture_item.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notification.xml" value="0.12487335359675786" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/schedule_female.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/schedule_male.xml" value="0.264" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/sharing_list.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/spinner_dropdown_item.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/spinner_item.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/layout/update_delete_calendar_dialog.xml" value="0.20606884057971014" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/menu/bottom_menu.xml" value="0.1984375" />
         <entry key="..\:/Users/errop/AndroidStudioProjects/Workingparents/app/src/main/res/menu/calendar_recycler_menu.xml" value="0.1" />
+        <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/resize_down_arrow.xml" value="0.1225" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/whiteborder.xml" value="0.1" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/whiteborder2.xml" value="0.1" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_join.xml" value="0.16666666666666666" />
@@ -134,6 +138,8 @@
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_posting.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_posting_search.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_register_child.xml" value="0.1" />
+        <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_write_notice.xml" value="0.1" />
+        <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_write_posting.xml" value="0.1" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/board_more.xml" value="0.13333333333333333" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/ccomment.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/cment_more.xml" value="0.14130434782608695" />
@@ -145,7 +151,11 @@
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_info.xml" value="0.1" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_main.xml" value="0.1" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_mypage.xml" value="0.1" />
-        <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/posting.xml" value="0.1" />
+        <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_teacher_notice.xml" value="0.1" />
+        <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_image.xml" value="0.1" />
+        <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_nopicture_item.xml" value="0.1" />
+        <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_picture_item.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/posting.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/sharing_list.xml" value="0.1671195652173913" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/sharing_list_more.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/wangi/AndroidStudioProjects/Workingparents/app/src/main/res/layout/spinner_dropdown_item.xml" value="0.1671195652173913" />

@@ -274,6 +274,9 @@ interface RetrofitService {
     @GET("child/{couplenum}")
     fun getChild(@Path("couplenum") couplenum: Int): Call<Child>
 
+    @GET("child/allName")
+    fun getAllChildName(): Call<List<String>>
+
     @FormUrlEncoded
     @POST("child/{couplenum}")
     fun postChild(
@@ -284,6 +287,7 @@ interface RetrofitService {
         @Field("sex") sex: String
 
     ): Call<Int>
+
 
 
     @GET("childHaving/{couplenum}")
@@ -370,6 +374,18 @@ interface RetrofitService {
         @Path("nid") nid: Int,
         @Field("image") image: String
     ): Call<Int>
+
+
+
+    //------------------------------- GoBack ------------------------------//
+
+    @GET("pnumberForGoback/{couplenum}")
+    fun getPnumberForGoback(@Path("couplenum") couplenum: Int): Call<List<String>>
+
+    @GET("tokenForGoback/{couplenum}")
+    fun getTokenForGoback(@Path("couplenum") couplenum: Int): Call<List<String>>
+
+
 
 
 

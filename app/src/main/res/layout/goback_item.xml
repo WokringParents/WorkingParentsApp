@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/goback_childName"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="55dp"
+            android:fontFamily="@font/notosans_medium"
+            android:text="김가영"
+            android:textColor="@color/black"
+            android:textSize="16dp">
+
+        </TextView>
+
+
+        <Button
+            android:id="@+id/goback_btnGo"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/orangeborder_rectangle"
+            android:fontFamily="@font/notosans_regular"
+            android:text="등원"
+            android:textColor="@color/main"
+            android:textSize="14dp"
+            android:textStyle="bold">
+
+        </Button>
+
+        <Button
+            android:id="@+id/goback_btnBack"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/orangeborder_rectangle"
+            android:fontFamily="@font/notosans_regular"
+            android:text="하원"
+            android:textColor="@color/main"
+            android:textSize="14dp"
+            android:textStyle="bold">
+
+        </Button>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

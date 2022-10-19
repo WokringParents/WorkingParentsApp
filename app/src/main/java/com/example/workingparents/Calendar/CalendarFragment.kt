@@ -3,10 +3,12 @@ package com.example.workingparents.Calendar
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.style.ForegroundColorSpan
@@ -21,6 +23,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workingparents.*

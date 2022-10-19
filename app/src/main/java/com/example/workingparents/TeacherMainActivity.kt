@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.workingparents.Calendar.CalendarFragment
 import com.example.workingparents.Goback.GobackFragment
 import com.example.workingparents.NoticeFragment
-import com.example.workingparents.databinding.ActivityMainBinding
+//import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.ResponseBody
@@ -20,6 +20,7 @@ import retrofit2.Response
 class TeacherMainActivity : AppCompatActivity() {
 
     private val fragmentManager = supportFragmentManager
+
     private var gobackFragment: GobackFragment? = null
     private var noticeFragment: NoticeFragment? = null
     private var cafeteriaFragment: CafeteriaFragment? = null
@@ -53,7 +54,6 @@ class TeacherMainActivity : AppCompatActivity() {
         gobackFragment= GobackFragment()
         fragmentManager.beginTransaction().replace(R.id.container, gobackFragment!!).commit()
 
-
         bottomNavi.run {
 
             setOnNavigationItemSelectedListener {
@@ -64,9 +64,11 @@ class TeacherMainActivity : AppCompatActivity() {
                 when (it.itemId) {
 
                     R.id.first_tab -> {
+
                         if (gobackFragment == null) {
                             gobackFragment = GobackFragment()
                             fragmentManager.beginTransaction().add(R.id.container, gobackFragment!!).commit()
+
                         }
                         if (gobackFragment != null) fragmentManager.beginTransaction().show(gobackFragment!!).commit()
                         if (noticeFragment != null) fragmentManager.beginTransaction().hide(noticeFragment!!).commit()
