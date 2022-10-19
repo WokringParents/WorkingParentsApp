@@ -3,12 +3,12 @@ import android.Manifest
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import com.example.workingparents.databinding.ActivityWriteCafeteriaBinding
 import kotlinx.android.synthetic.main.activity_write_cafeteria.*
@@ -16,27 +16,36 @@ import kotlinx.android.synthetic.main.layout_parent.view.*
 import kotlinx.android.synthetic.main.layout_second.view.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.properties.Delegates
 import com.bumptech.glide.Glide
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
-import android.view.Gravity
 import androidx.core.view.isVisible
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.transition.*
 import com.transitionseverywhere.extra.Scale
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.IOException
+import java.io.InputStream
 
 class WriteCafeteriaActivity : BaseActivity() {
 
     val TAG = "CafeteriaWrite"
-
+    val TYPE ="Cafeteria"
     companion object {
         lateinit var notosans_medium: Typeface
         lateinit var notosans_regular: Typeface
         lateinit var date: String
-        var type :Int =-1
-        var realUri: Uri? = null
+        var ctype :Int =-1
+        lateinit var realUri: Uri
+        lateinit var fileName: String
         lateinit var mContext: Context
     }
 
@@ -53,19 +62,19 @@ class WriteCafeteriaActivity : BaseActivity() {
             when (v?.id) {
                 R.id.morning_snack -> {
                     expandable.select_cafateriaTV.text = "오전간식"
-                    type = 0
+                    ctype = 0
                 }
                 R.id.lunch -> {
                     expandable.select_cafateriaTV.text = "점심"
-                    type = 1
+                    ctype = 1
                 }
                 R.id.afternoon_snack -> {
                     expandable.select_cafateriaTV.text = "오후간식"
-                    type = 2
+                    ctype = 2
                 }
                 R.id.dinner -> {
                     expandable.select_cafateriaTV.text = "저녁"
-                    type = 3
+                    ctype = 3
                 }
             }
 
@@ -151,12 +160,13 @@ class WriteCafeteriaActivity : BaseActivity() {
 
         btn_cafeteriaFinish.setOnClickListener{
 
-            if(type==-1 || cafeteria_content.text.toString()=="")
-                Toast.makeText(this, "급식유형 선택과 식단을 작성했는지 확인해주세요", Toast.LENGTH_LONG).show()
+            if(ctype==-1 || cafeteria_content.text.toString()=="")
+                Toast.makeText(this, "모두 기입하였는지 확인해주세요", Toast.LENGTH_LONG).show()
             else if(!showImageLayout.isVisible)
                 Toast.makeText(this, "사진을 첨부했는지 확인해주세요", Toast.LENGTH_LONG).show()
-            else{
-                //insertCafeteria()
+            else {
+                uploadCafeteriaImage()
+                insertCafeteria()
             }
         }
     }
@@ -249,4 +259,72 @@ class WriteCafeteriaActivity : BaseActivity() {
             }
         }
     }
+
+    //이미지를 bitmap을 사용해서 20%로 압축해서 보냄
+    fun compressImage(context: Context,imageUri: Uri):ByteArray{
+
+        var inputStream : InputStream? =null;
+        try { inputStream = context.contentResolver.openInputStream(imageUri!!) }
+        catch(e: IOException){ e.printStackTrace(); }
+        var bitmap : Bitmap = BitmapFactory.decodeStream(inputStream);
+        var byteArrayOutputStream : ByteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
+    }
+
+    fun uploadCafeteriaImage(){
+
+        val path :String =RealPathUtil.getRealPath(mContext, realUri)
+        var file= File(path)
+        fileName=file.name
+
+        val requestBody : RequestBody = RequestBody.create(MediaType.parse("image/jpeg"), compressImage(mContext, realUri))
+        val uploadFile : MultipartBody.Part  = MultipartBody.Part.createFormData("file", file.name ,requestBody);
+
+        RetrofitBuilder.api.uploadImageFile(uploadFile,TYPE).enqueue(object:
+            Callback<FileUploadResponse> {
+
+            override fun onResponse(call: Call<FileUploadResponse>, response: Response<FileUploadResponse>) {
+                if(response.isSuccessful){
+                    val result: FileUploadResponse?= response.body()
+                    if(result!=null){
+                        Log.d(TAG, "onResponse: uploadImageFile 성공")
+                        Log.d(TAG,result.toString())
+                    }
+                }else{
+                    Log.d(TAG, "onResponse: uploadImageFile 실패")
+                }
+            }
+            override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
+                Log.d(TAG, "onFailure : uploadImageFile 에러: " + t.message.toString())
+            }
+        })
+    }
+
+    fun insertCafeteria(){
+
+        val path :String =RealPathUtil.getRealPath(mContext, realUri)
+        var file= File(path)
+        fileName=file.name
+
+        RetrofitBuilder.api.postCafeteria(1,date,ctype,cafeteria_content.text.toString(),fileName).enqueue(object: Callback<Int>{
+
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                if (response.isSuccessful) {
+                    var result: Int? = response.body()
+                    Log.d(TAG, result.toString())
+                    Log.d(TAG, "onResponse: postCafeteria 성공")
+                } else {
+                    Log.d(TAG, "onResponse: postCafeteria 실패")
+                    Toast.makeText(mContext, "이미 등록된 급식유형입니다.", Toast.LENGTH_LONG).show()
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                }
+            }
+
+            override fun onFailure(call: Call<Int>, t: Throwable) {
+                Log.d(TAG, "onFailure postCafeteria 실패 에러: " + t.message.toString())
+            }
+        })
+    }
+
 }

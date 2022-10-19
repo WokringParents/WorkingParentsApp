@@ -33,7 +33,7 @@ import kotlin.collections.ArrayList
 private val TAG="NoticeWrite"
 
 
-val type="Notice"
+private val TYPE="Notice"
 
 var selectedImageUri = ArrayList<Uri>()
 var imageAdapter: MultiImageAdapter? = null
@@ -348,7 +348,7 @@ class WriteNoticeActivity : BaseActivity() {
 fun temporalSetImgView2(fileName: List<String>){
     for(i in 0 until fileName.size)
     {
-        RetrofitBuilder.api.loadFilebyName(type,fileName.get(i)).enqueue(object:Callback<ResponseBody>{
+        RetrofitBuilder.api.loadFilebyName(TYPE,fileName.get(i)).enqueue(object:Callback<ResponseBody>{
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
                 if(response.isSuccessful){
@@ -417,7 +417,7 @@ fun uploadSingleImage(context: Context, imageUri: Uri){
     val requestBody : RequestBody = RequestBody.create(MediaType.parse("image/jpeg"), compressImage(context,imageUri))
     val uploadFile : MultipartBody.Part  = MultipartBody.Part.createFormData("file", file.name ,requestBody);
     
-    RetrofitBuilder.api.uploadImageFile(uploadFile,type).enqueue(object: Callback<FileUploadResponse>{
+    RetrofitBuilder.api.uploadImageFile(uploadFile,TYPE).enqueue(object: Callback<FileUploadResponse>{
 
         override fun onResponse(call: Call<FileUploadResponse>, response: Response<FileUploadResponse>) {
             if(response.isSuccessful){
@@ -452,7 +452,7 @@ fun uploadMutiImage(context: Context,imageUri: List<Uri>){
 
     }
 
-    RetrofitBuilder.api.uploadMultipleFiles(uploadFileList).enqueue(object: Callback<List<FileUploadResponse>>{
+    RetrofitBuilder.api.uploadMultipleFiles(uploadFileList,TYPE).enqueue(object: Callback<List<FileUploadResponse>>{
 
         override fun onResponse(call: Call<List<FileUploadResponse>>, response: Response<List<FileUploadResponse>>) {
             if(response.isSuccessful){

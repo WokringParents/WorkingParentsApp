@@ -309,6 +309,36 @@ interface RetrofitService {
     fun deleteNotice(@Field("nid") nid: Int): Call<Int>
 
 
+
+    //-------------------------------Cafeteria------------------------------//
+
+    @GET("cafeteria")
+    fun getCafeterias(@Query("tid")tid:Int):Call<List<Cafeteria>>
+
+    @FormUrlEncoded
+    @POST("cafeteria")
+    fun postCafeteria(@Field("tid")tid:Int, @Field("cdate")cdate:String, @Field("ctype") ctype:Int, @Field("content")content:String, @Field("image") image:String):Call<Int>
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "/cafeteria", hasBody = true)
+    fun deleteCafeteria(
+        @Field("tid") tid: Int,
+        @Field("cdate") cdate: String,
+        @Field("ctype") ctype: Int
+    ): Call<Int>
+
+
+    @FormUrlEncoded
+    @PUT("sharinglist")
+    fun putCafeteria(
+        @Field("tid") tid: Int,
+        @Field("cdate") cdate:String,
+        @Field("ctype") ctype:Int,
+        @Field("content")content:String,
+        @Field("image")image:String
+    ): Call<Int>
+
+
     //-------------------------------Image File------------------------------//
 
     @Multipart
@@ -316,8 +346,8 @@ interface RetrofitService {
     fun uploadImageFile(@Part file: MultipartBody.Part, @Path("type") type: String): Call<FileUploadResponse>
 
     @Multipart
-    @POST("/uploadMultipleFiles")
-    fun uploadMultipleFiles(@Part files: List<MultipartBody.Part>): Call<List<FileUploadResponse>>
+    @POST("/uploadMultipleFiles/{type}")
+    fun uploadMultipleFiles(@Part files: List<MultipartBody.Part>, @Path("type") type:String): Call<List<FileUploadResponse>>
 
     @GET("/loadFile/{type}/{fileName}")
     fun loadFilebyName( @Path("type") type: String, @Path("fileName") fileName: String): Call<ResponseBody>
