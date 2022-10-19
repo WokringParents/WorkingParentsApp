@@ -15,40 +15,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
+            android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="15dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="28dp"
-                    android:text="알림장"
-                    android:gravity="center"
-                    android:textColor="@color/main"
-                    android:textSize="18dp" />
-
-                <View
-                    android:layout_width="10dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-
-
-                <ImageButton
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:background="@drawable/round"
-                    android:backgroundTint="@color/white"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/alarm"></ImageButton>
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:text="알림장"
+                android:gravity="center"
+                android:textColor="@color/main"
+                android:textSize="18dp" />
 
             <Button
                 android:id="@+id/search_notice"
@@ -66,13 +44,11 @@
 
         </LinearLayout>
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_notice"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
-
 
     </LinearLayout>
 

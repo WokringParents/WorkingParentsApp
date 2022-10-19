@@ -10,6 +10,7 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -46,6 +47,7 @@ class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : Recycl
         val title = itemView.findViewById<TextView>(R.id.title)
         val content = itemView.findViewById<TextView>(R.id.content)
         val picture = itemView.findViewById<ImageView>(R.id.picture)
+        val cardview = itemView.findViewById<CardView>(R.id.cardView_adapter)
 
     }
     override fun getItemCount(): Int {return noticeList.size}
@@ -85,11 +87,14 @@ class NoticeAdapter(val noticeList: List<Notice>, var context: Context) : Recycl
                             .override(holder.picture.width,holder.picture.height)
                             .centerCrop()
                             .into(holder.picture)
-                        Log.d(TAG, "onFailure: loadFilebyName 성공")
-                    }else{
-                        holder.picture.visibility=GONE
-                        holder.content.width=255
                     }
+                }
+                else{
+                    Log.d(TAG, "onFailure: loadFilebyName 실패")
+                    Log.d(TAG, "사진 없음!!!")
+                    holder.picture.visibility=GONE
+                    holder.cardview.visibility=GONE
+                    holder.content.width=255
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
