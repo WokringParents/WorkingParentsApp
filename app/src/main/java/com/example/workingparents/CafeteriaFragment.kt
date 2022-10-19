@@ -11,15 +11,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 
-private lateinit var mContext: Activity
-private var TAG="Cafeteria"
-
-
 class CafeteriaFragment : Fragment() {
+
+    var TAG="Cafeteria"
+    lateinit var mContext: Activity
 
     companion object {
 
     }
+
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if(context is TeacherMainActivity){

@@ -64,13 +64,12 @@
                 />
 
             <ImageButton
-                android:layout_width="25dp"
+                android:layout_width="19dp"
                 android:layout_height="25dp"
-                android:src="@drawable/more"
                 android:background="@drawable/round"
                 android:backgroundTint="@color/white"
                 android:scaleType="fitCenter"
-                />
+                android:src="@drawable/more" />
 
         </LinearLayout>
 
