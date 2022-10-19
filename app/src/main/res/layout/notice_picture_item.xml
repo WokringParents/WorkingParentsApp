@@ -71,7 +71,7 @@
         android:layout_marginRight="-5dp"
         android:clipToPadding="false"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
+        app:cardElevation="1dp"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linearLayout2"

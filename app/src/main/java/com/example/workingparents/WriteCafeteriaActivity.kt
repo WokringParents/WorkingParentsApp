@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.bumptech.glide.Glide
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import androidx.core.view.isVisible
@@ -34,6 +35,8 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
+import java.nio.file.Files
+import java.nio.file.Paths
 
 class WriteCafeteriaActivity : BaseActivity() {
 
@@ -47,6 +50,7 @@ class WriteCafeteriaActivity : BaseActivity() {
         lateinit var realUri: Uri
         lateinit var fileName: String
         lateinit var mContext: Context
+        lateinit var imageByteArray: ByteArray
     }
 
     //3. 권한 확인 두개, 카메라 요청 하나, 바인딩 생성
@@ -136,7 +140,7 @@ class WriteCafeteriaActivity : BaseActivity() {
         }
 
         val cal = Calendar.getInstance()
-        val dateformat = SimpleDateFormat("yyyy-MM-dd ")
+        val dateformat = SimpleDateFormat("yyyy-MM-dd")
         val titledDateFormat = SimpleDateFormat("MM/dd")
 
         date = dateformat.format(cal.time)
@@ -262,13 +266,15 @@ class WriteCafeteriaActivity : BaseActivity() {
 
     //이미지를 bitmap을 사용해서 20%로 압축해서 보냄
     fun compressImage(context: Context,imageUri: Uri):ByteArray{
-
         var inputStream : InputStream? =null;
         try { inputStream = context.contentResolver.openInputStream(imageUri!!) }
         catch(e: IOException){ e.printStackTrace(); }
         var bitmap : Bitmap = BitmapFactory.decodeStream(inputStream);
         var byteArrayOutputStream : ByteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream)
+
+        imageByteArray = byteArrayOutputStream.toByteArray()
+
         return byteArrayOutputStream.toByteArray()
     }
 
@@ -290,6 +296,7 @@ class WriteCafeteriaActivity : BaseActivity() {
                     if(result!=null){
                         Log.d(TAG, "onResponse: uploadImageFile 성공")
                         Log.d(TAG,result.toString())
+
                     }
                 }else{
                     Log.d(TAG, "onResponse: uploadImageFile 실패")
@@ -306,14 +313,58 @@ class WriteCafeteriaActivity : BaseActivity() {
         val path :String =RealPathUtil.getRealPath(mContext, realUri)
         var file= File(path)
         fileName=file.name
+        val content= cafeteria_content.text.toString()
 
-        RetrofitBuilder.api.postCafeteria(1,date,ctype,cafeteria_content.text.toString(),fileName).enqueue(object: Callback<Int>{
+        RetrofitBuilder.api.postCafeteria(1,date,ctype,content,fileName).enqueue(object: Callback<Int>{
 
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
                 if (response.isSuccessful) {
                     var result: Int? = response.body()
                     Log.d(TAG, result.toString())
                     Log.d(TAG, "onResponse: postCafeteria 성공")
+
+                 //   CafeteriaFragment.cafeOuterAdapter.cafeData.find{ it.cdate==date }?.images?.put(ctype,fileName)
+                 //   CafeteriaFragment.cafeOuterAdapter.cafeData.find{ it.cdate==date }?.contents?.put(ctype,content)
+                    var index= -1
+
+                    Log.d(TAG,"size"+ CafeteriaFragment.cafeOuterAdapter.cafeData.size )
+                    Log.d(TAG,"date"+ date +" " + CafeteriaFragment.cafeOuterAdapter.cafeData.get(0).cdate)
+
+
+                    CafeteriaFragment.cafeOuterAdapter.cafeData.filter { it.cdate == date }.
+                    forEach {
+                        Log.d(TAG,"date찾아서 change한다")
+                        index = CafeteriaFragment.cafeOuterAdapter.cafeData.indexOf(it)
+                        it.images.put(ctype,fileName)
+                        it.contents.put(ctype,content)
+                        it.imageBytes.put(ctype,imageByteArray)
+                    }
+
+                    if( index!= -1)
+                        CafeteriaFragment.cafeOuterAdapter.notifyItemChanged(index)
+                    else{
+                        //오늘 글 처음 등록한 상태라면
+                        Log.d(TAG,"처음등록했잖아 갱신해야지 왜안해")
+                        CafeteriaFragment.cafeOuterAdapter.cafeData.add(0, CafeteriaByDate(date))
+                        CafeteriaFragment.cafeOuterAdapter.cafeData.get(0).images.put(ctype,fileName)
+                        CafeteriaFragment.cafeOuterAdapter.cafeData.get(0).contents.put(ctype,content)
+                        CafeteriaFragment.cafeOuterAdapter.cafeData.get(0).imageBytes.put(ctype,imageByteArray)
+
+                        CafeteriaFragment.cafeOuterAdapter.notifyDataSetChanged()
+
+                            //CafeteriaFragment.cafeOuterAdapter.innerAdapter.cafeData.
+                            Log.d(TAG,"오늘글은 처음등록이지만 이전글 목록이 있을때")
+                        /*    Log.d(TAG,CafeteriaFragment.cafeOuterAdapter.innerAdapter!!.cafeData.toString())
+                            CafeteriaFragment.cafeOuterAdapter.innerAdapter!!.cafeData.imageBytes.put(ctype,imageByteArray)
+                            CafeteriaFragment.cafeOuterAdapter.innerAdapter!!.cafeData.contents.put(ctype,content)
+                            CafeteriaFragment.cafeOuterAdapter.innerAdapter!!.cafeData.images.put(ctype,fileName)
+                            CafeteriaFragment.cafeOuterAdapter.notifyItemInserted()*/
+
+                    }
+
+                    finish()
+
+
                 } else {
                     Log.d(TAG, "onResponse: postCafeteria 실패")
                     Toast.makeText(mContext, "이미 등록된 급식유형입니다.", Toast.LENGTH_LONG).show()

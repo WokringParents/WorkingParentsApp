@@ -59,6 +59,14 @@ class CafeteriaFragment : Fragment() {
             mContext.startActivity(intent)
         }
 
+        cafeOuterRecyclerView.addItemDecoration(MyDecoration(4, Color.parseColor("#f2f2f2")))
+        cafeOuterRecyclerView.layoutManager =
+            LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+
+        cafeOuterRecyclerView.visibility = View.VISIBLE
+        cafeOuterRecyclerView.setHasFixedSize(true)
+
+
         RetrofitBuilder.api.getCafeterias(1).enqueue(object: Callback<List<Cafeteria>>{
             override fun onResponse(call: Call<List<Cafeteria>>, response: Response<List<Cafeteria>>) {
               if(response.isSuccessful){
@@ -66,18 +74,10 @@ class CafeteriaFragment : Fragment() {
                   Log.d(TAG, cafeterias.toString())
 
                   if(cafeterias.size>0) {
-                      cafeOuterRecyclerView.addItemDecoration(MyDecoration(2, Color.parseColor("#f2f2f2")))
-                      cafeOuterRecyclerView.layoutManager =
-                          LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
 
-                      cafeOuterRecyclerView.visibility = View.VISIBLE
-                      cafeOuterRecyclerView.setHasFixedSize(true)
+                      cafeteriaByDates.clear()
 
-                      var prevCdate = "init"
-
-                      if(cafeteriaByDates.size>0)
-                          prevCdate= cafeteriaByDates.first().cdate
-
+                      var prevCdate = "prevDate"
                       for (cafe: Cafeteria in cafeterias) {
                         //새로운 날짜이면 추가
                           if(cafe.cdate!=prevCdate){
@@ -87,11 +87,14 @@ class CafeteriaFragment : Fragment() {
                           cafeteriaByDates.last().contents.put(cafe.ctype,cafe.content)
                           prevCdate=cafe.cdate
                       }
-                      cafeOuterAdapter= CafeteriaOuterAdapter(mContext, cafeteriaByDates)
-                      Log.d(TAG,"뷰가 보여아지")
+             //         cafeOuterAdapter= CafeteriaOuterAdapter(mContext, cafeteriaByDates)
                       Log.d(TAG, cafeteriaByDates.last().cdate + cafeteriaByDates.last().contents.toString())
-                      cafeOuterRecyclerView.adapter= cafeOuterAdapter
-                  }
+                   }
+
+                  cafeOuterAdapter= CafeteriaOuterAdapter(mContext, cafeteriaByDates)
+                  cafeOuterRecyclerView.adapter= cafeOuterAdapter
+
+
               }else{
                   Log.d(TAG, "onResponse 실패: getCafeterias")
               }

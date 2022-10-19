@@ -1,6 +1,10 @@
 package com.example.workingparents
 
-class CafeteriaByDate(_cdate:String) {
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+class CafeteriaByDate(var _cdate:String): Parcelable {
 
      var cdate = _cdate
      var images: MutableMap<Int,String> = mutableMapOf()

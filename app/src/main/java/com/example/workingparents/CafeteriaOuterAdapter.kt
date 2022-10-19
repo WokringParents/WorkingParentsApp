@@ -1,6 +1,7 @@
 package com.example.workingparents
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
@@ -20,7 +21,8 @@ import retrofit2.Response
 
 class CafeteriaOuterAdapter(private val context: Context, val cafeData:MutableList<CafeteriaByDate>) : RecyclerView.Adapter<CafeteriaOuterAdapter.ViewHolder>() {
 
-    val TAG="Cafeteria"
+    val TAG="CafeteriaWrite"
+    val TYPE="Cafeteria"
     //var cafeData= mutableListOf<CafeteriaByDate>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CafeteriaOuterAdapter.ViewHolder {
@@ -35,9 +37,10 @@ class CafeteriaOuterAdapter(private val context: Context, val cafeData:MutableLi
 
     override fun onBindViewHolder(holder: CafeteriaOuterAdapter.ViewHolder, position: Int) {
             Log.d(TAG,"onBindViewHolder")
+
             val item: CafeteriaByDate= cafeData[position]
             val dateArray = item.cdate.split("-").toTypedArray()   //2022-10-19
-            holder.dateTV.text=dateArray[0]+" 년"+ dateArray[1]+"월"+dateArray[2]+"일"
+            holder.dateTV.text=dateArray[0]+" 년 "+ dateArray[1]+"월 "+dateArray[2]+"일"
             holder.innerRecyclerView.layoutManager= holder.innerManager
             Log.d(TAG,cafeData[position].images.toString())
 
@@ -45,7 +48,18 @@ class CafeteriaOuterAdapter(private val context: Context, val cafeData:MutableLi
 
             for((type,image) in item.images){
 
-                RetrofitBuilder.api.loadFilebyName(TAG,image).enqueue(object:
+                if(item.imageBytes.get(type)!=null){
+                    imageBytes.put(type, item.imageBytes.get(type)!!)
+
+                    if(imageBytes.size==item.images.size){
+
+                      val innerAdapter = CafeteriaInnerAdapter(context, item)
+                      holder.innerRecyclerView.adapter = innerAdapter
+                    }
+                    continue
+                }
+
+                RetrofitBuilder.api.loadFilebyName(TYPE,image).enqueue(object:
                     retrofit2.Callback<ResponseBody> {
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
@@ -57,11 +71,13 @@ class CafeteriaOuterAdapter(private val context: Context, val cafeData:MutableLi
                             if(byteArray!=null){
                                 imageBytes.put(type,byteArray)
                                 item.imageBytes= imageBytes
-                                if(imageBytes.size==item.images.size){
-                                    val innerAdapter=CafeteriaInnerAdapter(context,item)
+
+                                if(imageBytes.size==item.images.size){  //innerAdapter첫 초기화
+                                    val innerAdapter = CafeteriaInnerAdapter(context,item)
                                     holder.innerRecyclerView.adapter=innerAdapter
                                 }
                             }else{
+
                             }
                         }
                     }
@@ -81,6 +97,8 @@ class CafeteriaOuterAdapter(private val context: Context, val cafeData:MutableLi
         val moreBtn: ImageButton = itemView.findViewById(R.id.cafe_moreBtn)
         val innerRecyclerView :RecyclerView= itemView.findViewById(R.id.cafeteria_inner_content_recyclerview)
         val innerManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+
 
     }
 }
