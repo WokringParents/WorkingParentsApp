@@ -64,7 +64,7 @@ class CafeteriaFragment : Fragment() {
             LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
 
         cafeOuterRecyclerView.visibility = View.VISIBLE
-        cafeOuterRecyclerView.setHasFixedSize(true)
+//        cafeOuterRecyclerView.setHasFixedSize(true)
 
 
         RetrofitBuilder.api.getCafeterias(1).enqueue(object: Callback<List<Cafeteria>>{

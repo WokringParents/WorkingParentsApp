@@ -4,7 +4,7 @@ import kotlin.properties.Delegates
 
 object UserData {
 
-    lateinit var id: String
+    var id: String = "NONE"
     lateinit var sex: String
     lateinit var name: String
     lateinit var token: String

@@ -96,10 +96,8 @@ class NoticeActivity : AppCompatActivity() {
                     Log.d(TAG, "onFailure 다중 이미지 불러오기 실패 : " + t.message.toString())
                 }
             })
-
-
         nbtn.setOnClickListener {
-            if(tid.equals(1))
+            if(UserData.id == "NONE" && tid.equals(1))
             {
                 Log.d(TAG,"삭제 버튼 진입")
                 val builder = AlertDialog.Builder(this)

@@ -31,7 +31,6 @@ class TeacherMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teacher_main)
 
-
         var bnv_main = findViewById(R.id.teacher_bottom_menu) as BottomNavigationView
         var menu = bnv_main.menu
         bnv_main.itemIconTintList = null

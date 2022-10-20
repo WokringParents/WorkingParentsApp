@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private val fragmentManager = supportFragmentManager
     private var childCaringFragment: ChildCaringFragment? = null
     private var boardFragment: BoardFragment? = null
-    private var alramFragment: AlarmFragment? = null
+    private var alramFragment: NoticeFragment? = null
     private var mypageFragment: MypageFragment? = null
     private var calendarFragment: CalendarFragment?=null
 
@@ -188,7 +188,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     R.id.third_tab -> {
                         if (alramFragment == null) {
-                            alramFragment = AlarmFragment()
+                            alramFragment = NoticeFragment()
                             fragmentManager.beginTransaction()
                                 .add(R.id.container, alramFragment!!).commit()
                         }

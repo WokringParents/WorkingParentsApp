@@ -28,7 +28,7 @@ class GobackAdapter(private val items: ArrayList<GobackData>) : RecyclerView.Ada
 
         val item = items[position]
         val listener = View.OnClickListener { it ->
-            Toast.makeText(it.context, "Clicked -> ID : ${item.goback_childName}", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(it.context, "Clicked -> ID : ${item.goback_childName}", Toast.LENGTH_SHORT).show()
         }
         holder.apply {
             bind(listener, item)
@@ -54,7 +54,7 @@ class GobackAdapter(private val items: ArrayList<GobackData>) : RecyclerView.Ada
             view.goback_btnGo.setOnClickListener {
                 Toast.makeText(
                     it.context,
-                    "등원버튼임 아이이름:" + item.goback_childName + "커플넘:" + item.goback_couplenum,
+                   "등원알림을 보냈어요",
                     Toast.LENGTH_SHORT
 
                 ).show()
@@ -100,7 +100,7 @@ class GobackAdapter(private val items: ArrayList<GobackData>) : RecyclerView.Ada
             view.goback_btnBack.setOnClickListener {
                 Toast.makeText(
                     it.context,
-                    "등원버튼임 아이이름:" + item.goback_childName + "커플넘:" + item.goback_couplenum,
+                    "하원알림을 보냈어요",
                     Toast.LENGTH_SHORT
 
                 ).show()

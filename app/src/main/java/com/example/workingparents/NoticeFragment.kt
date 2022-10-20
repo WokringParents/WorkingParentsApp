@@ -15,6 +15,7 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workingparents.NoticeFragment.Companion.noticeAdapter
+import kotlinx.android.synthetic.main.fragment_teacher_notice.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,6 +35,12 @@ class NoticeFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if(context is TeacherMainActivity){
+            //writenotice_btn.visibility=View.VISIBLE
+            mContext=context
+        }
+
+        if(context is MainActivity){
+            //writenotice_btn.visibility=View.GONE
             mContext=context
         }
     }
@@ -48,6 +55,12 @@ class NoticeFragment : Fragment() {
         var view =inflater.inflate(R.layout.fragment_teacher_notice, container, false)
         val writenotice_btn = view.findViewById<ImageButton>(R.id.writenotice_btn)
         noticerecyclerView = view.findViewById<RecyclerView>(R.id.rv_notice)
+
+        if(mContext is MainActivity){
+            writenotice_btn.visibility=View.GONE
+        }else{
+            writenotice_btn.visibility=View.VISIBLE
+        }
 
         writenotice_btn.setOnClickListener{
             Log.d(TAG,"클릭됨")

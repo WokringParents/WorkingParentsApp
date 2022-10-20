@@ -40,7 +40,7 @@ class CafeteriaActivity : AppCompatActivity() {
                 LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
             recyclerView.visibility = View.VISIBLE
-            recyclerView.setHasFixedSize(true)
+//            recyclerView.setHasFixedSize(true)
             val detailAdapter= CafeteriaDetailAdapter(this, cafeData)
             recyclerView.adapter= detailAdapter
             detailAdapter.notifyDataSetChanged()
