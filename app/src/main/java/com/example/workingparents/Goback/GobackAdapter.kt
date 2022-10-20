@@ -74,7 +74,7 @@ class GobackAdapter(private val items: ArrayList<GobackData>) : RecyclerView.Ada
                                 for (token: String in result) {
 
                                         valiGo= true
-                                        requestPushAlram(token, valiGo)
+                                        requestPushAlram(token, valiGo, item.goback_couplenum)
                                         Log.d(TAG, token + "에게 알람보냄 ")
 
                                 }
@@ -120,7 +120,7 @@ class GobackAdapter(private val items: ArrayList<GobackData>) : RecyclerView.Ada
                                 for (token: String in result) {
 
                                     valiGo= false
-                                    requestPushAlram(token, valiGo)
+                                    requestPushAlram(token, valiGo, item.goback_couplenum)
                                     Log.d(TAG, token + "에게 알람보냄 ")
 
                                 }
@@ -143,9 +143,10 @@ class GobackAdapter(private val items: ArrayList<GobackData>) : RecyclerView.Ada
 
         }
 
-        fun requestPushAlram(token: String, valiGo: Boolean) {
+        fun requestPushAlram(token: String, valiGo: Boolean, gobackCouplenum: Int) {
 
             var obj:JsonObject?= null
+
 
             if(valiGo==true) {
                 obj = FCMRetrofitBuilder.takeJsonObject(
@@ -164,7 +165,66 @@ class GobackAdapter(private val items: ArrayList<GobackData>) : RecyclerView.Ada
 
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     if (response.isSuccessful) {
-                        Log.d(TAG, "onResponse 성공:"+token);
+                        Log.d(TAG, "onResponse 성공:"+token)
+
+                        if(valiGo==true) {
+                            RetrofitBuilder.api.postAlarmGoback(
+                                gobackCouplenum.toString(),
+                                2,
+                                "자녀가 방금 등원하였습니다."
+                            ).enqueue(object : Callback<Int> {
+                                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                                    if (response.isSuccessful) {
+                                        var result: Int? = response.body()
+                                        // 정상적으로 통신이 성공된 경우
+                                        Log.d(TAG, "onResponse: 등원 알람 성공" + result?.toString())
+
+                                    } else {
+                                        // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                                        Log.d(TAG, "onResponse 등원 알람 실패")
+
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<Int>, t: Throwable) {
+                                    Log.d(TAG, "onFailure 등원 알람 실패 : " + t.message.toString())
+                                }
+
+                            })
+                        }else{
+
+                            RetrofitBuilder.api.postAlarmGoback(
+                                gobackCouplenum.toString(),
+                                3,
+                                "자녀가 방금 하원하였습니다."
+                            ).enqueue(object : Callback<Int> {
+                                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                                    if (response.isSuccessful) {
+                                        var result: Int? = response.body()
+                                        // 정상적으로 통신이 성공된 경우
+                                        Log.d(TAG, "onResponse: 하원 알람 성공" + result?.toString())
+
+                                    } else {
+                                        // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                                        Log.d(TAG, "onResponse 하원 알람 실패")
+
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<Int>, t: Throwable) {
+                                    Log.d(TAG, "onFailure 하원 알람 실패 : " + t.message.toString())
+                                }
+
+                            })
+
+
+                        }
+
+
+
+
+
+
 
                     } else {
                         Log.d(TAG, "onResponse 실패: pushAlram");

@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.example.workingparents.Calendar.CalendarFragment
-import com.example.workingparents.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -19,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private val fragmentManager = supportFragmentManager
     private var childCaringFragment: ChildCaringFragment? = null
     private var boardFragment: BoardFragment? = null
-    private var infoFragment: InfoFragment? = null
+    private var alramFragment: AlarmFragment? = null
     private var mypageFragment: MypageFragment? = null
     private var calendarFragment: CalendarFragment?=null
 
@@ -147,7 +144,7 @@ class MainActivity : AppCompatActivity() {
                         if (childCaringFragment != null) fragmentManager.beginTransaction().show(childCaringFragment!!).commit()
                         if (calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
                         if (boardFragment != null) fragmentManager.beginTransaction().hide(boardFragment!!).commit()
-                        if (infoFragment != null) fragmentManager.beginTransaction().hide(infoFragment!!).commit()
+                        if (alramFragment != null) fragmentManager.beginTransaction().hide(alramFragment!!).commit()
                         if (mypageFragment != null) fragmentManager.beginTransaction().hide(mypageFragment!!).commit()
 
                         //아이콘 변경
@@ -167,7 +164,7 @@ class MainActivity : AppCompatActivity() {
                         if (childCaringFragment != null) fragmentManager.beginTransaction().hide(childCaringFragment!!).commit()
                         if(calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
                         if (boardFragment != null) fragmentManager.beginTransaction().show(boardFragment!!).commit()
-                        if (infoFragment != null) fragmentManager.beginTransaction().hide(infoFragment!!).commit()
+                        if (alramFragment != null) fragmentManager.beginTransaction().hide(alramFragment!!).commit()
                         if (mypageFragment != null) fragmentManager.beginTransaction().hide(mypageFragment!!).commit()
 
                         it.setIcon(R.drawable.bottom_board2)
@@ -177,15 +174,15 @@ class MainActivity : AppCompatActivity() {
                         menu.findItem(R.id.fifth_tab).setIcon(R.drawable.bottom_calendar)
                     }
                     R.id.third_tab -> {
-                        if (infoFragment == null) {
-                            infoFragment = InfoFragment()
+                        if (alramFragment == null) {
+                            alramFragment = AlarmFragment()
                             fragmentManager.beginTransaction()
-                                .add(R.id.container, infoFragment!!).commit()
+                                .add(R.id.container, alramFragment!!).commit()
                         }
                         if (childCaringFragment != null) fragmentManager.beginTransaction().hide(childCaringFragment!!).commit()
                         if (calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
                         if (boardFragment != null) fragmentManager.beginTransaction().hide(boardFragment!!).commit()
-                        if (infoFragment != null) fragmentManager.beginTransaction().show(infoFragment!!).commit()
+                        if (alramFragment != null) fragmentManager.beginTransaction().show(alramFragment!!).commit()
                         if (mypageFragment != null) fragmentManager.beginTransaction().hide(mypageFragment!!).commit()
 
 
@@ -206,7 +203,7 @@ class MainActivity : AppCompatActivity() {
                         if (childCaringFragment != null) fragmentManager.beginTransaction().hide(childCaringFragment!!).commit()
                         if (calendarFragment != null) fragmentManager.beginTransaction().hide(calendarFragment!!).commit()
                         if (boardFragment != null) fragmentManager.beginTransaction().hide(boardFragment!!).commit()
-                        if (infoFragment != null) fragmentManager.beginTransaction().hide(infoFragment!!).commit()
+                        if (alramFragment != null) fragmentManager.beginTransaction().hide(alramFragment!!).commit()
                         if (mypageFragment != null) fragmentManager.beginTransaction().show(mypageFragment!!).commit()
 
 
@@ -229,7 +226,7 @@ class MainActivity : AppCompatActivity() {
                         if (childCaringFragment != null) fragmentManager.beginTransaction().hide(childCaringFragment!!).commit()
                         if (calendarFragment != null) fragmentManager.beginTransaction().show(calendarFragment!!).commit()
                         if (boardFragment != null) fragmentManager.beginTransaction().hide(boardFragment!!).commit()
-                        if (infoFragment != null) fragmentManager.beginTransaction().hide(infoFragment!!).commit()
+                        if (alramFragment != null) fragmentManager.beginTransaction().hide(alramFragment!!).commit()
                         if (mypageFragment != null) fragmentManager.beginTransaction().hide(mypageFragment!!).commit()
 
 

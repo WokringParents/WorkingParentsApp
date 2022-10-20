@@ -2,8 +2,10 @@ package com.example.workingparents
 
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_alarm_loading.*
 import kotlinx.android.synthetic.main.activity_write_posting.*
@@ -11,6 +13,9 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.*
 
 class AlarmLoadingActivity : AppCompatActivity() {
@@ -125,9 +130,33 @@ class AlarmLoadingActivity : AppCompatActivity() {
 
         FCMRetrofitBuilder.api.pushAlram(obj.toString()).enqueue(object : Callback<ResponseBody> {
 
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Log.d(TAG, "onResponse 성공:  pushAlram "+ pushCnt +  circularProgressBar.progress);
+
+                    RetrofitBuilder.api.postAlarmPosting(UserData.village,1,"방금전 같은 동네에서 새로운 글이 작성되었어요").enqueue(object : Callback<Int> {
+                        override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                            if (response.isSuccessful) {
+                                var result: Int? = response.body()
+                                // 정상적으로 통신이 성공된 경우
+                                Log.d(TAG, "onResponse: 게시글 알람 성공" + result?.toString())
+
+                            } else {
+                                // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                                Log.d(TAG, "onResponse 게시글 알람 실패")
+
+                            }
+                        }
+                        override fun onFailure(call: Call<Int>, t: Throwable) {
+                            Log.d(TAG, "onFailure 게시글 알람 실패 : " + t.message.toString())
+                        }
+
+                    })
+
+
+
+
 
                 } else {
                     Log.d(TAG, "onResponse 실패: pushAlram");
@@ -153,5 +182,9 @@ class AlarmLoadingActivity : AppCompatActivity() {
                 Log.d(TAG, "onFailure 에러: " + t.message.toString());
             }
         })
+
     }
+
+
+
 }

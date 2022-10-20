@@ -4,17 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workingparents.FCMRetrofitBuilder
 import com.example.workingparents.R
-import com.example.workingparents.RetrofitBuilder
-import kotlinx.android.synthetic.main.activity_alarm_loading.*
 import kotlinx.android.synthetic.main.emergency_item.view.*
-import kotlinx.android.synthetic.main.goback_item.view.*
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.util.*
 import kotlin.collections.ArrayList
 
 class EmergencyAdapter(private val items: ArrayList<EmergencyData>) : RecyclerView.Adapter<EmergencyAdapter.ViewHolder>() {

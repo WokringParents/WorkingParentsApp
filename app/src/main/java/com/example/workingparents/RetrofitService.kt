@@ -5,6 +5,7 @@ import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
+import java.sql.Timestamp
 
 
 interface RetrofitService {
@@ -379,11 +380,46 @@ interface RetrofitService {
 
     //------------------------------- GoBack ------------------------------//
 
+
     @GET("pnumberForGoback/{couplenum}")
     fun getPnumberForGoback(@Path("couplenum") couplenum: Int): Call<List<String>>
 
     @GET("tokenForGoback/{couplenum}")
     fun getTokenForGoback(@Path("couplenum") couplenum: Int): Call<List<String>>
+
+    @GET("tokenForEmergency/{couplenum}")
+    fun getTokenForEmergency(@Path("couplenum") couplenum: Int): Call<List<String>>
+
+
+    //------------------------------- Alarm ------------------------------//
+
+    //게시판 알람
+    @FormUrlEncoded
+    @POST("/alarmPosting/{auserid}")
+    fun postAlarmPosting(
+        @Path("auserid") auserid: String,
+        @Field("atype") atype: Int,
+        @Field("acontent") acontent: String
+    ): Call<Int>
+
+
+    //등하원 알람
+    @FormUrlEncoded
+    @POST("/alarmGoback/{auserid}")
+    fun postAlarmGoback(
+        @Path("auserid") auserid: String,
+        @Field("atype") atype: Int,
+        @Field("acontent") acontent: String
+    ): Call<Int>
+
+
+
+
+
+
+
+
+
 
 
 

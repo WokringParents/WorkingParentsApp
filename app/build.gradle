@@ -53,6 +53,9 @@ dependencies {
     //캘린더 시간선택 TimePicker 관련
     //implementation 'com.google.android.material:material:1.5.0'
 
+    //알람 그림 동그랗게
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
     //리싸이클러뷰 관련
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
