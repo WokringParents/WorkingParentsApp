@@ -21,8 +21,8 @@
             android:layout_height="wrap_content"
             android:text="홈"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:textSize="17dp"
             android:textColor="@color/main"
             />
 

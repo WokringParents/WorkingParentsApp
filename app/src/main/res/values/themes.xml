@@ -43,6 +43,15 @@
     </style>
 
 
+    <style name="BottomSheetDialog2" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="bottomSheetStyle">@style/AppModalStyle2</item>
+    </style>
+
+    <style name="AppModalStyle2" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rect_main_border_top_radius_20dp</item>
+    </style>
+
     <style name="Spinner" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
         <item name="android:paddingStart">0dp</item>
         <item name="android:paddingEnd">0dp</item>

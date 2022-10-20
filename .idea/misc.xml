@@ -40,6 +40,7 @@
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/drawable/whiteborder2.xml" value="0.1225" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/font/custom_font_family.xml" value="0.2640625" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_alarm_loading.xml" value="0.2" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_cafeteria.xml" value="0.12132725430597771" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_calendar.xml" value="0.2" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_join.xml" value="0.2" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_join2.xml" value="0.24947916666666667" />
@@ -55,8 +56,9 @@
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_write_notice.xml" value="0.2912621359223301" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/activity_write_posting.xml" value="0.13229166666666667" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/bg_white_radius_8dp.xml" value="0.10833333333333334" />
-        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/cafeteria_content_item.xml" value="0.1" />
-        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/cafeteria_date_item.xml" value="0.1" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/cafeteria_content_item.xml" value="0.375886524822695" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/cafeteria_date_item.xml" value="0.264" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/cafeteria_detail_item.xml" value="0.4" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_board.xml" value="0.13229166666666667" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_cafeteria.xml" value="0.21965579710144928" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/fragment_child_caring.xml" value="0.25028968713789107" />
@@ -68,6 +70,7 @@
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/gobackfragmenttab2.xml" value="0.21965579710144928" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/layout_parent.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/layout_second.xml" value="0.36774193548387096" />
+        <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_detail_image.xml" value="0.14175724637681159" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_image.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_nopicture_item.xml" value="0.10625" />
         <entry key="..\:/Users/dpswp/AndroidStudioProjects/Workingparents/app/src/main/res/layout/notice_picture_item.xml" value="0.24947916666666667" />

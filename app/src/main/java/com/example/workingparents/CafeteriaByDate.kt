@@ -4,12 +4,13 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class CafeteriaByDate(var _cdate:String): Parcelable {
+data class CafeteriaByDate(
 
-     var cdate = _cdate
-     var images: MutableMap<Int,String> = mutableMapOf()
-     var contents: MutableMap<Int,String> = mutableMapOf()
-     var imageBytes: MutableMap<Int,ByteArray> = mutableMapOf()
+     var cdate :String,
+     var images: MutableMap<Int,String>,
+     var contents: MutableMap<Int,String> ,
+     var imageBytes: MutableMap<Int,ByteArray>
 
-
+): Parcelable {
+     constructor(cdate: String) : this(cdate, mutableMapOf(), mutableMapOf(), mutableMapOf())
 }

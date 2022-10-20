@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import kotlinx.android.synthetic.main.activity_join.btn_joinFinish
 import kotlinx.android.synthetic.main.activity_join2.*
 import kotlinx.android.synthetic.main.activity_join2.daySpinner
@@ -26,7 +27,7 @@ class JoinActivity2 : AppCompatActivity() {
         imageButton4.setOnClickListener{
             onBackPressed()
         }
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         val Join2Intent = intent
         val id = Join2Intent.getStringExtra("id")
         val pw = Join2Intent.getStringExtra("pw")

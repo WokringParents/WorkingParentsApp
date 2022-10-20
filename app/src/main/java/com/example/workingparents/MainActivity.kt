@@ -1,8 +1,11 @@
 package com.example.workingparents
 
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.workingparents.Calendar.CalendarFragment
@@ -39,6 +42,16 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.third_tab).setOnLongClickListener(longClickListener)
         findViewById<View>(R.id.fourth_tab).setOnLongClickListener(longClickListener)
         findViewById<View>(R.id.fifth_tab).setOnLongClickListener(longClickListener)
+
+
+        if(UserData.connectedCouple()) { // 부부이면
+        } else{
+
+            val bottomSheet = BottomSheetMain() {
+            }
+            bottomSheet.show((this@MainActivity).supportFragmentManager,bottomSheet.tag)
+            //부부연결 해달라는 그림을 보여줌
+        }
 
         // OnNavigationItemSelectedListener를 통해 탭 아이템 선택 시 이벤트를 처리
         // navi_menu.xml에서 설정했던 각 아이템들의 id를 통해 알맞은 프래그먼트로 변경하게 한다.

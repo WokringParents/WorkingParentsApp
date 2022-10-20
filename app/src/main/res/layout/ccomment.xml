@@ -12,6 +12,7 @@
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -29,10 +30,9 @@
             android:background="@drawable/whiteborder"
             android:backgroundTint="#FAFAFA"
             android:paddingTop="10dp"
-            android:paddingBottom="15dp"
+            android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:layout_marginLeft="5dp"
-            android:paddingRight="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -42,6 +42,7 @@
 
 
                 <ImageView
+                    android:layout_gravity="center"
                     android:id="@+id/user"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -85,6 +86,7 @@
                     android:id="@+id/ccbtn"
                     android:layout_width="28dp"
                     android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@drawable/round"
                     android:backgroundTint="#FAFAFA"
                     android:scaleType="fitCenter"
@@ -97,7 +99,7 @@
                 android:id="@+id/cccontent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="7dp"
                 android:fontFamily="@font/notosans_regular"
                 android:text="혹시 월요일 하원 부탁드려도 괜찮으신 분 계실까요?"
                 android:textColor="@color/black"

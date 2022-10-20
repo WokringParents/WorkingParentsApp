@@ -27,9 +27,9 @@ class CafeteriaInnerAdapter(context: Context,cafeData: CafeteriaByDate) : Recycl
         val view = LayoutInflater.from(context).inflate(R.layout.cafeteria_content_item, parent, false)
         return ViewHolder(view).apply{
             itemView.setOnClickListener {
-                val intent = Intent(context, CafeteriaActivity::class.java)
-                intent.putExtra("CafeteriaByDate", cafeData)
-                context.startActivity(intent)
+                //val intent = Intent(context, CafeteriaActivity::class.java)
+                //intent.putExtra("CafeteriaByDate", cafeData)
+                //context.startActivity(intent)
             }
         }
     }
@@ -65,7 +65,7 @@ class CafeteriaInnerAdapter(context: Context,cafeData: CafeteriaByDate) : Recycl
             .centerCrop()
             .into(holder.imageV)
 
-        holder.contetTV.text=content
+        holder.contentTV.text=content
         holder.typeTV.text= type
 
     }
@@ -75,7 +75,7 @@ class CafeteriaInnerAdapter(context: Context,cafeData: CafeteriaByDate) : Recycl
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageV = itemView.findViewById<ImageView>(R.id.cafe_item_image)
         val typeTV = itemView.findViewById<TextView>(R.id.cafe_item_ctype)
-        val contetTV = itemView.findViewById<TextView>(R.id.cafe_item_content)
+        val contentTV = itemView.findViewById<TextView>(R.id.cafe_item_content)
 
     }
 
