@@ -130,6 +130,8 @@
 <br>
 [[영남대 학과소식] <span style="font-size:80%">박지연, 오은아, 이경주 학생, ‘제10회 전국 대학생 앱개발 챌린지 K-해커톤’ 우수상 수상</span>](https://www.yu.ac.kr/cse/community/news.do?mode=view&articleNo=4825877&article.offset=10&articleLimit=10)
 <br>
+[[YouTube] 제10회 K-해커톤 결선 발표영상 **9분25초~18분** 봄봄팀](https://www.youtube.com/watch?v=SbdqYePqio8)
+<br>
 [[SEN 서울경제TV] <span style="font-size:80%">영남대 컴퓨터공학과, 주요 공모전 휩쓸며 전공 역량 공인</span>](https://m.sentv.co.kr/news/view/648671)
 <br>
 [[YU News Room] <span style="font-size:80%">‘대학생 앱개발 챌린지 K-해커톤’ 등 전공 관련 경진대회서 잇달아 수상</span>](https://www.yu.ac.kr/pr/yunews/yu-news-room.do?mode=view&articleNo=5993495&article.offset=70&articleLimit=10)
