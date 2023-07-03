@@ -128,7 +128,11 @@
 ## 🏆 수상 실적
 **제10회 K-해커톤 전국 대학생 앱 개발 챌린지 우수상 수상**
 <br>
-[[YouTube] 제10회 K-해커톤 결선 발표영상 **9:25~18:00** 봄봄팀](https://www.youtube.com/watch?v=SbdqYePqio8)
+[[YouTube] 제10회 K-해커톤 결선 발표영상 **9:25~18:00**_봄봄팀](https://www.youtube.com/watch?v=SbdqYePqio8)
+<br>
+[[YouTube] 제10회 K-해커톤 결선 메이킹영상_첫번째 팀](https://www.youtube.com/watch?v=bKaWBSnFdX4)
+<br>
+[[YouTube] 2022 제10회 K-해커톤 전국 본선 스케치 영상_영남본선](https://www.youtube.com/watch?v=ZyssBKfkjiw)
 <br>
 [[영남대 학과소식] <span style="font-size:80%">박지연, 오은아, 이경주 학생, ‘제10회 전국 대학생 앱개발 챌린지 K-해커톤’ 우수상 수상</span>](https://www.yu.ac.kr/cse/community/news.do?mode=view&articleNo=4825877&article.offset=10&articleLimit=10)
 <br>
