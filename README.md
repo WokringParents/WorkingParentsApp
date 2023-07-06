@@ -140,6 +140,8 @@
 <br>
 [[YU News Room] <span style="font-size:80%">‘대학생 앱개발 챌린지 K-해커톤’ 등 전공 관련 경진대회서 잇달아 수상</span>](https://www.yu.ac.kr/pr/yunews/yu-news-room.do?mode=view&articleNo=5993495&article.offset=70&articleLimit=10)
 <br>
+![awards](https://github.com/WokringParents/WorkingParentsApp/blob/master/images/awards.jpg)
+<br>
 
 **한국정보처리학회 춘계학술대회 ASK 2023 동상 수상 - 맞벌이 부부를 위한 종합 육아 앱 설계 및 구현** 
 <br>*(논문) Design and Implement of an Integrated Parenting App for Working Parents*
