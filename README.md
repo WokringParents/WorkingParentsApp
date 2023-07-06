@@ -22,6 +22,7 @@
 ### ⚙️ 개발 환경
 - Language : kotlin, java
 - IDE :  IntelliJ IDEA
+- DB IDE : Dbeaver
 - Framework : Springboot, MyBatis(SQL Mapper)
 - Database : MySQL
 - Server : AWS Elastic Beanstalk , AWS RDS , FCM(Firebase Cloud Messaging)
